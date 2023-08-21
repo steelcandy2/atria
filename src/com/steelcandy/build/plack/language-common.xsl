@@ -83,6 +83,11 @@
     <xsl:variable name="number-of-operator-precedence-levels"
         select="count($operator-precedence-levels)"/>
 
+    <xsl:key name="operator-precedence-level" use="@name"
+        match="/language/operator-precedence-levels/section/precedence-level"/>
+    <xsl:key name="operator-precedence-level-value" use="@value"
+        match="/language/operator-precedence-levels/section/precedence-level"/>
+
 
     <!-- All of the token flag elements. -->
     <xsl:variable name="token-flags"
@@ -98,16 +103,6 @@
 
     <xsl:key name="token-flag-set" use="@name"
         match="/language/token-flag-sets/section/flag-set-definition"/>
-
-
-    <!-- All of the operator precedence levels. -->
-    <xsl:variable name="operator-precedence-levels"
-        select="$top/operator-precedence-levels/section/precedence-level"/>
-
-    <xsl:key name="operator-precedence-level" use="@name"
-        match="/language/operator-precedence-levels/section/precedence-level"/>
-    <xsl:key name="operator-precedence-level-value" use="@value"
-        match="/language/operator-precedence-levels/section/precedence-level"/>
 
 
     <!-- All of the token elements (excluding notes). -->
