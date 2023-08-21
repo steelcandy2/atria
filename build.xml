@@ -866,7 +866,7 @@
             <arg file="${out}"/>
             <arg value="-param"/>
             <arg value="generation-date-time"/>
-            <arg value="${TODAY} ${TSTAMP}"/>
+            <arg value="'${TODAY} ${TSTAMP}'"/>
 
             <arg value="-in"/>
             <arg file="${in}"/>
