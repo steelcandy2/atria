@@ -1,0 +1,85 @@
+#!/bin/bash
+#
+# $Id: jclass-uses,v 1.1 2005/08/31 12:37:53 jgm Exp $
+#
+# Outputs a list of the classes defined in Java source files in the specified
+# directory, each followed by the names of the classes in or under the current
+# directory in which their names appear.
+#
+# Copyright (C) 2005 by James MacKay.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+
+# Configuration
+
+# The default filename pattern
+FILENAME_PATTERN="*.java"
+
+
+# Functions
+
+function usage() {
+cat >&2 <<EOF
+
+usage $(basename $0) [-u] dir [filename-pattern]
+
+where 'dir' is the pathname of the directory containing the Java
+source files that define the classes we're to find uses of, and
+'filename-pattern' is a regular expression that can be used to
+select the Java source files in 'dir' whose classes we are to find
+the uses of: if it is omitted then the uses of all of the classes
+defined in source files in 'dir' will be output.
+
+The '-u' option causes the program to only output unused classes.
+
+EOF
+    exit 1
+}
+
+
+# Main program
+
+unusedOnly="false"
+if [ $# -gt 0 ]
+then
+    if [ "x$1" = "x-u" ]
+    then
+        unusedOnly="true"
+        shift
+    fi
+fi
+
+if [ $# -lt 1 -o $# -gt 2 ]
+then
+    usage
+elif [ $# -eq 2 ]
+then
+    FILENAME_PATTERN=$2
+fi
+SOURCE_DIR=$1
+
+for f in $( (cd "${SOURCE_DIR}" && find . -name "${FILENAME_PATTERN}" | sort) )
+do
+    className=$(basename $f .java)
+    fileName=$(basename $f)
+
+    numUses=$(jlfind "${className}" | wc -l)
+    if [ "x${unusedOnly}" = "xfalse" -o ${numUses} = 1 ]
+    then
+        echo "===> ${fileName}: ${numUses}"
+        jlfind "${className}"
+    fi
+done

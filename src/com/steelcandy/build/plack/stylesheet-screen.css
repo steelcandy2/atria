@@ -1,0 +1,114 @@
+/*
+  Copyright (C) 2006-2011 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+    General rules
+*/
+
+body
+{
+/*
+    color: white;
+    background: black;
+*/
+}
+
+
+/*
+    Plack-specific rules
+*/
+
+
+/*
+    Plack construct part rules
+*/
+
+span.plack-terminal
+{
+/*
+    color: white;
+*/
+}
+
+span.plack-nonterminal
+{
+    color: cyan;
+}
+
+span.plack-single-character
+{
+    /* empty */
+}
+
+
+/*
+    Plack operator method-related rules
+*/
+
+
+/* An operator */
+div.operator-method-information .op
+{
+    color: red;
+}
+
+/* A method. */
+div.operator-method-information .method
+{
+    color: red;
+}
+
+/* An expression (as used in examples, etc.) */
+div.operator-method-information .expr
+{
+    color: cyan;
+}
+
+/* A type (as used in method signatures, etc.) */
+div.operator-method-information .type
+{
+    color: cyan;
+}
+
+
+/*
+    Plack validity constraint-related rules
+*/
+
+span.plack-constraint-iff
+{
+    color: cyan;
+}
+
+span.plack-constraint-only-if
+{
+    color: red
+}
+
+
+/*
+    Plack semantics-related rules
+*/
+
+
+
+
+/*
+For use in ensuring that a rule is being matched
+
+    font-size: xx-large;  /* !!! */
+*/

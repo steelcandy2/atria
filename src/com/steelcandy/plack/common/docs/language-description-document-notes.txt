@@ -1,0 +1,74 @@
+Language Description Documents - Notes
+======================================
+
+The 'token-creators' Element
+----------------------------
+
+- tokens representing fragments of source code that start with a character
+  whose code is greater than or equal to the value of the 'token-creators'
+  element's 'map-size' attribute will be created by the default token
+  creator
+- C/Java escapes are used for special characters in the values of the
+  'start-chars' attributes of the subelements of the 'token-creators'
+  element. They will have to be translated when generating code in
+  languages with different escape conventions
+
+
+The 'constructs' Element
+------------------------
+
+- 'space' elements can have one of 4 values for their 'type' attributes:
+    - 'required' (the default): there must be at least one space
+    - 'encouraged': there should be a space, but it isn't required
+    - 'discouraged': there can be a space, but there shouldn't be
+    - 'disallowed': there may not be any spaces
+- when outputting representations of constructs a space should be output
+  for a 'space' element only if
+    - the construct part immediately after the 'space' element is present
+      (which it might not be if it's optional), and
+    - at least one construct part (of the same construct) is present before
+      the 'space' element
+- child elements of the 'constructs' element with the following names can be
+  used to describe a language's constructs:
+    - 'construct'
+    - 'single-line-construct'
+    - 'multiline-construct'
+        - with child elements 'first-line' and 'indented-subconstructs'
+    - 'compound-construct'
+    - 'choice-construct'
+    - 'line-choice-construct'
+    - 'repeated-construct'
+    - 'alias-construct'
+    - 'single-token-construct'
+- a 'repeated-construct' element should have exactly one child element, and it
+  should be a 'subconstruct' element. The 'subconstruct' child element's
+  'number' attribute specifies how many times the subconstruct can be repeated
+  inside the start and end terminals, and should be either 'zero-or-more' or
+  'one-or-more'. If a repeated-construct doesn't have start and end terminals
+  then its subconstruct child element should be 'one-or-more': the construct of
+  which it is a subconstruct will determine whether the repeated-construct is
+  optional or not
+- the construct described by a 'repeated-construct' element mustbe contained in
+  a single logical line: it cannot span logical lines
+- a 'subconstruct' element should always have a 'type' attribute that specifies
+  the type of the subconstruct. By default its type will also be used as the
+  subconstruct's name, unless a name is specified by the presence of a 'name'
+  attribute on the 'subconstruct' element
+- construct attributes on 'choice-construct's and ;line-choice-construct's
+  are inherited by all of the constructs that are possible choices
+- a construct attribute's type is the name of a class in the language's
+  constructs directory. A construct attribute will be accessible by a method
+  named [attribute-name]Attribute, so be careful when naming constructs with
+  names that end in 'Attribute'
+    - this is specific to Java representations of language constructs, though
+      similar restrictions may apply to representations in other languages
+
+
+The 'validity-constraints' Element
+----------------------------------
+
+- the 'must-exist' attribute on the 'validity-constraints' element indicates
+  whether there must exist a (well, actually exactly one) set of constraints
+  for each type of construct. It defaults to true, and should be true except
+  possibly when the language description document is under development and
+  the validity constraints haven't been finished yet

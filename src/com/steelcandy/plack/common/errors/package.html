@@ -1,0 +1,45 @@
+<!--
+    Copyright © 2003 by James MacKay.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+    <title>Package com.steelcandy.plack.common.errors</title>
+</head>
+<body>
+
+This package contains classes that are used in error handling in most or all
+language implementations. Most of the classes are either
+<ul>
+    <li>subclasses of <a href="PlackError.html">PlackError</a> and represent
+        an error that was discovered while processing a language's source code,
+        or
+    <li>subclasses of <a href="ErrorHandler.html">ErrorHandler</a> and represent
+        classes that handle the errors that occur while processing a language's
+        source code.
+</ul>
+
+There are a few notable exceptions:
+<ul>
+    <li><a href="ErrorSeverityLevels.html">ErrorSeverityLevels</a> is an interface
+        that defines constants that represent the various severity levels that an
+        error can have
+    <li><a href="FatalErrorException.html">FatalErrorException</a> is the class of
+        (runtime) exception used to stop processing immediately when a fatal error
+        is discovered while processing a language's source code
+</ul>
+
+</body>
+</html>

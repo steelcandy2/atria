@@ -1,0 +1,5 @@
+.cvsignore
+Constants.java.all
+constants.generated
+CharacterClasses.java.all
+character-classes.generated

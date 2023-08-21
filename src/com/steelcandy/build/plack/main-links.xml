@@ -1,0 +1,45 @@
+<!--
+    $Id: main-links.xml,v 1.4 2005/11/10 04:02:14 jgm Exp $
+
+    Contains raw information about the links on the main language
+    documentation HTML page.
+
+    Author: James MacKay
+    Last Updated: $Date: 2005/11/10 04:02:14 $
+
+    Copyright (C) 2004-2014 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<links>
+    <group title="" short-title="Main Links">
+        <link id="Grammar" text="Grammar"/>
+        <link id="ValidityConstraints" text="Validity Constraints"/>
+        <link id="Semantics" text="Semantics"/>
+        <link id="OperatorMethodMap" text="Operator-Method Map"/>
+        <link id="LanguageDefinition" text="Language Definition"/>
+        <link url="introduction.html" text="Informal Introduction"/>
+        <link url="documentation.html" text="Documentation Comments"
+            short-text="Doc Comments"/>
+        <link url="other.html" text="Other Documentation"/>
+    </group>
+    <group title="Other Links">
+        <link url="file:/extra/home/jmackay/src/html/wwwhome/index.html"
+            text="James MacKay Home Page" short-text="Home Page"/>
+        <link url="file:/extra/home/jgm/src/steelcandy/plack/java/javadoc/index.html"
+            text="steelcandy.com Javadocs" short-text="Javadocs"/>
+        <link url="file:/extra/usr/jdom/build/apidocs/index.html"
+            text="JDOM Javadocs"/>
+    </group>
+</links>

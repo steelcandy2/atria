@@ -1,0 +1,847 @@
+<?xml version="1.0"?>
+<!--
+    $Id: atria.xml,v 1.30 2016/03/12 13:22:04 jgm Exp $
+
+    A description of the Atria data representation language.
+
+    See com/steelcandy/plack/common/docs/language-description-document-notes.txt
+    for various notes on language description documents in general.
+
+    Author: James MacKay
+    Last Updated: $Date: 2016/03/12 13:22:04 $
+
+    Copyright (C) 2005-2016 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!--
+Notes:
+=====
+- there are NO special characters in Texts: the characters that appear in them
+  are always used unchanged
+    - see the 'newline' and 'unicode' commands
+        - and maybe eventually the 'entity' command
+-->
+<language name="Atria" article="an" first-copyright-year="2005">
+    <constants>
+        <!-- General constants -->
+        <constant name="LanguageName" value="atria"
+            description="the name of the Atria language, as it appears in language specifiers"/>
+        <constant name="FirstLanguageSpecifierName" value="language"
+            description="the first name in a valid LanguageSpecifier"/>
+
+        <constant name="SourceExtension" value="atria"
+            description="the extension part of Atria source code files"/>
+
+        <constant name="FirstNonAsciiUnicodeCodepoint" value="128"
+            description="the lowest codepoint of all Unicode characters that are not also 7-bit ASCII characters"/>
+
+        <!-- Command names -->
+        <constant name="GetCommandName" value="get"
+            description="the name of the 'get' command"/>
+        <constant name="JoinCommandName" value="join"
+            description="the name of the 'join' command"/>
+        <constant name="NamespaceCommandName" value="namespace"
+            description="the name of the 'namespace' command"/>
+        <constant name="NewlineCommandName" value="newline"
+            description="the name of the 'newline' command"/>
+        <constant name="QuoteCommandName" value="quote"
+            description="the name of the 'quote' command"/>
+        <constant name="QuotedCommandName" value="quoted"
+            description="the name of the 'quoted' command"/>
+        <constant name="SetCommandName" value="set"
+            description="the name of the 'set' command"/>
+        <constant name="TopCommandName" value="top"
+            description="the names of the 'top' command"/>
+
+        <constant-list name="PrologueItemOnlyCommandNames">
+            <constant name="NamespaceCommandName"/>
+            <constant name="SetCommandName"/>
+            <constant name="TopCommandName"/>
+        </constant-list>
+        <constant-list name="NonPrologueItemCommandNames">
+            <constant name="GetCommandName"/>
+            <constant name="JoinCommandName"/>
+            <constant name="NewlineCommandName"/>
+            <constant name="QuoteCommandName"/>
+            <constant name="QuotedCommandName"/>
+        </constant-list>
+        <constant-list name="CommandNames">
+            <constant-list name="PrologueItemOnlyCommandNames"/>
+            <constant-list name="NonPrologueItemCommandNames"/>
+        </constant-list>
+    </constants>
+
+    <character-classes>
+        <section title="Character Classes">
+            <character-class name="NameCharacter">
+                <choice>
+                    <char-from-class name="UnqualifiedNameCharacter"/>
+                    <char-from-class name="NamespaceSeparator"/>
+                </choice>
+            </character-class>
+            <character-class name="UnqualifiedNameCharacter">
+                <single-character-choice
+                    list="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_"/>
+            </character-class>
+
+            <character-class name="PrintableCharacter">
+                <choice>
+                    <char-from-class name="TextCharacter"/>
+                    <char-from-class name="QuotationMark"/>
+                </choice>
+            </character-class>
+
+            <character-class name="TextCharacter">
+                <choice>
+                    <char-from-class name="NameCharacter"/>
+                    <char-from-class name="TextSymbolCharacter"/>
+                </choice>
+            </character-class>
+            <character-class name="TextSymbolCharacter">
+                <choice>
+                    <char-from-class name="Space"/>
+                    <char-from-class name="OtherTextSymbolCharacter"/>
+                </choice>
+            </character-class>
+            <character-class name="OtherTextSymbolCharacter">
+                <single-character-choice
+                        list="~!@#$%^&amp;*()+`={}|[]\\:;'&lt;&gt;?,/"/>
+            </character-class>
+
+            <character-class name="NamespaceSeparator">
+                <chars text=":"/>
+            </character-class>
+            <character-class name="Space">
+                <chars text=" "/>
+            </character-class>
+            <character-class name="QuotationMark">
+                <chars text="\&quot;"/>
+            </character-class>
+
+            <notes>
+                <note>in addition to the characters specified above, the
+                    TextSymbolCharacter character class also includes all
+                    Unicode characters that are not also in the set of
+                    7-bit ASCII characters</note>
+                <note><nonterm name="Space"/> is a single space character
+                    (though it's difficult to tell from the above)</note>
+                <note>there are no escapable characters in Atria, and hence
+                    also no escape character: each character represents
+                    itself. (Various commands can be used to represent
+                    characters - such as newlines and double quotation
+                    marks - that cannot appear in Text constructs)</note>
+            </notes>
+        </section>
+    </character-classes>
+
+    <token-flags end-of-line-flag-name="IsEndOfLine">
+        <section title="Token Flags">
+            <flag-definition name="IsEndOfLine"
+                description="the token signals the end of its (physical or logical) line"/>
+            <flag-definition name="IsNonCode"
+                description="the token does not represent a piece of actual code"/>
+            <flag-definition name="IsValidated"
+                description="the token has been validated"/>
+            <flag-definition name="IsLineContinuer"
+                description="the token causes its line to be continued on the next"/>
+
+            <!-- Note: at least for now this token flag has to be defined,
+                 even though the language has no unary operators. -->
+            <flag-definition name="IsNextUnary"
+                description="if the token following this one represents an operator then it is a unary operator"/>
+        </section>
+    </token-flags>
+
+    <token-flag-sets>
+        <section title="Token Flag Sets">
+            <!-- Note: at least for now we need to specify flag sets for
+                 these even though the language has no reserved words or
+                 operators, so we define a fake flag set to use. -->
+            <flag-set-definition name="FakeTokenFlags"
+                description="a fake set of flags defined only because currently it's required">
+                <flag name="IsEndOfLine"/>
+            </flag-set-definition>
+            <reserved-word-flag-set name="FakeTokenFlags"/>
+            <operator-reserved-word-flag-set name="FakeTokenFlags"/>
+            <operator-flag-set name="FakeTokenFlags"/>
+        </section>
+    </token-flag-sets>
+
+    <!-- Atria has no operators. -->
+    <operator-precedence-levels/>
+
+    <!-- Note: the intValue() of the indent token is assumed to be
+         the absolute number of levels of indentation that the
+         token represents. (TokenManagerBase.java.xsl assumes this.) -->
+    <tokens indent-name="Indent">
+        <section title="Non-Code Tokens">
+            <custom-token name="Newline" text="\n"
+                description="newline"/>
+            <custom-token name="Indent" description="indentation">
+                <text>
+                    <chars number="zero-or-more" text=" "/>
+                </text>
+            </custom-token>
+            <custom-token name="Comment" description="comment">
+                <text>
+                    <chars text="'"/>
+                    <space type="encouraged"/>
+                    <!-- TODO: does PrintableCharacter contain all of the
+                         characters that we allow in comments ???!!!??? -->
+                    <char-from-class number="zero-or-more"
+                        name="PrintableCharacter"/>
+                </text>
+            </custom-token>
+        </section>
+
+        <!-- Note: LeftBrackets, AssignmentSigns, etc. are NOT line
+                   continuers in Atria: only the ExplicitLineContinuer
+                   continues a logical line across physical lines. -->
+        <section title="Other Tokens">
+            <simple-token name="LeftBracket" text="["
+                description="left bracket ('[')"/>
+            <simple-token name="RightBracket" text="]"
+                description="right bracket (']')"/>
+            <simple-token name="AssignmentSign" text="="
+                description="assignment sign ('=')"/>
+
+            <custom-token name="ExplicitLineContinuer" text="\\"
+                description="explicit line continuer ('\\')"/>
+            <custom-token name="Name" description="name">
+                <text>
+                    <char-from-class number="one-or-more"
+                        name="NameCharacter"/>
+                </text>
+            </custom-token>
+            <custom-token name="Text" description="literal text">
+                <text>
+                    <chars text="\&quot;"/>
+                    <space type="disallowed"/>
+                    <char-from-class
+                        number="zero-or-more" name="TextCharacter"/>
+                    <space type="disallowed"/>
+                    <chars text="\&quot;"/>
+                </text>
+            </custom-token>
+        </section>
+        <section title="Implementation Tokens" hidden="true">
+            <custom-token name="InvalidCharacter"
+                description="invalid character">
+                <text>
+                    <!-- We use '?' as an example of one of the many
+                         possible invalid characters. -->
+                    <chars text="?"/>
+                </text>
+            </custom-token>
+        </section>
+    </tokens>
+
+    <token-creators map-size="125">
+        <section title="Token Creators">
+            <default-token-creator name="InvalidCharacter"/>
+
+            <custom-token-creator name="Tab" start-chars="\t"/>
+            <custom-token-creator name="Newline" start-chars="\r\n"/>
+            <custom-token-creator name="Space" start-chars=" "/>
+            <custom-token-creator name="Text" start-chars="\&quot;"/>
+            <single-token-creator name="AssignmentSign" start-chars="="
+                token-name="AssignmentSign"/>
+<!-- TODO: FIX THIS !!!
+    - we probably need to include all Unicode letters and digits
+-->
+            <custom-token-creator name="Name"
+                start-chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-.:"/>
+            <single-token-creator name="LeftBracket" start-chars="["
+                token-name="LeftBracket"/>
+            <single-token-creator name="RightBracket" start-chars="]"
+                token-name="RightBracket"/>
+            <single-token-creator name="ExplicitLineContinuer"
+                start-chars="\\" token-name="ExplicitLineContinuer"/>
+            <custom-token-creator name="Comment" start-chars="'"/>
+        </section>
+    </token-creators>
+
+    <construct-flags/>
+    <construct-flag-sets/>
+
+    <constructs>
+        <section title="Documents">
+            <compound-construct type="Document" description="document">
+                <subconstruct type="Prologue"/>
+                <subconstruct type="Element" number="zero-or-more"/>
+            </compound-construct>
+            <compound-construct type="Prologue" description="prologue">
+                <subconstruct type="LanguageSpecifier"/>
+                <subconstruct type="PrologueItem" number="zero-or-more"/>
+            </compound-construct>
+            <single-line-construct type="LanguageSpecifier"
+                description="language specifier">
+                <subconstruct type="Name"/>
+                <space/>
+                <subconstruct type="Name" name="LanguageName"/>
+            </single-line-construct>
+            <single-line-construct type="PrologueItem"
+                description="prologue item">
+                <subconstruct type="Command"/>
+            </single-line-construct>
+        </section>
+
+        <section title="Elements and Attributes">
+            <multiline-construct type="Element" description="element">
+                <attribute name="Depth" type="Int"
+                    description="the depth of this element: the root is depth 0"/>
+                <first-line>
+                    <subconstruct type="Name"/>
+                    <space/>
+                    <subconstruct type="Attribute" number="zero-or-more"/>
+                </first-line>
+                <indented-subconstructs>
+                    <subconstruct number="zero-or-more"
+                        type="ContentItem"/>
+                </indented-subconstructs>
+            </multiline-construct>
+            <line-choice-construct type="ContentItem"
+                description="content item">
+                <choice>
+                    <subconstruct type="Element"/>
+                    <subconstruct type="ExpressionItem"/>
+                </choice>
+            </line-choice-construct>
+            <single-line-construct type="ExpressionItem"
+                description="expression item">
+                <subconstruct type="Expression"/>
+            </single-line-construct>
+            <construct type="Attribute" description="attribute">
+                <subconstruct type="Name"/>
+                <space type="discouraged"/>
+                <terminal name="AssignmentSign"/>
+                <space type="discouraged"/>
+                <subconstruct type="Expression"/>
+            </construct>
+        </section>
+
+        <section title="Expressions">
+            <choice-construct type="Argument" description="command argument">
+                <choice>
+                    <subconstruct type="Attribute"/>
+                    <subconstruct type="Name"/>
+                    <subconstruct type="Expression"/>
+                </choice>
+            </choice-construct>
+            <single-token-construct type="Name" description="name">
+                <attribute type="String" name="NamespacePrefix"
+                    description="the namespace prefix part of this name"/>
+                <attribute type="String" name="UnqualifiedName"
+                    description="the unqualified version of this name"/>
+                <terminal name="Name"/>
+            </single-token-construct>
+
+            <choice-construct type="Expression" description="expression">
+                <choice>
+                    <subconstruct type="Command"/>
+                    <subconstruct type="Text"/>
+                </choice>
+            </choice-construct>
+            <construct type="Command" description="command">
+                <attribute type="String" name="NameArgument"
+                    description="the main name argument: not applicable to all types of commands"/>
+
+                <terminal name="LeftBracket"/>
+                <space type="discouraged"/>
+                <subconstruct type="Name"/>
+                <space/>
+                <subconstruct type="Argument" number="zero-or-more"/>
+                <space type="discouraged"/>
+                <terminal name="RightBracket"/>
+            </construct>
+            <single-token-construct type="Text"
+                description="literal text">
+                <terminal name="Text"/>
+            </single-token-construct>
+        </section>
+    </constructs>
+
+    <optimized-forms/>
+
+    <validity-constraints must-exist="true" debug="true">
+        <section title="Documents">
+            <construct-constraints type="Document" var="doc" iff="true">
+                <let name="prologue">the <direct subconstruct="Prologue"
+                    of="doc"/></let>
+                <constraint name="IsTopElement" per-clone="false">unless
+                    <var name="prologue"/> has a direct PrologueItem
+                    subconstruct whose direct Command subconstruct has a
+                    direct CommandName subconstruct that is 'top', <var
+                    name="doc"/> must have exactly one direct Element
+                    subconstruct</constraint>
+                <constraint name="Application" per-clone="false">if <var
+                    name="doc"/> is being used in an application that
+                    further constrains the Atria documents that it accepts
+                    then <var name="doc"/> and all of its direct and
+                    indirect constructs satisfies those constraints as
+                    well</constraint>
+            </construct-constraints>
+            <construct-constraints type="Prologue" var="prologue" iff="true">
+                <constraint name="AtMostOneTopItem" per-clone="false">there is
+                    at most one <direct subconstruct="PrologueItem"
+                    of="prologue"/> whose direct Command subconstruct's direct
+                    CommandName subconstruct is 'top'</constraint>
+            </construct-constraints>
+            <construct-constraints type="LanguageSpecifier" var="spec"
+                iff="true">
+                <let name="first">the first <direct subconstruct="Name"
+                    of="spec"/></let>
+                <let name="second">the second <direct subconstruct="Name"
+                    of="spec"/></let>
+                <constraint name="FirstIsLanguage" per-clone="false"><var
+                    name="first"/> is 'language'</constraint>
+                <constraint name="Name" per-clone="false"><var name="second"/>
+                    is 'atria'</constraint>
+            </construct-constraints>
+            <construct-constraints type="PrologueItem" always-valid="true"/>
+        </section>
+
+        <section title="Elements and Attributes">
+            <construct-constraints type="Element" var="elem" iff="true">
+                <constraint name="UniqueAttributeNames" per-clone="false">no
+                    two <direct subconstruct="Attribute" of="elem"
+                    multiple="true"/> have direct AttributeName subconstructs
+                    that are the same</constraint>
+            </construct-constraints>
+            <construct-constraints type="ContentItem" always-valid="true"/>
+            <construct-constraints type="ExpressionItem" always-valid="true"/>
+            <construct-constraints type="Attribute" always-valid="true"/>
+        </section>
+
+        <section title="Expressions">
+            <construct-constraints type="Expression" always-valid="true"/>
+            <construct-constraints type="Command" var="cmd" iff="true">
+                <let name="name">the <direct subconstruct="Name"
+                    of="cmd"/></let>
+                <let name="numArgs">the number of <direct
+                    subconstruct="Argument" of="cmd" multiple="true"/></let>
+                <let name="arg[i]">the i'th <direct subconstruct="Argument"
+                    of="cmd"/> for all 1 &lt;= i &lt;= <var
+                    name="numArgs"/></let>
+                <constraint name="PredefinedName" per-clone="false"><var
+                    name="name"/> must be one of <constant-or-list-across
+                    quote="'" name="CommandNames"/></constraint>
+                <constraint name="PrologueItemOnly" per-clone="false">if <var
+                    name="name"/> is <constant-or-list-across quote="'"
+                    name="PrologueItemOnlyCommandNames"/> then <var
+                    name="cmd"/> must be the direct Command subconstruct of
+                    a PrologueItem</constraint>
+                <constraint name="NonPrologueItem" per-clone="false">if <var
+                    name="name"/> is <constant-or-list-across quote="'"
+                    name="NonPrologueItemCommandNames"/> then <var
+                    name="cmd"/> must <em>not</em> be the direct Command
+                    subconstruct of a PrologueItem</constraint>
+
+                <!-- Constraints on individual commands' arguments' number
+                     and type -->
+                <constraint name="NoArguments" per-clone="false">if <var
+                    name="name"/> is '<constant name="NewlineCommandName"/>'
+                    or '<constant name="QuoteCommandName"/>' then <var
+                    name="numArgs"/> is zero</constraint>
+                <constraint name="OneArgument" per-clone="false">if <var
+                    name="name"/> is '<constant name="GetCommandName"/>' or
+                    '<constant name="QuotedCommandName"/>' then <var
+                    name="numArgs"/> is one</constraint>
+                <constraint name="TwoArguments" per-clone="false">if <var
+                    name="name"/> is '<constant name="NamespaceCommandName"/>'
+                    or '<constant name="SetCommandName"/>' then <var
+                    name="numArgs"/> is two</constraint>
+
+                <constraint name="OneNameArgument" per-clone="false">if <var
+                    name="name"/> is '<constant name="GetCommandName"/>' then
+                    <expr text="arg[1]"/> is a Name</constraint>
+                <constraint name="OneExpressionArgument" per-clone="false">if
+                    <var name="name"/> is '<constant
+                    name="QuotedCommandName"/>' then <expr text="arg[1]"/> is
+                    an Expression</constraint>
+
+                <constraint name="JoinArguments" per-clone="false">if <var
+                    name="name"/> is '<constant name="JoinCommandName"/>' then
+                    <var name="numArgs"/> is greater than zero and each <direct
+                    subconstruct="Argument" of="cmd"/> is an
+                    Expression</constraint>
+                <constraint name="NamespaceArguments" per-clone="false">if <var
+                    name="name"/> is '<constant name="NamespaceCommandName"/>'
+                    then
+                    <list>
+                        <item><expr text="arg[1]"/> is a Name that does not
+                            contain a NamespaceSeparator,</item>
+                        <item>there is not a <def-use
+                            name="PrecedingNamespaceCommand">namespace command
+                            that precedes</def-use> <var name="cmd"/> and <def-use
+                            name="PrefixDefinedByNamespaceCommand">defines
+                            the namespace prefix</def-use> represented by
+                            <expr text="arg[1]"/>, and</item>
+                        <item><expr text="arg[2]"/> is an Expression</item>
+                    </list></constraint>
+                <constraint name="SetArguments" per-clone="false">if <var
+                    name="name"/> is '<constant name="SetCommandName"/>' then
+                    <expr text="arg[1]"/> is a Name that does not contain a
+                    NamespaceSeparator and <expr text="arg[2]"/> is an
+                    Expression</constraint>
+                <constraint name="TopArguments" per-clone="false">if <var
+                    name="name"/> is '<constant name="TopCommandName"/>' then
+                    <var name="numArgs"/> is greater than zero, <expr
+                    text="arg[1]"/> is a Name and the second and subsequent
+                    <direct subconstruct="Argument" of="cmd" multiple="true"/>,
+                    if any, are all Attributes</constraint>
+                <notes>
+<!--
+At least for the time being applications are NOT allowed to define their own
+commands.
+                    <note>applications are allowed to define ther own commands
+                        provided their names include a namespace prefix, but
+                        commands in documents can only set variables whose
+                        names do <em>not</em> include a namespace prefix
+                        (since variables with namespace prefixes are reserved
+                        for use by Atria)</note>
+-->
+                    <note>the command '[<constant name="QuotedCommandName"/>
+                        expr]' is effectively the same as
+                        '[join [quote] expr [quote]]'</note>
+                </notes>
+            </construct-constraints>
+            <definition name="NameNamespacePrefix">a Name construct includes a
+                namespace prefix if it contains exactly one NamespaceSeparator
+                that is not the first or last character in the Name. If a Name
+                does include a namespace prefix then the namespace prefix is
+                the part of the Name that precedes the
+                NamespaceSeparator</definition>
+            <definition name="PrefixDefinedByNamespaceCommand">the namespace
+                prefix defined by a '<constant name="NamespaceCommandName"/>'
+                command represented by a Command construct <var name="c"/> is
+                the Name that is the first <direct subconstruct="Argument"
+                of="c"/>. If <var name="c"/> doesn't have any direct Argument
+                subconstructs or its first direct Argument subconstruct is not
+                a Name construct then <var name="c"/> does not define a
+                namespace prefix</definition>
+
+            <construct-constraints type="Argument" always-valid="true"/>
+            <construct-constraints type="Text" always-valid="true"/>
+
+            <construct-constraints type="Name" var="id" iff="true">
+                <constraint name="OneNamespaceSeparator"
+                    per-clone="false"><var name="id"/> contains at most one
+                    NamespaceSeparator</constraint>
+                <constraint name="NamespaceSeparatorNotAtEnds"
+                    per-clone="false"><var name="id"/> does not start or end
+                    with a NamespaceSeparator</constraint>
+                <constraint name="DefinedNamespacePrefix" per-clone="false">if
+                    <var name="id"/> <def-use
+                    name="NameNamespacePrefix">includes a namespace
+                    prefix</def-use> then that prefix must be one defined by
+                    a <def-use name="PrecedingNamespaceCommand">'namespace'
+                    command that precedes</def-use> <var name="id"/></constraint>
+            </construct-constraints>
+            <definition name="PrecedingNamespaceCommand">a namespace command
+                that precedes another construct <var name="c"/> is a Command
+                construct whose direct CommandName subconstruct is 'namespace',
+                and that occurs earlier than <var name="c"/> in a Document and
+                does not have <var name="c"/> as a direct or indirect
+                subconstruct</definition>
+        </section>
+    </validity-constraints>
+
+    <semantics must-exist="false">
+        <general-notes>
+            <note>Atria is a data representation language and not a programming
+                language, so its semantics cannot be described in terms of how
+                its constructs are executed or evaluated. Since it is roughly
+                equivalent to the data representation language XML the
+                semantics of Atria's constructs are instead described in terms
+                of the XML fragments that they correspond to</note>
+            <note>unlike in XML, Atria also allows variables to be used. An
+                Atria variable is in scope from the point at which its value
+                is first set until the end of the document. The value of a
+                variable whose value has already been set can be modified by
+                setting its value again later</note>
+            <note>applications can pre-set the values of Atria variables, and
+                such variables are in scope from the beginning to the end of
+                an Atria document</note>
+            <note>in the following a <em>newline</em> refers to the single
+                character with decimal ASCII code 10</note>
+        </general-notes>
+
+        <section title="Documents">
+            <construct-semantics type="Document" var="doc">
+                <let name="p">the <direct subconstruct="Prologue"
+                    of="doc"/></let>
+                <description>corresponds to the XML consisting of the
+                    concatenation, in order, of the XML that corresponds to the
+                    <direct subconstruct="Prologue" of="doc"/> and the XML that
+                    corresponds to each of the <direct subconstruct="Element"
+                    multiple="true" of="dec"/>.</description>
+            </construct-semantics>
+            <construct-semantics type="Prologue" var="p">
+                <description>corresponds to the XML consisting of the
+                    concatenation, in order, of the XML that corresponds to the
+                    <direct subconstruct="LanguageSpecifier" of="p"/> and the
+                    XML that corresponds to each of the <direct
+                    subconstruct="PrologueItem" multiple="true"
+                    of="p"/>.</description>
+            </construct-semantics>
+            <construct-semantics type="LanguageSpecifier" var="spec">
+                <description>corresponds to the XML text declaration
+                    <code>&lt;?xml version=&quot;1.0&quot;&gt;</code> (with
+                    no newline at the end of it).</description>
+            </construct-semantics>
+            <construct-semantics type="PrologueItem" var="item">
+                <description>corresponds to the XML that the <direct
+                    subconstruct="Command" of="item"/> corresponds
+                    to.</description>
+            </construct-semantics>
+        </section>
+
+        <section title="Elements and Attributes">
+            <construct-semantics type="Element" var="elem">
+                <let name="name">the <direct subconstruct="Name"
+                    of="elem"/></let>
+                <let name="numAttr">the number of <direct
+                    subconstruct="Attribute" of="elem" multiple="true"/></let>
+                <description>corresponds to the concatenation of a newline
+                    and an XML element
+                    <list>
+                        <item>whose name corresponds to <var
+                            name="name"/>,</item>
+                        <item>that has <var name="numAttr"/> attributes,
+                            each of which corresponds to a different <direct
+                            subconstruct="Attribute" of="elem"/>, and</item>
+                        <item>whose contents consists of the concatenation,
+                            in order, of the XML that corresponds to each
+                            <direct subconstruct="ContentItem"
+                            of="elem"/></item>
+                    </list>
+<!--
+TODO: add one or more examples here !!!
+-->
+                </description>
+            </construct-semantics>
+            <construct-semantics type="ContentItem" var="item">
+                <description>corresponds to the XML that corresponds to the
+                    direct subconstruct of <var name="item"/> that is
+                    present.</description>
+            </construct-semantics>
+            <construct-semantics type="ExpressionItem" var="item">
+                <description>corresponds to the XML that the <direct
+                    subconstruct="Expression" of="item"/> corresponds
+                    to.</description>
+            </construct-semantics>
+            <construct-semantics type="Attribute" var="attr">
+                <let name="name">the <direct subconstruct="Name"
+                    of="attr"/></let>
+                <let name="expr">the <direct subconstruct="Expression"
+                    of="attr"/></let>
+                <description>corresponds to the XML attribute whose name
+                    corresponds to the XML that <var name="name"/> corresponds
+                    to, and whose value corresponds to the XML that <var
+                    name="expr"/> corresponds to, enclosed in double
+                    quotation marks.</description>
+<!--
+TODO: add one or more examples here !!!
+-->
+            </construct-semantics>
+        </section>
+
+        <section title="Expressions">
+            <construct-semantics type="Argument" var="arg">
+                <description>corresponds to the XML that corresponds to the
+                    direct subconstruct of <var name="arg"/> that is
+                    present.</description>
+            </construct-semantics>
+            <construct-semantics type="Name" var="name">
+                <description>corresponds to the XML consisting of the
+                    concatenation, in order, of all of the <direct
+                    subconstruct="NameCharacter" multiple="true"
+                    of="name"/>.</description>
+            </construct-semantics>
+            <construct-semantics type="Expression" var="expr">
+                <description>corresponds to the XML that corresponds to the
+                    direct subconstruct of <var name="expr"/> that is
+                    present.</description>
+            </construct-semantics>
+            <construct-semantics type="Command" var="cmd">
+                <let name="name">the <direct subconstruct="Name"
+                    of="cmd"/></let>
+                <let name="numArgs">the number of <direct
+                    subconstruct="Argument" multiple="true" of="cmd"/></let>
+                <let name="arg[i]">the <var name="i"/>th <direct
+                    subconstruct="Argument" of="cmd"/>, where 1 &lt;= <var
+                    name="i"/> &lt;= <var name="numArgs"/></let>
+                <let name="doc">the Document construct that <var name="cmd"/>
+                    is an indirect subconstruct of</let>
+                <description>corresponds to different XML depending on the
+                    value of <var name="name"/>:
+                    <list>
+                        <item>if <var name="name"/> specifies the name
+                            'namespace' then <var name="cmd"/> corresponds to
+                            the empty string, but also defines the namespace
+                            prefix given by <expr text="arg[1]"/> to denote
+                            the namespace corresponding to the URL given by
+                            <expr text="arg[2]"/></item>
+                        <item>if <var name="name"/> specifies the name
+                            'set' then <var name="cmd"/> corresponds to the
+                            empty string, but also sets the Atria variable
+                            whose name is given by <expr text="arg[1]"/> to
+                            the XML corresponding to <expr
+                            text="arg[2]"/></item>
+                        <item>if <var name="name"/> specifies the name
+                            'get' then <var name="cmd"/> corresponds to the
+                            value of the Atria variable whose name is given
+                            by <expr text="arg[1]"/></item>
+                        <item>if <var name="name"/> specifies the name
+                            'top' then <var name="cmd"/> corresponds to the
+                            same XML that would correspond to an Atria Element
+                            whose
+                            <list>
+                                <item>direct Name subconstruct is given by
+                                    <expr text="arg[1]"/>,</item>
+                                <item>direct Attribute subconstructs, if any,
+                                    are given by <expr text="arg[i]"/> where
+                                    2 &lt;= <var name="i"/> &lt;= <var
+                                    name="numArgs"/></item>
+                            </list>
+                            except that the closing XML tag follows the
+                            XML corresponding to all of the <direct
+                            subconstruct="Element" multiple="true"
+                            of="doc"/></item>
+<!--
+                        <item>if <var name="name"/> specifies the name
+                            'entity' then <var name="cmd"/> corresponds to
+TODO: this needs to be more specific !!!
+                            the XML entity named by <expr
+                            text="arg[1]"/></item>
+-->
+<!--
+TODO: add one or more examples here !!!
+-->
+                        <item>if <var name="name"/> specifies the name
+                            'join' then <var name="cmd"/> corresponds to the
+                            XML consisting of the concatenation, in order, of
+                            the XML that each <expr text="arg[i]"/> corresponds
+                            to, for 1 &lt;= <var name="i"/> &lt;= <var
+                            name="numArgs"/></item>
+                        <item>if <var name="name"/> specifies the name
+                            'newline' then <var name="cmd"/> corresponds to
+                            a newline</item>
+                        <item>if <var name="name"/> specifies the name
+                            'quote' then <var name="cmd"/> corresponds to
+                            the XML entity <code>&amp;quot;</code></item>
+                        <item>if <var name="name"/> specifies the name
+                            'quoted' then <var name="cmd"/> corresponds to
+                            the same XML that the command
+                            <code>[join [quote] arg[1] [quote]]</code>
+                            would correspond to</item>
+                    </list>
+                </description>
+            </construct-semantics>
+            <construct-semantics type="Text" var="txt">
+                <description>corresponds to the XML consisting of the
+                    concatenation, in order, of all of the <direct
+                    subconstruct="TextCharacter" multiple="true"
+                    of="txt"/> (without the enclosing double quotation
+                    marks).</description>
+            </construct-semantics>
+        </section>
+    </semantics>
+
+    <implementation language="Java">
+        <root-module name="com.steelcandy.plack.atria"/>
+        <base-module name="com.steelcandy.plack.atria.base"/>
+        <source-module name="com.steelcandy.plack.atria.source"/>
+        <tokens-module name="com.steelcandy.plack.atria.tokens"/>
+        <tokenizers-module name="com.steelcandy.plack.atria.tokens"/>
+        <constructs-module name="com.steelcandy.plack.atria.constructs"/>
+        <parsers-module name="com.steelcandy.plack.atria.constructs"/>
+        <constructs-testing-module
+            name="com.steelcandy.plack.atria.constructs.testing"/>
+        <validation-module name="com.steelcandy.plack.atria.semantic"/>
+        <runtime-module name="com.steelcandy.plack.atria.runtime"/>
+
+        <constants-class/>
+        <character-classes-class/>
+
+        <location-factory-class name="AtriaSourceLocationFactory"
+            constructor-name="instance"/>
+        <token-manager-class name="AtriaTokenManager"
+            constructor-name="instance"/>
+        <tokenizer-class name="AtriaSourceCodeTokenizer"/>
+        <construct-manager-class name="AtriaConstructManager"
+            constructor-name="instance"/>
+        <validity-constraint-checklist-factory-class
+            name="AtriaValidityConstraintChecklistFactory"
+            constructor-name="instance"/>
+        <construct-test-data-creator-class
+            name="AtriaConstructTestDataCreator"/>
+
+        <token-manager-base-class name="AtriaTokenManagerBase"
+            superclass="CommonTokenManager" prefix="Atria"
+            superclass-prefix="Common">
+            <simple-token-superclass name="AtriaAbstractToken"/>
+
+            <!-- Note: Atria has no reserved words or operators, so we
+                       just specify the default token superclass here. -->
+            <reserved-word-token-superclass name="AtriaAbstractToken"/>
+            <reserved-word-operator-token-superclass
+                name="AtriaAbstractToken"/>
+            <operator-token-superclass name="AtriaAbstractToken"/>
+        </token-manager-base-class>
+
+        <tokenizer-base-class name="AtriaSourceCodeTokenizerBase">
+            <imports>
+                <import type="relative"
+                    name="source.AtriaSourceLocationFactory"/>
+            </imports>
+        </tokenizer-base-class>
+
+        <construct-manager-base-class name="AtriaConstructManagerBase"
+            superclass="EmptyConstructManagerBase" prefix="Atria"
+            superclass-prefix="Empty">
+            <base-construct-superinterface name="AtriaConstruct"/>
+            <base-construct-superclass name="AtriaAbstractConstruct"/>
+            <single-token-construct-superclass
+                name="AtriaSingleTokenConstruct"/>
+            <imports>
+                <import type="relative" name="tokens.AtriaTokenManager"/>
+            </imports>
+        </construct-manager-base-class>
+
+        <validity-constraint-checklist-factory-base-class
+            name="AtriaValidityConstraintChecklistFactoryBase"
+            superclass="AbstractValidityConstraintChecklistFactory"/>
+
+        <construct-visitor-class name="AtriaConstructVisitor"
+            superclass="ConstructVisitor"/>
+        <abstract-construct-visitor-class name="AtriaAbstractConstructVisitor"
+            superclass="MinimalAbstractConstructVisitor"
+            interface="AtriaConstructVisitor"
+            default-construct-type="AtriaConstruct"/>
+
+        <parser-classes default-construct-type="AtriaConstruct"/>
+
+        <construct-test-data-creator-base-class
+            name="AtriaConstructTestDataCreatorBase"
+            superclass="AbstractConstructTestDataCreator"/>
+
+        <validity-constraints/>
+
+        <runtime-classes/>
+    </implementation>
+</language>

@@ -1,0 +1,1556 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (C) 2006-2016 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+
+<!-- TODO: check that all zeroOrMore elements shouldn't be oneOrMore elements,
+           and vice versa. -->
+
+    <start>
+        <element name="language">
+            <attribute name="name">
+                <text/>     <!-- non-empty -->
+            </attribute>
+            <attribute name="article">
+                <ref name="indefiniteArticles"/>
+            </attribute>
+            <attribute name="first-copyright-year">
+                <text/>     <!-- positive integer -->
+            </attribute>
+
+            <ref name="constantsPart"/>
+            <ref name="characterClassesPart"/>
+
+            <ref name="tokenFlagsPart"/>
+            <ref name="tokenFlagSetsPart"/>
+            <ref name="operatorPrecedenceLevelsPart"/>
+            <ref name="tokensPart"/>
+            <ref name="tokenCreatorsPart"/>
+
+            <ref name="constructFlagsPart"/>
+            <ref name="constructFlagSetsPart"/>
+            <ref name="constructsPart"/>
+
+            <ref name="optimizedFormsPart"/>
+            <ref name="validityConstraintsPart"/>
+            <ref name="semanticsPart"/>
+            <oneOrMore>
+                <ref name="implementationPart"/>
+            </oneOrMore>
+        </element>
+    </start>
+
+
+    <define name="constantsPart">
+        <element name="constants">
+            <zeroOrMore>
+                <choice>
+                    <ref name="constant"/>
+                    <ref name="constantList"/>
+                </choice>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="constant">
+        <element name="constant">
+            <ref name="nameAttribute"/>
+            <attribute name="value"/>
+            <ref name="descriptionAttribute"/>
+        </element>
+    </define>
+
+    <define name="constantList">
+        <element name="constant-list">
+            <ref name="nameAttribute"/>
+
+            <oneOrMore>
+                <choice>
+                    <element name="constant">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <element name="constant-list">
+                        <ref name="nameAttribute"/>
+                    </element>
+                </choice>
+            </oneOrMore>
+        </element>
+    </define>
+
+
+    <define name="characterClassesPart">
+        <element name="character-classes">
+            <oneOrMore>
+                <ref name="characterClassesSection"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="characterClassesSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <zeroOrMore>
+                <ref name="characterClass"/>
+            </zeroOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="characterClass">
+        <element name="character-class">
+            <ref name="nameAttribute"/>
+
+            <!-- If there is a 'choice' child element then there can be
+                 exactly one and there can be no other children. -->
+            <choice>
+                <ref name="characterClassChoice"/>
+                <oneOrMore>
+                    <choice>
+                        <ref name="singleCharacterChoice"/>
+                        <ref name="characterSequence"/>
+                        <ref name="characters"/>
+                    </choice>
+                </oneOrMore>
+            </choice>
+        </element>
+    </define>
+
+    <define name="characterClassChoice">
+        <element name="choice">
+            <ref name="charactersFromClassList"/>
+        </element>
+    </define>
+
+    <define name="singleCharacterChoice">
+        <element name="single-character-choice">
+            <attribute name="list">
+                <text/>     <!-- non-empty -->
+            </attribute>
+        </element>
+    </define>
+
+    <define name="characterSequence">
+        <ref name="charactersFromClassList"/>
+    </define>
+
+    <define name="charactersFromClassList">
+        <!-- A list/sequence of two or more 'char-from-class' elements. -->
+        <ref name="characterFromClass"/>
+        <oneOrMore>
+            <ref name="characterFromClass"/>
+        </oneOrMore>
+    </define>
+
+    <define name="characterFromClass">
+        <element name="char-from-class">
+            <ref name="numberAttribute"/>
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="characters">
+        <element name="chars">
+            <ref name="numberAttribute"/>
+            <ref name="textAttribute"/>
+        </element>
+    </define>
+
+
+    <define name="tokenFlagsPart">
+        <element name="token-flags">
+            <attribute name="end-of-line-flag-name">
+                <text/>     <!-- non-empty -->
+            </attribute>
+            <oneOrMore>
+                <ref name="tokenFlagsSection"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="tokenFlagsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <oneOrMore>
+                <ref name="tokenFlagDefinition"/>
+            </oneOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="tokenFlagDefinition">
+        <element name="flag-definition">
+            <ref name="nameAttribute"/>
+            <ref name="descriptionAttribute"/>
+        </element>
+    </define>
+
+
+    <define name="tokenFlagSetsPart">
+        <element name="token-flag-sets">
+            <oneOrMore>
+                <ref name="tokenFlagSetsSection"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="tokenFlagSetsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <oneOrMore>
+                <ref name="tokenFlagSetDefinition"/>
+            </oneOrMore>
+
+            <!-- There must be exactly one of each across ALL of the sections
+                 (so they may not be present in any given section). -->
+            <optional>
+                <element name="reserved-word-flag-set">
+                    <ref name="nameAttribute"/>
+                </element>
+            </optional>
+            <optional>
+                <element name="operator-reserved-word-flag-set">
+                    <ref name="nameAttribute"/>
+                </element>
+            </optional>
+            <optional>
+                <element name="operator-flag-set">
+                    <ref name="nameAttribute"/>
+                </element>
+            </optional>
+
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="tokenFlagSetDefinition">
+        <element name="flag-set-definition">
+            <ref name="nameAttribute"/>
+            <ref name="descriptionAttribute"/>
+            <zeroOrMore>
+                <ref name="flagUse"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+
+    <define name="operatorPrecedenceLevelsPart">
+        <element name="operator-precedence-levels">
+            <zeroOrMore>
+                <ref name="operatorPrecedenceLevelsSection"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="operatorPrecedenceLevelsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <oneOrMore>
+                <ref name="operatorPrecedenceLevel"/>
+            </oneOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="operatorPrecedenceLevel">
+        <element name="precedence-level">
+            <ref name="nameAttribute"/>
+            <attribute name="value">
+                <text/>     <!-- non-negative integer -->
+            </attribute>
+            <ref name="descriptionAttribute"/>
+        </element>
+    </define>
+
+
+    <define name="tokensPart">
+        <element name="tokens">
+            <attribute name="indent-name">
+                <text/>     <!-- non-empty -->
+            </attribute>
+            <oneOrMore>
+                <ref name="tokensSection"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="tokensSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <oneOrMore>
+                <choice>
+                    <ref name="reservedWordToken"/>
+                    <ref name="reservedWordOperatorToken"/>
+                    <ref name="operatorToken"/>
+                    <ref name="simpleToken"/>
+                    <ref name="customToken"/>
+                </choice>
+            </oneOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="reservedWordToken">
+        <element name="reserved-word">
+            <ref name="nameAttribute"/>
+            <ref name="textAttribute"/>
+            <optional>
+                <attribute name="future">
+                    <ref name="booleanValues"/>
+                </attribute>
+            </optional>
+
+            <zeroOrMore>
+                <ref name="flagUse"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="reservedWordOperatorToken">
+        <element name="reserved-word-operator">
+            <ref name="operatorAttributes"/>
+        </element>
+    </define>
+
+    <define name="operatorToken">
+        <element name="operator">
+            <ref name="operatorAttributes"/>
+        </element>
+    </define>
+
+    <define name="operatorAttributes">
+        <ref name="nameAttribute"/>
+        <ref name="textAttribute"/>
+        <attribute name="arity">
+            <ref name="arities"/>
+        </attribute>
+        <attribute name="associativity">
+            <ref name="associativities"/>
+        </attribute>
+        <attribute name="fixity">
+            <ref name="fixities"/>
+        </attribute>
+        <attribute name="precedence">
+            <text/>     <!-- non-empty -->
+        </attribute>
+        <attribute name="method">
+            <text/>     <!-- non-empty, valid method name -->
+        </attribute>
+        <ref name="descriptionAttribute"/>
+    </define>
+
+    <define name="arities">
+        <choice>
+            <value type="string">unary</value>
+            <value type="string">binary</value>
+        </choice>
+    </define>
+
+    <define name="associativities">
+        <choice>
+            <value type="string">left</value>
+            <value type="string">right</value>
+        </choice>
+    </define>
+
+    <define name="fixities">
+        <choice>
+            <value type="string">prefix</value>
+            <value type="string">infix</value>
+            <value type="string">postfix</value>
+        </choice>
+    </define>
+
+    <define name="simpleToken">
+        <element name="simple-token">
+            <ref name="nameAttribute"/>
+            <ref name="textAttribute"/>
+            <ref name="descriptionAttribute"/>
+
+            <zeroOrMore>
+                <ref name="flagUse"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="customToken">
+        <element name="custom-token">
+            <ref name="nameAttribute"/>
+            <ref name="descriptionAttribute"/>
+
+            <!-- A custom token can either have a 'text' attribute or a
+                 single 'text' child element, but not both. -->
+            <choice>
+                <ref name="textAttribute"/>
+                <ref name="customTokenText"/>
+            </choice>
+        </element>
+    </define>
+
+    <define name="customTokenText">
+        <element name="text">
+            <choice>
+                <ref name="customTokenTextChoice"/>
+                <ref name="basicCustomTokenTextChoices"/>
+            </choice>
+        </element>
+    </define>
+
+    <define name="basicCustomTokenTextChoices">
+        <oneOrMore>
+            <choice>
+                <ref name="characters"/>
+                <ref name="space"/>
+                <ref name="characterFromClass"/>
+            </choice>
+        </oneOrMore>
+    </define>
+
+    <define name="customTokenTextChoice">
+        <element name="choice">
+            <!-- There must be at least 2 choices. -->
+            <ref name="basicCustomTokenTextChoices"/>
+            <oneOrMore>
+                <ref name="basicCustomTokenTextChoices"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+
+
+    <define name="tokenCreatorsPart">
+        <element name="token-creators">
+            <attribute name="map-size">
+                <text/>     <!-- non-negative integer -->
+            </attribute>
+
+            <oneOrMore>
+                <ref name="tokenCreatorsSection"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="tokenCreatorsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <!-- Note: we can't check it here, but the actual requirement
+                 is that there is exactly one 'default-token-creator'
+                 descendent of the entire tokenCreatorsPart, not just each
+                 tokenCreatorsSection. -->
+            <optional>
+                <element name="default-token-creator">
+                    <ref name="nameAttribute"/>
+                </element>
+            </optional>
+            <oneOrMore>
+                <choice>
+                    <ref name="customTokenCreator"/>
+                    <ref name="singleTokenCreator"/>
+                    <ref name="multipleTokenCreator"/>
+                </choice>
+            </oneOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="customTokenCreator">
+        <element name="custom-token-creator">
+            <ref name="commonTokenCreatorAttributes"/>
+        </element>
+    </define>
+
+    <define name="singleTokenCreator">
+        <element name="single-token-creator">
+            <ref name="commonTokenCreatorAttributes"/>
+            <ref name="tokenNameAttribute"/>
+        </element>
+    </define>
+
+    <define name="multipleTokenCreator">
+        <element name="multiple-token-creator">
+            <ref name="commonTokenCreatorAttributes"/>
+            <ref name="tokenNameAttribute"/>
+            <oneOrMore>
+                <element name="next-char">
+                    <attribute name="value">
+                        <text/>     <!-- non-empty -->
+                    </attribute>
+                    <ref name="tokenNameAttribute"/>
+                </element>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="commonTokenCreatorAttributes">
+        <ref name="nameAttribute"/>
+        <attribute name="start-chars">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="tokenNameAttribute">
+        <attribute name="token-name">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+
+    <define name="constructFlagsPart">
+        <element name="construct-flags">
+            <zeroOrMore>
+                <ref name="constructFlagsSection"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="constructFlagsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <zeroOrMore>
+                <ref name="constructFlag"/>
+            </zeroOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="constructFlag">
+        <element name="flag-definition">
+            <ref name="nameAttribute"/>
+            <ref name="descriptionAttribute"/>
+        </element>
+    </define>
+
+
+    <define name="constructFlagSetsPart">
+        <element name="construct-flag-sets">
+            <zeroOrMore>
+                <ref name="constructFlagSetsSection"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="constructFlagSetsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <zeroOrMore>
+                <ref name="constructFlagSet"/>
+            </zeroOrMore>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="constructFlagSet">
+        <element name="flag-set-definition">
+            <ref name="nameAttribute"/>
+            <ref name="descriptionAttribute"/>
+
+            <oneOrMore>
+                <ref name="flagUse"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+
+    <define name="constructsPart">
+        <element name="constructs">
+            <oneOrMore>
+                <ref name="constructsSection"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="constructsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <ref name="constructDefinitions"/>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="constructDefinitions">
+        <oneOrMore>
+            <choice>
+                <ref name="compoundConstruct"/>
+                <ref name="multilineConstruct"/>
+                <ref name="singleLineConstruct"/>
+                <ref name="lineChoiceConstruct"/>
+                <ref name="choiceConstruct"/>
+                <ref name="construct"/>
+                <ref name="repeatedConstruct"/>
+                <ref name="aliasConstruct"/>
+                <ref name="singleTokenConstruct"/>
+            </choice>
+        </oneOrMore>
+    </define>
+
+    <define name="compoundConstruct">
+        <element name="compound-construct">
+            <ref name="commonConstructComponents"/>
+
+            <ref name="twoOrMoreSubconstructs"/>
+        </element>
+    </define>
+
+    <define name="multilineConstruct">
+        <element name="multiline-construct">
+            <ref name="commonConstructComponents"/>
+
+            <element name="first-line">
+                <ref name="constructParts"/>
+            </element>
+            <element name="indented-subconstructs">
+                <oneOrMore>
+                    <ref name="subconstruct"/>
+                </oneOrMore>
+            </element>
+        </element>
+    </define>
+
+    <define name="singleLineConstruct">
+        <element name="single-line-construct">
+            <ref name="commonConstructComponents"/>
+
+            <ref name="constructParts"/>
+        </element>
+    </define>
+
+    <define name="lineChoiceConstruct">
+        <element name="line-choice-construct">
+            <ref name="commonConstructComponents"/>
+
+            <!-- The parts that each choice must have. -->
+            <ref name="constructParts"/>
+
+            <ref name="subconstructChoice"/>
+        </element>
+    </define>
+
+    <define name="choiceConstruct">
+        <element name="choice-construct">
+            <ref name="commonConstructComponents"/>
+
+            <!-- The parts that each choice must have. -->
+            <ref name="constructParts"/>
+
+            <ref name="subconstructChoice"/>
+        </element>
+    </define>
+
+    <define name="subconstructChoice">
+        <element name="choice">
+            <ref name="twoOrMoreSubconstructs"/>
+        </element>
+    </define>
+
+    <define name="construct">
+        <element name="construct">
+            <ref name="commonConstructComponents"/>
+
+            <ref name="constructParts"/>
+        </element>
+    </define>
+
+    <define name="repeatedConstruct">
+        <element name="repeated-construct">
+            <ref name="commonConstructComponents"/>
+
+
+            <!-- Either none of these attributes is present or all of them
+                 are present. -->
+            <!-- Note: if these are omitted then all of the subconstructs are
+                 required to be on the same logical line. Whitespace is only
+                 required between subconstructs if it's necessary to
+                 distinguish them from each other. -->
+            <optional>
+                <attribute name="space-before-separators">
+                    <ref name="spaceTypes"/>
+                </attribute>
+                <attribute name="space-after-separators">
+                    <ref name="spaceTypes"/>
+                </attribute>
+                <attribute name="separator-terminal">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+            </optional>
+
+<!-- TODO: check that this is true !!! -->
+            <!-- Either none of these attributes is present or all of them
+                 are present. -->
+            <optional>
+                <attribute name="start-terminal">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+                <attribute name="end-terminal">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+                <attribute name="space-after-start-terminal">
+                    <ref name="spaceTypes"/>
+                </attribute>
+                <attribute name="space-before-end-terminal">
+                    <ref name="spaceTypes"/>
+                </attribute>
+            </optional>
+
+            <!-- The construct that is repeated. -->
+            <ref name="subconstruct"/>
+        </element>
+    </define>
+
+    <define name="aliasConstruct">
+        <element name="alias-construct">
+            <attribute name="aliased-construct">
+                <text/>     <!-- non-empty -->
+            </attribute>
+            <ref name="commonConstructComponents"/>
+        </element>
+    </define>
+
+    <define name="singleTokenConstruct">
+        <element name="single-token-construct">
+            <ref name="commonConstructComponents"/>
+
+            <choice>
+                <ref name="terminal"/>
+                <ref name="terminalChoice"/>
+            </choice>
+        </element>
+    </define>
+
+    <define name="constructParts">
+        <zeroOrMore>
+            <choice>
+                <ref name="terminal"/>
+                <ref name="space"/>
+                <ref name="subconstruct"/>
+                <ref name="flagFromSet"/>
+            </choice>
+        </zeroOrMore>
+    </define>
+
+    <define name="terminalChoice">
+        <element name="terminal-choice">
+            <!-- There must be two or more 'terminal' choices. -->
+            <ref name="terminal"/>
+            <oneOrMore>
+                <ref name="terminal"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="terminal">
+        <element name="terminal">
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="flagFromSet">
+        <element name="flag-from-set">
+            <ref name="numberAttribute"/>
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="twoOrMoreSubconstructs">
+        <ref name="subconstruct"/>
+        <oneOrMore>
+            <ref name="subconstruct"/>
+        </oneOrMore>
+    </define>
+
+    <define name="subconstruct">
+        <element name="subconstruct">
+            <ref name="numberAttribute"/>
+            <ref name="typeAttribute"/>
+            <optional>
+                <ref name="nameAttribute"/>
+            </optional>
+        </element>
+    </define>
+
+    <define name="commonConstructComponents">
+        <ref name="typeAttribute"/>
+        <ref name="descriptionAttribute"/>
+
+        <zeroOrMore>
+            <!-- Not to be confused with XML attributes, these are the
+                 attributes defined by '<attribute>' elements. -->
+            <ref name="constructAttributes"/>
+        </zeroOrMore>
+    </define>
+
+    <define name="constructAttributes">
+        <element name="attribute">
+            <optional>
+                <ref name="nameAttribute"/>
+            </optional>
+            <ref name="typeAttribute"/>
+            <ref name="descriptionAttribute"/>
+        </element>
+    </define>
+
+
+    <define name="optimizedFormsPart">
+        <element name="optimized-forms">
+            <empty/>    <!-- Currently, anyway -->
+        </element>
+    </define>
+
+
+    <define name="validityConstraintsPart">
+        <element name="validity-constraints">
+            <ref name="mustExistAttribute"/>
+            <attribute name="debug">
+                <ref name="booleanValues"/>
+            </attribute>
+
+            <zeroOrMore>
+                <ref name="validityConstraintsSection"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="validityConstraintsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <oneOrMore>
+                <choice>
+                    <ref name="constructConstraints"/>
+                    <ref name="definition"/>
+                </choice>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="constructConstraints">
+        <element name="construct-constraints">
+            <ref name="typeAttribute"/>
+            <optional>
+                <attribute name="always-valid">
+                    <ref name="booleanValues"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="iff">
+                    <ref name="booleanValues"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="var">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+            </optional>
+
+            <zeroOrMore>
+                <ref name="letStatement"/>
+            </zeroOrMore>
+            <interleave>
+                <zeroOrMore>
+                    <ref name="constraint"/>
+                </zeroOrMore>
+                <zeroOrMore>
+                    <ref name="notes"/>
+                </zeroOrMore>
+            </interleave>
+        </element>
+    </define>
+
+    <define name="constraint">
+        <element name="constraint">
+            <ref name="nameAttribute"/>
+            <attribute name="per-clone">
+                <ref name="booleanValues"/>
+            </attribute>
+
+            <oneOrMore>
+                <ref name="inlineContent"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="definition">
+        <element name="definition">
+            <ref name="nameAttribute"/>
+
+            <oneOrMore>
+                <choice>
+                    <ref name="example"/>
+                    <ref name="inlineContent"/>
+                    <ref name="notes"/>
+                </choice>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="example">
+        <element name="example">
+            <oneOrMore>
+                <ref name="inlineContent"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+
+    <define name="semanticsPart">
+        <element name="semantics">
+            <ref name="mustExistAttribute"/>
+            <optional>
+                <element name="general-notes">
+                    <zeroOrMore>
+                        <ref name="note"/>
+                    </zeroOrMore>
+                </element>
+            </optional>
+
+            <zeroOrMore>
+                <ref name="semanticsSection"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="semanticsSection">
+        <element name="section">
+            <ref name="sectionAttributes"/>
+
+            <oneOrMore>
+                <choice>
+                    <ref name="constructSemantics"/>
+                    <ref name="definition"/>
+                </choice>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="constructSemantics">
+        <element name="construct-semantics">
+            <ref name="typeAttribute"/>
+            <attribute name="var">
+                <text/>     <!-- non-empty -->
+            </attribute>
+
+            <zeroOrMore>
+                <ref name="letStatement"/>
+            </zeroOrMore>
+            <ref name="semanticsDescription"/>
+            <ref name="notes"/>
+        </element>
+    </define>
+
+    <define name="semanticsDescription">
+        <element name="description">
+            <oneOrMore>
+                <ref name="inlineContent"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+
+    <define name="implementationPart">
+        <element name="implementation">
+            <attribute name="language">
+                <text/>     <!-- non-empty -->
+            </attribute>
+
+            <element name="root-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="base-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="source-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="tokens-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="tokenizers-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="constructs-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="parsers-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="constructs-testing-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="validation-module">
+                <ref name="nameAttribute"/>
+            </element>
+            <element name="runtime-module">
+                <ref name="nameAttribute"/>
+            </element>
+
+            <element name="constants-class">
+                <empty/>
+            </element>
+            <element name="character-classes-class">
+                <empty/>
+            </element>
+
+            <element name="location-factory-class">
+                <ref name="nameAttribute"/>
+                <ref name="constructorAttribute"/>
+            </element>
+            <element name="token-manager-class">
+                <ref name="nameAttribute"/>
+                <ref name="constructorAttribute"/>
+            </element>
+            <element name="tokenizer-class">
+                <ref name="nameAttribute"/>
+
+<!-- TODO: check that an 'imports' element is actually allowed here !!! -->
+                <ref name="classImports"/>
+            </element>
+            <element name="construct-manager-class">
+                <ref name="nameAttribute"/>
+                <ref name="constructorAttribute"/>
+            </element>
+            <element name="validity-constraint-checklist-factory-class">
+                <ref name="nameAttribute"/>
+                <ref name="constructorAttribute"/>
+            </element>
+            <element name="construct-test-data-creator-class">
+                <ref name="nameAttribute"/>
+
+<!-- TODO: check that an 'imports' element is actually allowed here !!! -->
+                <ref name="classImports"/>
+            </element>
+
+            <element name="token-manager-base-class">
+                <ref name="nameAttribute"/>
+                <ref name="superclassAttribute"/>
+                <ref name="classPrefixAttribute"/>
+                <ref name="superclassPrefixAttribute"/>
+
+                <interleave>
+                    <element name="simple-token-superclass">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <element name="reserved-word-token-superclass">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <element name="reserved-word-operator-token-superclass">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <element name="operator-token-superclass">
+                        <ref name="nameAttribute"/>
+                    </element>
+
+                    <ref name="classImports"/>
+                </interleave>
+            </element>
+            <element name="tokenizer-base-class">
+                <ref name="nameAttribute"/>
+
+                <ref name="classImports"/>
+            </element>
+
+            <element name="construct-manager-base-class">
+                <ref name="nameAttribute"/>
+                <ref name="superclassAttribute"/>
+                <ref name="classPrefixAttribute"/>
+                <ref name="superclassPrefixAttribute"/>
+
+                <interleave>
+                    <element name="base-construct-superinterface">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <element name="base-construct-superclass">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <element name="single-token-construct-superclass">
+                        <ref name="nameAttribute"/>
+                    </element>
+                    <ref name="classImports"/>
+                </interleave>
+            </element>
+            <element name="validity-constraint-checklist-factory-base-class">
+                <ref name="nameAttribute"/>
+                <ref name="superclassAttribute"/>
+
+                <ref name="classImports"/>
+            </element>
+            <element name="construct-visitor-class">
+                <ref name="nameAttribute"/>
+                <ref name="superclassAttribute"/>
+
+                <ref name="classImports"/>
+            </element>
+            <element name="abstract-construct-visitor-class">
+                <ref name="nameAttribute"/>
+                <ref name="superclassAttribute"/>
+                <attribute name="interface">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+                <attribute name="default-construct-type">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+
+                <ref name="classImports"/>
+            </element>
+            <element name="parser-classes">
+                <attribute name="default-construct-type">
+                    <text/>     <!-- non-empty -->
+                </attribute>
+            </element>
+            <element name="construct-test-data-creator-base-class">
+                <ref name="nameAttribute"/>
+                <ref name="superclassAttribute"/>
+
+                <ref name="classImports"/>
+            </element>
+
+            <element name="validity-constraints">
+                <empty/>
+            </element>
+            <element name="runtime-classes">
+                <empty/>
+            </element>
+        </element>
+    </define>
+
+    <define name="constructorAttribute">
+        <attribute name="constructor-name">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="superclassAttribute">
+        <attribute name="superclass">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="classPrefixAttribute">
+        <attribute name="prefix">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="superclassPrefixAttribute">
+        <attribute name="superclass-prefix">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="classImports">
+        <optional>
+            <element name="imports">
+                <oneOrMore>
+                    <element name="import">
+                        <ref name="importTypeAttribute"/>
+                        <ref name="nameAttribute"/>
+                    </element>
+                </oneOrMore>
+            </element>
+        </optional>
+    </define>
+
+    <define name="importTypeAttribute">
+        <attribute name="type">
+            <ref name="importTypes"/>
+        </attribute>
+    </define>
+
+    <define name="importTypes">
+        <choice>
+            <value type="string">relative</value>
+            <value type="string">absolute</value>
+        </choice>
+    </define>
+
+
+    <define name="inlineContent">
+        <choice>
+            <text/>
+
+            <ref name="strong"/>
+            <ref name="em"/>
+            <ref name="code"/>
+            <ref name="pre"/>
+
+            <ref name="link"/>
+
+            <ref name="list"/>
+            <ref name="table"/>
+
+            <ref name="constantUse"/>
+            <ref name="constantListUse"/>
+            <ref name="variableUse"/>
+            <ref name="expressionUse"/>
+            <ref name="nonterminalUse"/>
+            <ref name="terminalUse"/>
+
+            <ref name="definitionUse"/>
+            <ref name="directSubconstruct"/>
+            <ref name="indirectSubconstruct"/>
+        </choice>
+    </define>
+
+    <define name="letStatement">
+        <element name="let">
+            <ref name="nameAttribute"/>
+
+            <oneOrMore>
+                <ref name="inlineContent"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="directSubconstruct">
+        <element name="direct">
+            <ref name="directOrIndirectSubconstructComponents"/>
+        </element>
+    </define>
+
+    <define name="indirectSubconstruct">
+        <element name="indirect">
+            <ref name="directOrIndirectSubconstructComponents"/>
+        </element>
+    </define>
+
+    <define name="directOrIndirectSubconstructComponents">
+        <attribute name="subconstruct">
+            <text/>     <!-- non-empty -->
+        </attribute>
+        <attribute name="of">
+            <text/>     <!-- non-empty -->
+        </attribute>
+        <optional>
+            <attribute name="multiple">
+                <ref name="booleanValues"/>
+            </attribute>
+        </optional>
+        <optional>
+            <ref name="nameAttribute"/>
+        </optional>
+    </define>
+
+
+    <define name="notes">
+        <optional>
+            <element name="notes">
+                <zeroOrMore>
+                    <ref name="note"/>
+                </zeroOrMore>
+            </element>
+        </optional>
+    </define>
+
+    <define name="note">
+        <element name="note">
+            <ref name="hiddenAttribute"/>
+
+            <oneOrMore>
+                <choice>
+                    <element name="operator-information">
+                        <empty/>
+                    </element>
+                    <ref name="inlineContent"/>
+                </choice>
+            </oneOrMore>
+        </element>
+    </define>
+
+
+    <define name="link">
+        <element name="link">
+            <ref name="idAttribute"/>
+            <ref name="textAttribute"/>
+        </element>
+    </define>
+
+    <define name="list">
+        <element name="list">
+            <oneOrMore>
+                <ref name="listItem"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="listItem">
+        <element name="item">
+            <oneOrMore>
+                <ref name="inlineContent"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="table">
+        <element name="table">
+            <optional>
+                <attribute name="border">
+                    <text/>     <!-- non-negative integer -->
+                </attribute>
+            </optional>
+            <oneOrMore>
+                <ref name="tableRow"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="tableRow">
+        <element name="tr">
+            <choice>
+                <oneOrMore>
+                    <ref name="tableHeaderColumn"/>
+                </oneOrMore>
+                <oneOrMore>
+                    <ref name="tableColumn"/>
+                </oneOrMore>
+            </choice>
+        </element>
+    </define>
+
+    <define name="tableHeaderColumn">
+        <element name="th">
+            <ref name="tableColumnAttributes"/>
+            <text/>
+        </element>
+    </define>
+
+    <define name="tableColumn">
+        <element name="td">
+            <ref name="tableColumnAttributes"/>
+            <text/>
+        </element>
+    </define>
+
+    <define name="tableColumnAttributes">
+        <optional>
+            <attribute name="rowspan">
+                <text/>     <!-- positive integer -->
+            </attribute>
+        </optional>
+        <optional>
+            <attribute name="colspan">
+                <text/>     <!-- positive integer -->
+            </attribute>
+        </optional>
+    </define>
+
+
+    <define name="flagUse">
+        <element name="flag">
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="strong">
+        <element name="strong">
+            <text/>
+        </element>
+    </define>
+
+    <define name="em">
+        <element name="em">
+            <text/>
+        </element>
+    </define>
+
+    <define name="code">
+        <element name="code">
+            <text/>
+        </element>
+    </define>
+
+    <define name="pre">
+        <element name="pre">
+            <text/>
+        </element>
+    </define>
+
+    <define name="constantUse">
+        <element name="constant">
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="constantListUse">
+        <choice>
+            <element name="constant-and-list-across">
+                <ref name="constantListComponents"/>
+            </element>
+            <element name="constant-or-list-across">
+                <ref name="constantListComponents"/>
+            </element>
+        </choice>
+    </define>
+
+    <define name="constantListComponents">
+        <ref name="nameAttribute"/>
+        <optional>
+            <attribute name="quote">
+                <text/>     <!-- non-empty -->
+            </attribute>
+        </optional>
+    </define>
+
+    <define name="variableUse">
+        <element name="var">
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="expressionUse">
+        <element name="expr">
+            <ref name="textAttribute"/>
+        </element>
+    </define>
+
+    <define name="definitionUse">
+        <element name="def-use">
+            <ref name="nameAttribute"/>
+
+            <oneOrMore>
+                <ref name="inlineContent"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="nonterminalUse">
+        <element name="nonterm">
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="terminalUse">
+        <element name="term">
+            <ref name="nameAttribute"/>
+        </element>
+    </define>
+
+    <define name="space">
+        <element name="space">
+            <optional>
+                <attribute name="type">
+                    <ref name="spaceTypes"/>
+                </attribute>
+            </optional>
+        </element>
+    </define>
+
+
+    <define name="sectionAttributes">
+        <ref name="titleAttribute"/>
+        <ref name="hiddenAttribute"/>
+    </define>
+
+    <define name="hiddenAttribute">
+        <optional>
+            <attribute name="hidden">
+                <ref name="booleanValues"/>
+            </attribute>
+        </optional>
+    </define>
+
+    <define name="nameAttribute">
+        <attribute name="name">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="typeAttribute">
+        <attribute name="type">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="descriptionAttribute">
+        <attribute name="description">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="titleAttribute">
+        <attribute name="title">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="numberAttribute">
+        <!-- Defaults to 'one'. -->
+        <optional>
+            <attribute name="number">
+                <ref name="numberValues"/>
+            </attribute>
+        </optional>
+    </define>
+
+    <define name="textAttribute">
+        <attribute name="text">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="idAttribute">
+        <attribute name="id">
+            <text/>     <!-- non-empty -->
+        </attribute>
+    </define>
+
+    <define name="mustExistAttribute">
+        <optional>
+            <attribute name="must-exist">
+                <ref name="booleanValues"/>
+            </attribute>
+        </optional>
+    </define>
+
+
+    <define name="numberValues">
+        <choice>
+            <value type="string">zero-or-one</value>
+            <value type="string">zero-or-more</value>
+            <value type="string">one-or-more</value>
+            <value type="string">one</value>
+        </choice>
+    </define>
+
+    <define name="spaceTypes">
+        <choice>
+            <value type="string">required</value>   <!-- the default -->
+            <value type="string">encouraged</value>
+            <value type="string">discouraged</value>
+            <value type="string">disallowed</value>
+        </choice>
+    </define>
+
+    <define name="booleanValues">
+        <choice>
+            <value type="string">true</value>
+            <value type="string">false</value>
+        </choice>
+    </define>
+
+    <define name="indefiniteArticles">
+        <choice>
+            <value type="string">a</value>
+            <value type="string">an</value>
+        </choice>
+    </define>
+</grammar>

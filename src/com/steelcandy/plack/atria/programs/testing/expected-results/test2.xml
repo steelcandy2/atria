@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes">
+<!--
+    This XML file was automatically generated from the Atria source file
+
+    /extra/home/jgm/src/steelcandy/plack/java/src/com/steelcandy/plack/atria/programs/testing/source/test2.atria
+
+    and so should NOT be edited directly.
+-->
+<fake name="SomeName" other="SomethingOrOther" xmlns:tmp="http://www.steelcandy.com/fake">
+    <album year="
+    1977
+    ">What a &quot;lovely&quot; record!<title>Nevermind the Bollocks, Here's the Sex Pistols</title> by <artist>Sex Pistols</artist> &lt;&lt;Hooray!!&gt;&gt;</album>
+    <album year="&quot;1984&quot;">
+        <title>Let It
+
+
+            Be</title>
+        <artist>The Replacements</artist>
+    </album>
+</fake>

@@ -1,0 +1,218 @@
+# $Id: aliases,v 1.31 2012/06/01 00:40:16 jgm Exp $
+#
+# Copyright (C) 2001-2012 by James MacKay.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+#
+# Useful development aliases, functions, etc.
+#
+# This script is intended to be sourced into a profile of some sort.
+# The DEV_ROOT variable must be set to the directory into which this
+# module was checked out - that is, the parent directory of the
+# 'plack' subdirectory.
+
+
+# Check that DEV_ROOT is set.
+if [ "x${DEV_ROOT}" = "x" ]
+then
+    echo >&2
+    echo "DEV_ROOT is not set: it must be set to the directory in which" >&2
+    echo "the 'plack' module was checked out." >&2
+    echo >&2
+    exit 1
+fi
+
+
+#
+# Aliases
+#
+
+# The various projects assume that build files (which currently are assumed to
+# be named 'build.xml') will be searched for up the directory hierarchy.
+alias ant='ant -s build.xml'
+
+if [ "x${PLACK_BASE}" = "x" ]
+then
+    PLACK_BASE=${DEV_ROOT}/src/steelcandy/plack
+fi
+PLACK_BUILD_FILE=${PLACK_BASE}/java/build.xml
+PLACK_SCRIPTS_DIR=${PLACK_BASE}/scripts
+
+# Define convenience aliases to switch to various directories.
+DEV_SRC_DIR=${PLACK_BASE}/java/src/com/steelcandy
+alias cdsc='cd ${DEV_SRC_DIR}'
+alias cdbld='cd ${DEV_SRC_DIR}/build'
+alias cdcom='cd ${DEV_SRC_DIR}/common'
+
+PLACK_SRC_DIR=${DEV_SRC_DIR}/plack
+alias cdpl='cd ${PLACK_SRC_DIR}'
+alias cdpc='cd ${PLACK_SRC_DIR}/common'
+alias cdpa='cd ${PLACK_SRC_DIR}/atria'
+
+
+# Switch to the Java source directory.
+alias javasrc='cd ${JAVA_HOME}/src'
+#alias javasrc='cd /opt/java-1.3/src'
+
+
+#
+# Environment variables.
+#
+
+# Directories that a user can add to their PATH.
+export DEV_PATHS=${PLACK_BASE}/scripts
+
+# 'ant-trax' is for XSLT processing.
+export ANT_TASKS="ant-trax"
+
+
+#
+# Functions
+#
+
+# Converts the specified code file(s) to PostScript, which is then output to
+# standard out.
+#
+# Note: add the '-E' option for syntax highlghting to be done.
+function code2ps {
+    enscript -o - -2Gr $*
+}
+
+# Converts the specified code file(s) to HTML, which is then output to
+# standard out.
+#
+# Note: add the '--toc' option for the output to include a table of contents,
+# and the '-E' option for syntax highlighting to be done.
+function code2html {
+    enscript -o - --language=html $*
+}
+
+
+# Forces the specified file to be remade by deleting it first.
+function fmake() {
+    rm -f $1 && make $1
+}
+
+
+# Searches for occurrences of the specified string in HTML files in the
+# current directory and all subdirectories and prints them.
+function hfind() {
+    find . -type f -name '*.htm[l]' | xargs grep -n -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# HTML files in the current directory and all subdirectories and prints them.
+function hifind() {
+    find . -type f -name '*.htm[l]' | xargs grep -in -- "$1"
+}
+
+# Searches for occurrences of the specified string in HTML files in the
+# current directory and all subdirectories and prints the names of the
+# the files containing at least one occurrence.
+function hlfind() {
+    find . -type f -name '*.htm[l]' | xargs grep -ln -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# HTML files in the current directory and all subdirectories and prints the
+# names of the files containing at least one occurrence.
+function hilfind() {
+    find . -type f -name '*.htm[l]' | xargs grep -iln -- "$1"
+}
+
+
+# Searches for occurrences of the specified string in Java source files
+# in the current directory and all subdirectories and prints them.
+function jfind() {
+    find . -type f -name '*.java' | xargs grep -n -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# Java source files in the current directory and all subdirectories and
+# prints them.
+function jifind() {
+    find . -type f -name '*.java' | xargs grep -in -- "$1"
+}
+
+# Searches for occurrences of the specified string in Java source files
+# in the current directory and all subdirectories and prints the names
+# of the files containing at least one occurrence.
+function jlfind() {
+    find . -type f -name '*.java' | xargs grep -ln -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# Java source files in the current directory and all subdirectories and
+# prints the names of the files containing at least one occurrence.
+function jilfind() {
+    find . -type f -name '*.java' | xargs grep -iln -- "$1"
+}
+
+
+# Searches for occurrences of the specified string in Java properties files
+# in the current directory and all subdirectories and prints them.
+function pfind() {
+    find . -type f -name '*.properties' | xargs grep -n -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# Java properties files in the current directory and all subdirectories and
+# prints them.
+function pifind() {
+    find . -type f -name '*.properties' | xargs grep -in -- "$1"
+}
+
+# Searches for occurrences of the specified string in Java properties files
+# in the current directory and all subdirectories and prints the names of
+# the files containing at least one occurrence.
+function plfind() {
+    find . -type f -name '*.properties' | xargs grep -ln -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# Java properties files in the current directory and all subdirectories and
+# prints the names of the files containing at least one occurrence.
+function pilfind() {
+    find . -type f -name '*.properties' | xargs grep -iln -- "$1"
+}
+
+
+# Searches for occurrences of the specified string in XML and XSL files in
+# the current directory and all subdirectories and prints them.
+function xfind() {
+    find . -type f -name '*.x[ms]l' | xargs grep -n -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# XML and XSL files in the current directory and all subdirectories and
+# prints them.
+function xifind() {
+    find . -type f -name '*.x[ms]l' | xargs grep -in -- "$1"
+}
+
+# Searches for occurrences of the specified string in XML and XSL files
+# in the current directory and all subdirectories and prints the names
+# of the files containing at least one occurrence.
+function xlfind() {
+    find . -type f -name '*.x[ms]l' | xargs grep -ln -- "$1"
+}
+
+# Searches for occurrences of the specified string - ignoring case - in
+# XML and XSL files in the current directory and all subdirectories and
+# prints the names of the files containing at least one occurrence.
+function xilfind() {
+    find . -type f -name '*.x[ms]l' | xargs grep -iln -- "$1"
+}

@@ -1,0 +1,55 @@
+<!--
+    Copyright © 2001-2003 by James MacKay.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+    <title>Package com.steelcandy.plack.common.source</title>
+</head>
+<body>
+
+This package contains classes that represent objects having to do with
+breaking source code up into tokens. Most of the classes fall into one
+of the following groups:
+<ul>
+    <li><a href="Token.html">Token</a> and its subclasses, which represent
+        individual tokens
+    <li><a href="Tokenizer.html">Tokenizer</a> and its subclasses, which
+        represent convert their input into Tokens:
+        <ul>
+            <li><a href="SourceCodeTokenizer.html">SourceCodeTokenizer</a>
+                and its subclasses convert a piece of source code into
+                Tokens
+            <li><a href="FilterTokenizer.html">FilterTokenizer</a> and its
+                subclasses convert the output of another Tokenizer into
+                (usually different) Tokens
+        </ul>
+    <li><a href="TokenCreator.html">TokenCreator</a> and its subclasses,
+        which create zero or more tokens from source code
+    <li><a href="TokenCreatorResult.html">TokenCreatorResult</a> and its
+        subclasses, which represent the results of TokenCreators creating
+        tokens
+</ul>
+
+In addition, <a href="TokenFactory.html">TokenFactory</a> can create (vie
+reflection) various types of Tokenizers, and
+<a href="TokenSink.html">TokenSinks</a> will extract all of the tokens
+from a Tokenizer (which is mainly useful in testing Tokenizers).
+<p>
+Various token-related collection, iterator and predicate classes are also
+defined in this package.
+
+</body>
+</html>

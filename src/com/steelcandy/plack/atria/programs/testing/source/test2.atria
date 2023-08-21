@@ -1,0 +1,27 @@
+language atria
+
+[set val "SomethingOr"]
+
+[top fake name="SomeName" other=[join [get val] "Other"]]
+[namespace tmp "http://www.steelcandy.com/fake"]
+
+album year=[join [newline] "1977" [newline]]
+    [join "What a " [quoted "lovely"] " record!"]
+    title
+        "Nevermind the Bollocks, "
+        "Here's the Sex Pistols"
+    " by "
+    artist
+        "Sex Pi"
+        "stols"
+    " <<Hooray!!>>"
+
+album year=[join [quote] "1984" [quote]]
+    title
+        "Let It"
+        [newline]
+        [newline]
+        [newline]
+        "Be"
+    artist
+        "The Replacements"

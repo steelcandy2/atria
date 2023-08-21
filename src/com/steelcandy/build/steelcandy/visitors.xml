@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+    $Id: visitors.xml,v 1.1 2003/09/09 02:23:37 jgm Exp $
+
+    Information about the various automatically generated visitor classes.
+
+    Author: James MacKay
+    Last Updated: $Date: 2003/09/09 02:23:37 $
+
+    Copyright (C) 2003 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<visitors>
+<!-- REMOVE THIS WHEN THERE IS A REAL VISITOR DEFINITION TO SERVE AS
+     AN EXAMPLE !!!
+    <visitor base-kind="FooType" item-argument-name="t"
+        interface-name="FooTypeVisitor"
+        abstract-class-name="FooMinimalAbstractTypeVisitor"
+        module-name="com.steelcandy.plack.foo.semantic">
+        <kinds>
+            <kind name="FooSimpleType"/>
+            <kind name="FooSimpleGenericType"/>
+            <kind name="FooCompoundType"/>
+        </kinds>
+    </visitor>
+-->
+</visitors>

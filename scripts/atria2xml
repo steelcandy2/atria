@@ -1,0 +1,124 @@
+#!/bin/sh
+#
+# $Id: atria2xml,v 1.4 2009/01/22 19:57:57 jgm Exp $
+#
+# Author: James MacKay
+# Last Updated: $Date: 2009/01/22 19:57:57 $
+#
+# Copyright (C) 2005-2010 by James MacKay.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+#
+# Runs the Java class com.steelcandy.plack.atria.programs.AtriaToXmlConverterProgram
+#
+
+# Set the starting and maximum amount of memory; use the server VM.
+JAVA_OPTS="-Xms100m -Xmx300m -server"
+
+
+# PLACK_BASE must be set.
+if [ "x${PLACK_BASE}" = "x" ]
+then
+    cat >&2 <<EOF
+
+PLACK_BASE must be set.
+
+EOF
+    exit 1
+fi
+
+# JAVA_HOME must be set.
+if [ "x${JAVA_HOME}" = "x" ]
+then
+    cat >&2 <<EOF
+
+JAVA_HOME must be set.
+
+EOF
+    exit 2
+fi
+
+# If JRE_HOME isn't set then we set it based on JAVA_HOME.
+if [ "x${JRE_HOME}" = "x" ]
+then
+    JRE_HOME=${JAVA_HOME}/jre
+fi
+
+# The Java interpreter to use to run the class.
+JAVA=${JRE_HOME}/bin/java
+
+# Initialize the classpath with the core jars.
+JRE_LIB=${JRE_HOME}/lib
+JAVA_LIB=${JAVA_HOME}/lib
+CP=${JRE_LIB}/rt.jar:${JRE_LIB}/i18n.jar:${JAVA_LIB}/tools.jar
+
+# The directory containing most/all of the jars.
+LIB_DIR=${PLACK_BASE}/java/lib
+
+# The directory containing non-plack, non-JDK jars.
+EXTERNAL_LIB_DIR=/usr/local/lib/java
+
+# Add the application-specific jars and classes to the classpath.
+CP=${LIB_DIR}/steelcandy.jar:${LIB_DIR}/plack.jar:${LIB_DIR}/atria.jar:${LIB_DIR}/testing.jar:${EXTERNAL_LIB_DIR}/jdom.jar:${CP}
+
+# The class to run
+CLASS_NAME=com.steelcandy.plack.atria.programs.AtriaToXmlConverterProgram
+
+# Preprocess the arguments.
+OUTPUT_FILE=
+if [ $# -gt 0 ]
+then
+    if [ "x$1" = "x-o" ]
+    then
+        shift
+        if [ $# -gt 0 ]
+        then
+            OUTPUT_FILE="$1"
+            shift
+        else
+            cat >&2 <<EOF
+
+$(basename $0): the '-o' option must be followed by a pathname.
+
+EOF
+            exit 2
+        fi
+    fi
+fi
+
+
+# Run the class
+rc=664
+if [ -z "${OUTPUT_FILE}" ]
+then
+    ${JAVA} ${JAVA_OPTS} -classpath ${CP} ${CLASS_NAME} $*
+    rc=$?
+else
+    # The output file isn't created if the conversion fails.
+    OUTPUT_DIR="$(dirname "${OUTPUT_FILE}")"
+    TEMP_FILE=$(tempfile -p 'a2x-' -s '.xml.tmp' -d "${OUTPUT_DIR}")
+    trap "rm -f ${TEMP_FILE}" INT QUIT TERM EXIT
+
+    ${JAVA} ${JAVA_OPTS} -classpath ${CP} ${CLASS_NAME} $* > ${TEMP_FILE}
+    rc=$?
+
+    if [ $rc -eq 0 ]
+    then
+        mv "${TEMP_FILE}" "${OUTPUT_FILE}"
+    fi
+fi
+
+exit $rc

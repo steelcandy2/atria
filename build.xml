@@ -1,0 +1,953 @@
+<!--
+  Copyright (C) 2003-2017 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<project name="plack" basedir=".." default="libs">
+
+    <!-- Properties -->
+
+    <property name="build.compiler" value="modern"/>
+<!--
+    <property name="build.compiler" value="jikes"/>
+    <property name="build.compiler" value="gcj"/>
+-->
+
+    <property name="Name" value="Plack"/>
+    <property name="name" value="plack"/>
+
+    <property name="debug" value="true" />
+    <property name="deprecation" value="false" />
+    <property name="optimize" value="true" />
+
+    <property name="java.dir" value="."/>
+    <property name="src.dir" value="${java.dir}/src"/>
+    <property name="script.dir" value="${src.dir}/script"/>
+    <property name="lib.dir" value="${java.dir}/lib"/>
+    <property name="external.lib.dir" value="/usr/local/lib/java"/>
+    <property name="javadoc.dir" value="${java.dir}/javadoc"/>
+    <property name="classes.dir" value="${java.dir}/classes"/>
+    <property name="scripts.dir" value="scripts"/>
+
+    <property name="script.template" value="run-java-script.build-template"/>
+
+    <property name="compile.classes.dir" value="${classes.dir}/plack"/>
+    <property name="generation.classes.dir" value="${classes.dir}/build"/>
+
+    <property name="steelcandy.src.subdir" value="com/steelcandy"/>
+    <property name="steelcandy.src.dir"
+        value="${src.dir}/${steelcandy.src.subdir}"/>
+    <property name="common.subdir" value="${steelcandy.src.subdir}/common"/>
+    <property name="build.subdir" value="${steelcandy.src.subdir}/build"/>
+    <property name="plack-common.src.subdir"
+        value="${steelcandy.src.subdir}/plack/common"/>
+    <property name="plack-common.src.dir"
+        value="${src.dir}/${plack-common.src.subdir}"/>
+    <property name="docs.subdir" value="docs"/>
+
+    <property name="source.generator.basedir"
+        value="${basedir}/${java.dir}"/>
+    <property name="cvs.module.project" value="steelcandy"/>
+    <property name="cvs.module.admin" value="CVSROOT"/>
+
+    <property name="file-splitter.classname"
+        value="com.steelcandy.build.FileSplitter"/>
+
+    <property name="atria.src.subdir"
+        value="${steelcandy.src.subdir}/plack/atria"/>
+    <property name="atria.src.dir"
+        value="${src.dir}/${atria.src.subdir}"/>
+    <property name="atria.doc.subdir"
+        value="${atria.src.subdir}/${docs.subdir}"/>
+    <property name="atria.doc.dir"
+        value="${src.dir}/${atria.doc.subdir}"/>
+    <property name="atria.language-description.dir"
+        value="${src.dir}/${build.subdir}/plack/atria"/>
+    <property name="atria.language-description"
+        value="${atria.language-description.dir}/atria.xml"/>
+    <!-- The (personal) dictionary used when spell-checking the Atria
+         language description document. -->
+    <property name="atria.language-description.dictionary"
+        value="${atria.language-description.dir}/atria.dictionary"/>
+    <property name="atria.source.generator.properties"
+        value="Atria.generator.properties"/>
+    <property name="atria.source.generator.classname"
+        value="com.steelcandy.build.plack.atria.AtriaJavaSourceCodeGenerator"/>
+
+    <property name="common.jar.name" value="steelcandy.jar"/>
+    <property name="plack.jar.name" value="plack.jar"/>
+    <property name="atria.jar.name" value="atria.jar"/>
+    <property name="testing.jar.name" value="testing.jar"/>
+    <property name="generation.jar.name" value="generation.jar"/>
+
+    <property name="backup.dir" value="/extra/home/jgm/backup"/>
+    <property name="backup.file.base" value="current6"/>
+    <property name="backup.file.base.short" value="curr6"/>
+    <property name="backup.file.archived"
+                value="${backup.file.base}.tgz"/>
+    <property name="backup.file.encrypted"
+                value="${backup.file.base}.pgp"/>
+    <property name="backup.encryptor" value="gpg"/>
+    <property name="backup.decryptor" value="gpg"/>
+    <property name="backup.encrypt.recipient" value="jmackay"/>
+
+    <property name="xslt.processor" value="org.apache.xalan.xslt.Process"/>
+    <property name="plack.xslt.dir" value="${src.dir}/${build.subdir}/plack"/>
+
+    <property name="relaxng.validator" value="xmllint"/>
+    <property name="plack.relaxng.dir" value="${plack.xslt.dir}"/>
+    <property name="plack.doc-images.dir" value="${plack.xslt.dir}"/>
+
+    <property name="concatenator" value="cat"/>
+    <property name="spellchecker" value="ispell"/>
+
+    <property name="profiler.dir" value="/usr/local/ejp"/>
+
+    <property name="discarded-output.pathname" value="/dev/null"/>
+
+<!-- TODO: rename atria.xml, etc. to description.xml !!! -->
+    <property name="language-description.filename"
+        value="description.xml"/>
+    <property name="language-description-schema.filename"
+        value="description.rng"/>
+    <property name="language-description-schema.pathname"
+        value="${plack.relaxng.dir}/${language-description-schema.filename}"/>
+    <property name="language-description-checking-stylesheet.filename"
+        value="check-description.xsl"/>
+    <property name="language-description-checking-stylesheet.pathname"
+        value="${plack.xslt.dir}/${language-description-checking-stylesheet.filename}"/>
+    <property name="language-documentation.filename"
+        value="documentation.xml"/>
+    <property name="language-documentation-schema.filename"
+        value="documentation.rng"/>
+    <property name="language-documentation-schema.pathname"
+        value="${plack.relaxng.dir}/${language-documentation-schema.filename}"/>
+
+
+    <!-- Patternsets -->
+
+    <patternset id="images">
+        <include name="*.gif"/>
+        <include name="*.jpg"/>
+        <include name="*.png"/>
+    </patternset>
+
+
+    <!-- Paths -->
+
+    <path id="compile.classpath">
+        <pathelement location="${external.lib.dir}/jdom.jar"/>
+    </path>
+
+    <!--
+        The classpath used in compiling the classes used in automatically
+        generating source code.
+    -->
+    <path id="generation.compile.classpath">
+        <pathelement location="${external.lib.dir}/jdom.jar"/>
+        <pathelement location="${external.lib.dir}/xalan.jar"/>
+        <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
+        <pathelement location="${external.lib.dir}/xerces.jar"/>
+<!-- This library seems to have been replaced with the following one.
+        <pathelement location="${external.lib.dir}/xml-apis.jar"/>
+-->
+        <pathelement location="${external.lib.dir}/xml-commons-external.jar"/>
+    </path>
+
+    <!-- The classpath used by the XSLT processor. -->
+    <path id="xslt.classpath">
+<!-- This library seems to have been replaced with the following one.
+        <pathelement location="${external.lib.dir}/xml-apis.jar"/>
+-->
+        <pathelement location="${external.lib.dir}/xml-commons-external.jar"/>
+        <pathelement location="${external.lib.dir}/xerces.jar"/>
+        <pathelement location="${external.lib.dir}/xalan.jar"/>
+        <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
+    </path>
+
+    <!-- The classpath used when automatically generating source code. -->
+    <path id="generation.classpath">
+        <pathelement location="${lib.dir}/${generation.jar.name}"/>
+        <path refid="generation.compile.classpath"/>
+    </path>
+
+    <!-- The classpath used when running a Java class. -->
+    <path id="run.classpath">
+        <pathelement location="${lib.dir}/${common.jar.name}"/>
+        <pathelement location="${lib.dir}/${plack.jar.name}"/>
+        <pathelement location="${lib.dir}/${atria.jar.name}"/>
+        <pathelement location="${lib.dir}/${testing.jar.name}"/>
+        <path refid="compile.classpath"/>
+    </path>
+
+    <!-- The classpath used when running a Java class under the profiler. -->
+    <path id="run.profiled.classpath">
+        <pathelement location="${profiler.dir}/lib/tracerapi.jar"/>
+        <path refid="run.classpath"/>
+    </path>
+
+    <!-- The classpath used when generating javadocs. -->
+    <path id="javadocs.classpath">
+        <path refid="compile.classpath"/>
+        <path refid="generation.compile.classpath"/>
+    </path>
+
+
+    <!-- Targets -->
+
+
+    <!-- ### Initialization targets ### -->
+
+    <target name="prepare" depends="prepare-env">
+        <tstamp/>
+    </target>
+
+    <target name="prepare-env">
+        <property environment="env"/>
+    </target>
+
+
+    <!-- Language description checking targets. -->
+
+    <target name="check-atria-desc"
+        description="Checks that the Atria language description document is correct">
+        <antcall target="check-language-description-document">
+            <param name="pathname" value="${atria.language-description}"/>
+        </antcall>
+    </target>
+
+    <!-- Checks that the language description document with the specified
+         pathname is correct. 'pathname' is a parameter. -->
+    <target name="check-language-description-document"
+        depends="validate-language-description-document">
+
+        <!-- Apply the XSL stylesheet that does the checking to the
+             language description document. -->
+<!--
+        <dirname property="out-dir" file="${pathname}"/>
+        <tempfile property="out-filename" prefix="check-lang-desc-"
+            suffix=".tmp" destdir="${out-dir}"/>
+-->
+        <antcall target="xslt">
+            <param name="in" value="${pathname}"/>
+            <param name="style"
+                value="${language-description-checking-stylesheet.pathname}"/>
+<!--
+            <param name="out" value="${out-filename}"/>
+-->
+            <param name="out" value="${discarded-output.pathname}"/>
+        </antcall>
+
+<!--
+        <delete quiet="true" file="${out-filename}"/>
+-->
+    </target>
+
+    <!-- Validates the language description document with the specified
+         pathname against the appropriate schema. 'pathname' is a
+         parameter. -->
+    <target name="validate-language-description-document"
+        depends="prepare">
+        <antcall target="validate-against-schema">
+            <param name="doc" value="${pathname}"/>
+            <param name="schema"
+                value="${language-description-schema.pathname}"/>
+        </antcall>
+    </target>
+
+
+    <!-- ### Source code generation targets ### -->
+
+    <target name="source" depends="source-atria"
+        description="generates all automatically-generated source code for all languages"/>
+
+    <target name="source-atria" depends="check-atria-desc,generation-jar"
+        description="generates all automatically-generated source code for Atria">
+        <antcall target="source-generation">
+            <param name="generator-classname"
+                value="${atria.source.generator.classname}"/>
+            <param name="generator-properties"
+                value="${atria.source.generator.properties}"/>
+            <param name="source-dir" value="${atria.src.dir}"/>
+        </antcall>
+    </target>
+
+    <!-- Generates all of the automatically-generated source code for a
+         language using the specified generator class and properties.
+
+         'generator-classname', 'generator-properties' and 'source-dir' are
+         parameters. -->
+    <target name="source-generation" depends="generation-jar"
+            description="generates all automatically-generated source code">
+
+        <antcall target="copy-doc-images">
+            <param name="dest-dir" value="${source-dir}/${docs.subdir}"/>
+        </antcall>
+
+        <java classname="${generator-classname}"
+              classpathref="generation.classpath"
+              fork="yes" failonerror="yes">
+<!--
+            <arg value="-f"/>
+            <arg value="-p"/>
+-->
+            <arg value="-b"/>
+            <arg value="${source.generator.basedir}"/>
+            <arg file="${generator-properties}"/>
+        </java>
+
+        <!-- Make the (non-discarded) generated files read-only
+             and build the .cvsignore file in each of the following
+             directories:
+
+                ${source-dir}/base
+                ${source-dir}/tokens
+                ${source-dir}/constructs
+                ${source-dir}/constructs/testing
+                ${source-dir}/semantic
+                ${source-dir}/${docs.subdir}
+        -->
+        <property name="dir0" value="${source-dir}/base"/>
+        <delete file="${dir0}/.cvsignore"/>
+        <exec executable="${concatenator}" failonerror="no"
+               dir="${dir0}" output="${dir0}/.cvsignore">
+            <arg file="${dir0}/.cvsignore-base"/>
+            <arg file="${dir0}/constants.generated"/>
+            <arg file="${dir0}/character-classes.generated"/>
+        </exec>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir0}"/>
+            <param name="prefix" value="constants"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir0}"/>
+            <param name="prefix" value="character-classes"/>
+        </antcall>
+
+        <property name="dir1" value="${source-dir}/tokens"/>
+        <delete file="${dir1}/.cvsignore"/>
+        <exec executable="${concatenator}" failonerror="no"
+               dir="${dir1}" output="${dir1}/.cvsignore">
+            <arg file="${dir1}/.cvsignore-base"/>
+            <arg file="${dir1}/token-managers.generated"/>
+            <arg file="${dir1}/source-tokenizers.generated"/>
+        </exec>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir1}"/>
+            <param name="prefix" value="token-managers"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir1}"/>
+            <param name="prefix" value="source-tokenizers"/>
+        </antcall>
+
+        <property name="dir2" value="${source-dir}/constructs"/>
+        <delete file="${dir2}/.cvsignore"/>
+        <exec executable="${concatenator}" failonerror="no"
+               dir="${dir2}" output="${dir2}/.cvsignore">
+            <arg file="${dir2}/.cvsignore-base"/>
+            <arg file="${dir2}/parsers.generated"/>
+            <arg file="${dir2}/construct-managers.generated"/>
+            <arg file="${dir2}/construct-visitors.generated"/>
+            <arg file="${dir2}/validity-constraint-checklists.generated"/>
+        </exec>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir2}"/>
+            <param name="prefix" value="parsers"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir2}"/>
+            <param name="prefix" value="construct-managers"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir2}"/>
+            <param name="prefix" value="construct-visitors"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir2}"/>
+            <param name="prefix" value="validity-constraint-checklists"/>
+        </antcall>
+
+        <property name="dir3" value="${source-dir}/constructs/testing"/>
+        <delete file="${dir3}/.cvsignore"/>
+        <exec executable="${concatenator}" failonerror="no"
+               dir="${dir3}" output="${dir3}/.cvsignore">
+            <arg file="${dir3}/.cvsignore-base"/>
+            <arg file="${dir3}/construct-test-data-creators.generated"/>
+        </exec>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir3}"/>
+            <param name="prefix" value="construct-test-data-creators"/>
+        </antcall>
+
+        <property name="dir4" value="${source-dir}/semantic"/>
+        <delete file="${dir4}/.cvsignore"/>
+        <exec executable="${concatenator}" failonerror="no"
+               dir="${dir4}" output="${dir4}/.cvsignore">
+            <arg file="${dir4}/.cvsignore-base"/>
+            <arg file="${dir4}/validators.generated"/>
+        </exec>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir4}"/>
+            <param name="prefix" value="validators"/>
+        </antcall>
+
+        <property name="dir5" value="${source-dir}/${docs.subdir}"/>
+        <delete file="${dir5}/.cvsignore"/>
+        <exec executable="${concatenator}" failonerror="no"
+               dir="${dir5}" output="${dir5}/.cvsignore">
+            <arg file="${dir5}/.cvsignore-base"/>
+            <arg file="${dir5}/frame-documents.generated"/>
+            <arg file="${dir5}/main-document.generated"/>
+            <arg file="${dir5}/grammar.generated"/>
+            <arg file="${dir5}/validity-constraints.generated"/>
+            <arg file="${dir5}/semantics.generated"/>
+            <arg file="${dir5}/operator-method-map.generated"/>
+            <arg file="${dir5}/language-definition.generated"/>
+        </exec>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir5}"/>
+            <param name="prefix" value="frame-documents"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir5}"/>
+            <param name="prefix" value="main-document"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir5}"/>
+            <param name="prefix" value="grammar"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir5}"/>
+            <param name="prefix" value="validity-constraints"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir5}"/>
+            <param name="prefix" value="semantics"/>
+        </antcall>
+        <antcall target="protect-generated-files">
+            <param name="dir" value="${dir5}"/>
+            <param name="prefix" value="operator-method-map"/>
+        </antcall>
+    </target>
+
+    <!-- Protects the files in the specified directory that were
+         generated from the file indicated by the specified prefix
+         by removing write permissions on them. 'dir' and 'prefix'
+         are parameters. -->
+    <target name="protect-generated-files" depends="prepare">
+        <chmod perm="a-w" parallel="true" type="file">
+            <fileset dir="${dir}"
+                includes="*.generated,.cvsignore"
+                includesfile="${dir}/${prefix}.generated"
+                excludesfile="${dir}/${prefix}.discard"
+                defaultexcludes="no"/>
+        </chmod>
+    </target>
+
+
+    <target name="grammar" description="Generates the Atria grammar document">
+        <antcall target="xslt">
+            <param name="in" value="${atria.language-description}"/>
+            <param name="style"
+                value="${plack.xslt.dir}/grammar.xsl"/>
+            <param name="out"
+                value="${atria.doc.dir}/grammar.html"/>
+        </antcall>
+    </target>
+
+    <target name="validity" description="Generates the Atria validity constraints document">
+        <antcall target="xslt">
+            <param name="in" value="${atria.language-description}"/>
+            <param name="style"
+                value="${plack.xslt.dir}/validity-constraints.xsl"/>
+            <param name="out"
+                value="${atria.doc.dir}/validity-constraints.html"/>
+        </antcall>
+    </target>
+
+
+    <!-- ### Compilation targets ### -->
+
+    <target name="generation-classes" depends="prepare"
+            description="compiles into classes all Java sources needed to automatically generate source code">
+    	<mkdir dir="${generation.classes.dir}"/>
+        <javac srcdir="${src.dir}"
+               includes="${build.subdir}/**"
+               destdir="${generation.classes.dir}"
+               debug="${debug}"
+               deprecation="${deprecation}"
+               includeantruntime="false"
+               optimize="${optimize}">
+            <classpath refid="generation.compile.classpath"/>
+            <!-- <compilerarg value="-Xlint:unchecked"/> -->
+        </javac>
+
+        <!-- Copy resources and properties files into classes.dir -->
+        <copy todir="${generation.classes.dir}">
+            <fileset dir="${src.dir}">
+                <include name="${build.subdir}/**/*.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="generation-jar" depends="generation-classes"
+            description="Jars up all classes and resources needed to automatically generate source code">
+        <jar jarfile="${lib.dir}/${generation.jar.name}"
+             basedir="${generation.classes.dir}">
+        </jar>
+    </target>
+
+
+    <target name="classes" depends="source"
+            description="compiles all Java sources into classes">
+    	<mkdir dir="${compile.classes.dir}"/>
+        <!-- Note: we set 'fork' to 'yes' so that we can change the amount of
+             memory used. -->
+<!--
+               excludes="${build.subdir}/**"
+-->
+        <javac srcdir="${src.dir}"
+               excludes="${build.subdir}/**"
+               destdir="${compile.classes.dir}"
+               debug="${debug}"
+               deprecation="${deprecation}"
+               fork="yes"
+               memoryInitialSize="256m"
+               memoryMaximumSize="512m"
+               includeantruntime="false"
+               optimize="${optimize}" >
+            <classpath refid="compile.classpath" />
+            <!-- <compilerarg value="-Xlint:unchecked"/> -->
+        </javac>
+
+        <!-- Copy resources and properties files into classes.dir -->
+        <copy todir="${compile.classes.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.properties" />
+                <include name="**/*.xml" />
+                <include name="**/*.dtd" />
+
+                <exclude name="${build.subdir}/**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="libs"
+        depends="common-jar,plack-jar,atria-jar,testing-jar"
+        description="Jars up all classes and resources"/>
+
+    <target name="common-jar" depends="classes"
+        description="Jars up all common classes and resources">
+        <jar jarfile="${lib.dir}/${common.jar.name}"
+             basedir="${compile.classes.dir}"
+             includes="com/steelcandy/common/**"
+             excludes="**/testing/**,**/test/**"/>
+    </target>
+
+    <target name="plack-jar" depends="classes"
+        description="Jars up all common plack classes and resources">
+        <jar jarfile="${lib.dir}/${plack.jar.name}"
+             basedir="${compile.classes.dir}"
+             includes="com/steelcandy/plack/common/**,com/steelcandy/plack/shared/**"
+             excludes="**/testing/**,**/test/**,com/steelcandy/plack/*/runtime/**"/>
+    </target>
+
+    <target name="atria-jar" depends="classes"
+        description="Jars up all Atria classes and resources">
+        <jar jarfile="${lib.dir}/${atria.jar.name}"
+             basedir="${compile.classes.dir}"
+             includes="com/steelcandy/plack/atria/**"
+             excludes="**/testing/**,**/test/**"/>
+    </target>
+
+    <target name="testing-jar" depends="classes"
+        description="Jars up all testing-related classes and resources">
+        <jar jarfile="${lib.dir}/${testing.jar.name}"
+             basedir="${compile.classes.dir}"
+             includes="**/testing/**,**/test/**"/>
+    </target>
+
+
+    <!-- ### Documentation targets ### -->
+
+    <!-- Validates the language documentation document in the specified
+         directory against the language documentation document schema.
+         'doc-dir' is a parameter. -->
+    <target name="validate-language-documentation-document"
+        depends="prepare">
+        <antcall target="validate-against-schema">
+            <param name="doc"
+                value="${doc-dir}/${language-documentation.filename}"/>
+            <param name="schema"
+                value="${plack.relaxng.dir}/${language-documentation-schema.filename}"/>
+        </antcall>
+    </target>
+
+    <!-- Generates the language documentation in format 'format' for the
+         programming language whose language description document is 'desc',
+         and whose XML documentation document is in the directory 'doc-dir'.
+         'doc-dir', 'desc', 'output-file' and 'format' are parameters. -->
+    <target name="formatted-language-docs" depends="prepare">
+        <!-- Note: the temporary stylesheet goes in the plack XSLT directory
+             so that it can xsl:import other stylesheets. -->
+        <tempfile property="temp-style" destdir="${plack.xslt.dir}"
+            prefix="html-desc-" suffix=".xsl"/>
+
+        <dirname property="dest-dir" file="${output-file}"/>
+        <antcall target="copy-doc-images">
+            <param name="dest-dir" value="${dest-dir}"/>
+        </antcall>
+
+        <!-- Build the (temporary) stylesheet that transforms the language
+             description document into the formatted documentation. -->
+        <antcall target="xslt">
+            <param name="in"
+                value="${doc-dir}/${language-documentation.filename}"/>
+            <param name="style"
+                value="${plack.xslt.dir}/documentation-in-${format}.xsl"/>
+            <param name="out" value="${temp-style}"/>
+        </antcall>
+
+        <!-- Use the temporary stylesheet to transform the language
+             description document into the formatted documentation. -->
+        <antcall target="xslt">
+            <param name="in" value="${desc}"/>
+            <param name="style" value="${temp-style}"/>
+            <param name="out" value="${output-file}"/>
+        </antcall>
+
+        <!-- Delete the temporary stylesheet. -->
+        <delete quiet="true" file="${temp-style}"/>
+    </target>
+
+
+    <target name="javadoc_check">
+        <uptodate property="javadoc.notrequired"
+                  targetfile="${javadoc.dir}/packages.html" >
+            <srcfiles dir= "${src.dir}" includes="**/*.java"/>
+        </uptodate>
+    </target>
+
+    <target name="javadocs" depends="source"
+            unless="javadoc.notrequired"
+            description="Generates javadocs for all Java sources">
+<!-- TODO: remove the generation.java packages from excludepackagenames attribute !!! -->
+        <javadoc maxmemory="512m"
+            packagenames="com.steelcandy.*"
+            sourcepath="${src.dir}" classpath="${javadocs.classpath}"
+            destdir="${javadoc.dir}"
+            author="true" version="true"
+            windowtitle="${Name} API" doctitle="${Name}"
+            noindex="true" additionalparam="-breakiterator"
+            excludepackagenames="com.steelcandy.testing.*,com.steelcandy.plack.testing.*"
+            bottom="Copyright &#169; James MacKay. All Rights Reserved.">
+            <classpath refid="compile.classpath"/>
+            <group title="Code Generation" packages="com.steelcandy.build*"/>
+            <group title="Common" packages="com.steelcandy.common*"/>
+            <group title="Plack Common" packages="com.steelcandy.plack.common*"/>
+            <group title="Plack Shared" packages="com.steelcandy.plack.shared*"/>
+            <group title="Atria" packages="com.steelcandy.plack.atria*"/>
+        </javadoc>
+    </target>
+
+    <!-- Copies images used in generated documentation to the specified
+         directory. 'dest-dir' is a parameter. -->
+    <target name="copy-doc-images" depends="prepare">
+        <copy todir="${dest-dir}">
+            <fileset dir="${plack.doc-images.dir}">
+                <patternset refid="images"/>
+            </fileset>
+        </copy>
+    </target>
+
+
+    <!-- ### Other targets ### -->
+
+    <target name="clean" depends="prepare"
+            description="Deletes temporary and class files">
+        <delete quiet="true">
+            <fileset dir="${compile.classes.dir}" includes="**/*"/>
+            <fileset dir="${generation.classes.dir}" includes="**/*"/>
+        </delete>
+        <delete>
+            <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+        </delete>
+    </target>
+
+    <target name="realclean" depends="clean"
+            description="Deletes all temporary and generated files">
+
+        <!-- Delete the jar files and everything in classes.dir and
+             javadoc.dir -->
+        <delete file="${lib.dir}/${common.jar.name}"/>
+        <delete file="${lib.dir}/${plack.jar.name}"/>
+        <delete file="${lib.dir}/${atria.jar.name}"/>
+        <delete file="${lib.dir}/${testing.jar.name}"/>
+        <delete file="${lib.dir}/${generation.jar.name}"/>
+        <delete>
+            <fileset dir="${javadoc.dir}" includes="**/*"/>
+        </delete>
+    </target>
+
+
+    <target name="all" depends="libs,javadocs"
+            description="Builds everything (more or less)" />
+
+
+    <!-- ### Backup targets ### -->
+
+    <target name="backup" depends="encrypt-arch"
+            description="backs up and encrypts the part of the CVS repository relevant to this project">
+
+        <!-- Split the backup file into disk-sized parts. -->
+        <exec executable="split" failonerror="yes" dir="${backup.dir}">
+            <arg value="-b1420k"/>
+            <arg file="${backup.dir}/${backup.file.encrypted}"/>
+            <arg file="${backup.dir}/${backup.file.base.short}-"/>
+        </exec>
+    </target>
+
+    <!-- Encrypts the archive containing the part of the CVS repository
+         relevant to this project. -->
+    <target name="encrypt-arch" depends="arch-here">
+        <!-- Create an encrypted version of the archive ... -->
+        <exec executable="${backup.encryptor}" failonerror="true">
+            <arg value="-e"/>
+	    <!--
+            <arg value="-r"/>
+            <arg value="${backup.encrypt.recipient}"/>
+	    -->
+            <arg value="-o"/>
+            <arg file="${backup.file.encrypted}"/>
+            <arg file="${backup.file.archived}"/>
+        </exec>
+
+        <!-- ... delete the unencrypted archive ... -->
+        <delete file="${backup.file.archived}" verbose="true"/>
+
+        <!-- ... and move the encrypted archive to the backup directory. -->
+        <move file="${backup.file.encrypted}" todir="${backup.dir}"/>
+    </target>
+
+    <target name="arch" depends="arch-here"
+            description="creates an archive in the backup directory containing the part of the CVS repository relevant to this project">
+        <move file="${backup.file.archived}" todir="${backup.dir}"/>
+    </target>
+
+    <!-- Creates an archive containing the parts of the CVS repositories
+         that are relevant to this project. -->
+    <target name="arch-here" depends="prepare-env">
+        <tar basedir="${env.CVSROOT}" tarfile="${backup.file.base}.tar"
+             includes="steelcandy/**,CVSROOT/**"
+             excludes="steelcandy/plack/lib/**"
+             longfile="gnu" defaultExcludes="no"/>
+        <gzip src="${backup.file.base}.tar"
+              zipfile="${backup.file.archived}"/>
+        <delete file="${backup.file.base}.tar" verbose="true"/>
+    </target>
+
+
+    <!-- ### Testing targets ### -->
+
+    <target name="text-utilities-test" depends="prepare"
+            description="Runs the TextUtilities class' tests">
+        <java classname="com.steelcandy.common.text.TextUtilities"
+              classpathref="run.classpath"
+              fork="yes" failonerror="yes"/>
+    </target>
+
+    <target name="file-splitter-test"
+        description="Tests the FileSplitter class/program">
+        <property name="dir" value="/tmp/split-test"/>
+        <property name="split-file" value="/tmp/Files.all"/>
+
+        <antcall target="split-file">
+            <param name="file" value="${split-file}"/>
+            <param name="dir" value="${dir}"/>
+        </antcall>
+    </target>
+
+    <target name="atria-construct-test-data" depends="libs"
+            description="Generates Atria test data">
+        <java classname="com.steelcandy.plack.atria.constructs.testing.AtriaConstructTestDataCreator"
+              classpathref="run.classpath"
+              fork="yes" failonerror="yes">
+            <!-- We use 'arg value' rather than 'arg file' since we don't
+                 want them to be relative to $basedir. -->
+            <arg value="source.atria"/>
+            <arg value="construct-info.txt"/>
+        </java>
+    </target>
+
+    <target name="atria-parser-test" depends="prepare"
+            description="Runs a single Atria parser test">
+        <java classname="com.steelcandy.plack.atria.constructs.testing.AtriaParserTest"
+              classpathref="run.classpath" maxmemory="512m"
+              fork="yes" failonerror="yes">
+            <arg file="${atria.src.dir}/constructs/testing"/>
+        </java>
+    </target>
+
+<!--
+    <target name="atria-error-parser-test" depends="prepare"
+            description="Runs a single Atria parser test to test error handling">
+        <java classname="com.steelcandy.plack.atria.constructs.testing.AtriaErrorHandlingParserTest"
+              classpathref="run.classpath"
+              fork="yes" failonerror="yes">
+            <arg file="${atria.src.dir}/constructs/testing"/>
+        </java>
+    </target>
+-->
+
+    <!--
+        A helper task that runs a single test by executing the specified
+        class' main() method. The tests are run in a separate VM (since
+        at least for now tests call System.exit()). 'class' is a
+        parameter.
+    -->
+    <target name="one-test" depends="prepare">
+        <java classname="${class}" classpathref="run.classpath"
+              fork="yes" />
+    </target>
+
+
+    <!-- ### XML utility targets ### -->
+
+    <!-- Validates the specified XML document against the specified RelaxNG
+         schema. 'doc' and 'schema' are parameters. -->
+    <target name="validate-against-schema" depends="prepare">
+        <dirname property="doc-dirname" file="${doc}"/>
+        <exec executable="${relaxng.validator}" failonerror="yes"
+            dir="${doc-dirname}">
+            <arg value="--noout"/>
+            <arg value="--relaxng"/>
+            <arg file="${schema}"/>
+            <arg file="${doc}"/>
+        </exec>
+    </target>
+
+    <!-- A target that transforms the 'in' document into the 'out'
+         document using the 'style' XSL stylesheet. 'in', 'out' and
+         'style' are parameters. -->
+    <target name="xslt" depends="prepare">
+        <echo>
+		Generating ${out}</echo>
+        <java classname="${xslt.processor}"
+              classpathref="xslt.classpath" fork="yes" failonerror="yes">
+            <arg value="-PARAM"/>
+            <arg value="input-pathname"/>
+            <arg file="${in}"/>
+            <arg value="-PARAM"/>
+            <arg value="transform-pathname"/>
+            <arg file="${style}"/>
+            <arg value="-PARAM"/>
+            <arg value="output-pathname"/>
+            <arg file="${out}"/>
+            <arg value="-PARAM"/>
+            <arg value="generation-date-time"/>
+            <arg value="${TODAY} ${TSTAMP}"/>
+
+            <arg value="-in"/>
+            <arg file="${in}"/>
+            <arg value="-xsl"/>
+            <arg file="${style}"/>
+            <arg value="-out"/>
+            <arg file="${out}"/>
+        </java>
+    </target>
+
+    <!-- A target identical to the 'xslt' target, except that it accepts
+         one parameter. A parameter consists of a name and a value. 'in',
+         'out', 'style', 'param-name' and 'param-value' are parameters. -->
+    <target name="xslt-1" depends="prepare">
+        <echo>
+Generating ${out}</echo>
+        <java classname="${xslt.processor}"
+              classpathref="xslt.classpath" fork="yes" failonerror="yes">
+            <arg value="-PARAM"/>
+            <arg value="${param-name}"/>
+            <arg value="${param-value}"/>
+            <arg value="-in"/>
+            <arg file="${in}"/>
+            <arg value="-xsl"/>
+            <arg file="${style}"/>
+            <arg value="-out"/>
+            <arg file="${out}"/>
+        </java>
+    </target>
+
+
+    <!-- ### Miscellaneous targets ### -->
+
+    <!-- Splits the contents of 'file' out into individual files in the
+         directory 'dir': 'file' and 'dir' are parameters. -->
+    <target name="split-file">
+        <java classname="${file-splitter.classname}"
+            classpathref="generation.classpath"
+            fork="yes" failonerror="yes">
+            <arg file="${file}"/>
+            <arg file="${dir}"/>
+        </java>
+    </target>
+
+
+    <target name="spelling" depends="spelling-atria"
+        description="spell-checks the language description document(s) and possibly other documents"/>
+
+    <target name="spelling-atria" depends="prepare"
+        description="spell-checks the Atria language description document and possibly other Atria documents">
+        <antcall target="spelling-checker">
+            <param name="dir" value="${atria.language-description.dir}"/>
+            <param name="doc" value="${atria.language-description}"/>
+            <param name="dictionary"
+                value="${atria.language-description.dictionary}"/>
+        </antcall>
+    </target>
+
+    <!-- Spell-checks the language description document 'doc' and possibly
+         other documents under the directory 'dir' using 'dictionary'. 'doc',
+         'dir' and 'dictionary' are parameters. -->
+    <target name="spelling-checker" depends="prepare"
+        description="Spell-checks the language description document(s) and possibly other documents">
+        <!-- Spellcheck the langaueg description document. -->
+        <exec executable="${spellchecker}" failonerror="yes" dir="${dir}">
+            <arg value="-H"/>
+            <arg value="-p"/>
+            <arg file="${dictionary}"/>
+            <arg file="${doc}"/>
+        </exec>
+
+        <!-- TODO: add code here to spellcheck any other documents !!! -->
+    </target>
+
+
+    <!-- Creates a script with the pathname specified by 'script'
+         that runs the class whose fully-qualified class name is
+         specified by 'class'. 'script' and 'class' are parameters. -->
+    <target name="create-script" depends="prepare"
+            description="Generates a script to run a Java class">
+        <property name="app-classpath" refid="run.classpath"/>
+        <filter token="LIB_DIR" value="${basedir}/${lib.dir}"/>
+        <filter token="APP_CLASSPATH" value="${app-classpath}"/>
+        <filter token="CLASS_NAME" value="${class}"/>
+        <filter token="COMMON_JAR_NAME" value="${common.jar.name}"/>
+        <filter token="PLACK_JAR_NAME" value="${plack.jar.name}"/>
+        <filter token="ATRIA_JAR_NAME" value="${atria.jar.name}"/>
+        <filter token="TESTING_JAR_NAME" value="${testing.jar.name}"/>
+        <copy file="${script.template}" tofile="${script}"
+              filtering="yes" overwrite="yes"/>
+        <chmod perm="ugo+x" file="${script}" />
+    </target>
+</project>

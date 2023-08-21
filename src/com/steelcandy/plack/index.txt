@@ -1,0 +1,16 @@
+Subdirectories
+==============
+
+common
+    - contains source files for classes that are useful in the implementations
+      of most if not all languages
+shared
+    - contains source files for classes that are (or at least may be) useful
+      in the implementations of more than one language, but aren't likely to
+      be useful in the implementations of most/all languages
+testing
+    - contains source files that define classes for use in testing the
+      implementations of languages
+
+Each of the remaining subdirectories contain the source files for classes
+that are specific to a single language's implementation.

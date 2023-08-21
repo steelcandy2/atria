@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# $Id: run-java-script.build-template,v 1.5 2004/06/01 02:02:10 jgm Exp $
+#
+# Author: James MacKay
+# Last Updated: $Date: 2004/06/01 02:02:10 $
+#
+# Copyright (C) 2001-2004 by James MacKay.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+#
+# Runs the Java class @CLASS_NAME@
+#
+
+# JAVA_HOME must be set.
+if [ "x${JAVA_HOME}" = "x" ]
+then
+    echo >&2
+    echo "JAVA_HOME must be set." >&2
+    echo >&2
+    exit 1
+fi
+
+# If JRE_HOME isn't set then we set it based on JAVA_HOME.
+if [ "x${JRE_HOME}" = "x" ]
+then
+    JRE_HOME=${JAVA_HOME}/jre
+fi
+
+# The Java interpreter to use to run the class.
+JAVA=${JRE_HOME}/bin/java
+
+# Initialize the classpath with the core jars.
+JRE_LIB=${JRE_HOME}/lib
+JAVA_LIB=${JAVA_HOME}/lib
+CP=${JRE_LIB}/rt.jar:${JRE_LIB}/i18n.jar:${JAVA_LIB}/tools.jar
+
+# The directory containing most/all of the jars.
+LIB_DIR=@LIB_DIR@
+
+# Add the application-specific jars and classes to the classpath.
+CP=@APP_CLASSPATH@:${CP}
+
+# The class to run
+CLASS_NAME=@CLASS_NAME@
+
+# Run the class
+${JAVA} -classpath ${CP} ${CLASS_NAME} $*

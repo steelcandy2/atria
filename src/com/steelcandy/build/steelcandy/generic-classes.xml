@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<!--
+    $Id: generic-classes.xml,v 1.27 2014/04/16 15:16:21 jgm Exp $
+
+    Information about the various instantiations of generic classes.
+
+    Author: James MacKay
+    Last Updated: $Date: 2014/04/16 15:16:21 $
+
+    Copyright (C) 2002-2014 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<generic-classes>
+    <iterators>
+        <iterator item-name="String"
+            class-name="StringIterator"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+        <iterator item-name="StringBuffer"
+            class-name="StringBufferIterator"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+
+        <iterator item-name="StringWriter"
+            class-name="StringWriterIterator"
+            module-name="com.steelcandy.common.io"
+            item-module-name="java.io"/>
+        <iterator item-name="File"
+            class-name="FileIterator"
+            module-name="com.steelcandy.common.io"
+            item-module-name="java.io"/>
+
+        <iterator item-name="Runnable"
+            class-name="RunnableIterator"
+            module-name="com.steelcandy.common.work"
+            item-module-name="java.lang"/>
+        <iterator item-name="Set"
+            class-name="SetIterator"
+            module-name="com.steelcandy.common.containers"
+            item-module-name="java.util"/>
+
+        <iterator item-name="IndentWriter"
+            class-name="IndentWriterIterator"
+            module-name="com.steelcandy.common.io"/>
+        <iterator item-name="Test"
+            class-name="TestIterator"
+            module-name="com.steelcandy.testing"/>
+
+        <iterator item-name="StoredItem"
+            class-name="StoredItemIterator"
+            module-name="com.steelcandy.plack.common.base"/>
+
+        <iterator item-name="SourceLocation"
+            class-name="SourceLocationIterator"
+            module-name="com.steelcandy.plack.common.source"/>
+        <iterator item-name="ContinuousSourceLocation"
+            class-name="ContinuousSourceLocationIterator"
+            module-name="com.steelcandy.plack.shared.source"/>
+
+        <iterator item-name="TokenList"
+            class-name="TokenListIterator"
+            module-name="com.steelcandy.plack.common.tokens"/>
+
+        <iterator item-name="Construct"
+            class-name="ConstructIterator"
+            module-name="com.steelcandy.plack.common.constructs"/>
+        <iterator item-name="ConstructList"
+            class-name="ConstructListIterator"
+            module-name="com.steelcandy.plack.common.constructs"/>
+        <iterator item-name="OperatorConstruct"
+            class-name="OperatorConstructIterator"
+            module-name="com.steelcandy.plack.common.constructs"/>
+
+        <iterator item-name="SymbolTable"
+            class-name="SymbolTableIterator"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <iterator item-name="SymbolTableEntry"
+            class-name="SymbolTableEntryIterator"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <iterator item-name="SymbolTableEntryList"
+            class-name="SymbolTableEntryListIterator"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <iterator item-name="Type"
+            class-name="TypeIterator"
+            module-name="com.steelcandy.plack.common.semantic"/>
+
+        <iterator item-name="TranslationFragment"
+            class-name="TranslationFragmentIterator"
+            module-name="com.steelcandy.plack.common.generation"/>
+    </iterators>
+
+    <lists>
+        <list item-name="String" default-capacity="16"
+            class-name="StringList"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+        <list item-name="StringBuffer" default-capacity="16"
+            class-name="StringBufferList"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+
+        <list item-name="File"
+            class-name="FileList"
+            module-name="com.steelcandy.common.io"
+            item-module-name="java.io"/>
+
+        <list item-name="StoredItem" class-name="StoredItemList"
+            module-name="com.steelcandy.plack.common.base"/>
+
+        <list item-name="SourceLocation" default-capacity="5"
+            class-name="SourceLocationList"
+            module-name="com.steelcandy.plack.common.source"/>
+
+        <list item-name="Token" default-capacity="15"
+            class-name="TokenList"
+            module-name="com.steelcandy.plack.common.tokens"
+            iterator-class-name="CustomTokenIterator"/>
+        <list item-name="TokenList" class-name="TokenListList"
+            module-name="com.steelcandy.plack.common.tokens"/>
+
+        <list item-name="Construct"
+            class-name="ConstructList"
+            module-name="com.steelcandy.plack.common.constructs"/>
+
+        <list item-name="SymbolTable"
+            class-name="SymbolTableList"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <list item-name="SymbolTableEntry"
+            class-name="SymbolTableEntryList"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <list item-name="Type"
+            class-name="TypeList"
+            module-name="com.steelcandy.plack.common.semantic"/>
+
+        <list item-name="TranslationFragment"
+            class-name="TranslationFragmentList"
+            module-name="com.steelcandy.plack.common.generation"/>
+    </lists>
+
+    <queues>
+        <queue item-name="Runnable"
+            class-name="RunnableQueue"
+            module-name="com.steelcandy.common.work"
+            item-module-name="java.lang"/>
+    </queues>
+
+    <!-- Classes for which stacks are defined must also have iterators
+         defined for them: see above. -->
+    <stacks>
+        <stack item-name="StringBuffer"
+            class-name="StringBufferStack"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+        <stack item-name="StringWriter"
+            class-name="StringWriterStack"
+            module-name="com.steelcandy.common.io"
+            item-module-name="java.io"/>
+        <stack item-name="Set"
+            class-name="SetStack"
+            module-name="com.steelcandy.common.containers"
+            item-module-name="java.util"/>
+
+        <stack item-name="IndentWriter"
+            class-name="IndentWriterStack"
+            module-name="com.steelcandy.common.io"/>
+
+        <stack item-name="Construct"
+            class-name="ConstructStack"
+            module-name="com.steelcandy.plack.common.constructs"/>
+        <stack item-name="ConstructList"
+            class-name="ConstructListStack"
+            module-name="com.steelcandy.plack.common.constructs"/>
+        <stack item-name="OperatorConstruct"
+            class-name="OperatorConstructStack"
+            module-name="com.steelcandy.plack.common.constructs"/>
+
+        <stack item-name="SymbolTable"
+            class-name="SymbolTableStack"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <stack item-name="SymbolTableEntryList"
+            class-name="SymbolTableEntryListStack"
+            module-name="com.steelcandy.plack.common.semantic"/>
+    </stacks>
+
+    <unary-predicates>
+        <unary-predicate item-name="String"
+            class-name="UnaryStringPredicate"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+        <unary-predicate item-name="StringBuffer"
+            class-name="UnaryStringBufferPredicate"
+            module-name="com.steelcandy.common.text"
+            item-module-name="java.lang"/>
+
+        <unary-predicate item-name="File"
+            class-name="UnaryFilePredicate"
+            module-name="com.steelcandy.common.io"
+            item-module-name="java.io"/>
+
+        <unary-predicate item-name="StoredItem"
+            class-name="UnaryStoredItemPredicate"
+            module-name="com.steelcandy.plack.common.base"/>
+
+        <unary-predicate item-name="SourceLocation"
+            class-name="UnarySourceLocationPredicate"
+            module-name="com.steelcandy.plack.common.source"/>
+
+        <unary-predicate item-name="Token"
+            class-name="UnaryTokenPredicate"
+            module-name="com.steelcandy.plack.common.tokens"/>
+        <unary-predicate item-name="TokenList"
+            class-name="UnaryTokenListPredicate"
+            module-name="com.steelcandy.plack.common.tokens"/>
+
+        <unary-predicate item-name="Construct"
+            class-name="UnaryConstructPredicate"
+            module-name="com.steelcandy.plack.common.constructs"/>
+
+        <unary-predicate item-name="SymbolTable"
+            class-name="UnarySymbolTablePredicate"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <unary-predicate item-name="SymbolTableEntry"
+            class-name="UnarySymbolTableEntryPredicate"
+            module-name="com.steelcandy.plack.common.semantic"/>
+        <unary-predicate item-name="Type"
+            class-name="UnaryTypePredicate"
+            module-name="com.steelcandy.plack.common.semantic"/>
+
+        <unary-predicate item-name="TranslationFragment"
+            class-name="UnaryTranslationFragmentPredicate"
+            module-name="com.steelcandy.plack.common.generation"/>
+    </unary-predicates>
+</generic-classes>
