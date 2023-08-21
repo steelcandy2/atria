@@ -23,7 +23,6 @@ package com.steelcandy.common.debug;
     unreachable code.
 
     @author James MacKay
-    @version $Revision$
 */
 public final class Assert
 {

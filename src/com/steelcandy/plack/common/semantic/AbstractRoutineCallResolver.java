@@ -28,7 +28,6 @@ import com.steelcandy.common.debug.Assert;
     etc. by that term should override this class' handle...() methods.
 
     @author  James MacKay
-    @version $Revision: 1.8 $
 */
 public abstract class AbstractRoutineCallResolver
     implements RoutineCallResolver

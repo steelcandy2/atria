@@ -30,7 +30,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     A base class for the singleton default source location factory.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see SourceLocation
 */
 public class DefaultSourceLocationFactoryBase

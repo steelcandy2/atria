@@ -45,7 +45,6 @@ import com.steelcandy.plack.common.constructs.ConstructList;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.47 $
     @see SymbolTable
 */
 public interface SymbolTableEntry

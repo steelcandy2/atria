@@ -37,7 +37,6 @@ import java.util.List;
     as though those tokens were not removed from the front of the instance.
 
     @author James MacKay
-    @version $Revision: 1.11 $
     @see Token
 */
 public class TrackedTokenList

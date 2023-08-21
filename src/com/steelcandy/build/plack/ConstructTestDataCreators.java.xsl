@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: ConstructTestDataCreators.java.xsl,v 1.14 2014/03/20 11:49:39 jgm Exp $
-
     Transforms a language description document into an abstract Java base
     class for classes that create test data (source code and Constructs)
     for use in testing various language processing tools, such as parsers.
-
-    Author: James MacKay
-    Last Updated: $Date: 2014/03/20 11:49:39 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

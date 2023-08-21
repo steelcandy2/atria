@@ -32,7 +32,6 @@ import java.util.*;
     their attributes.
 
     @author James MacKay
-    @version $Revision: 1.15 $
 */
 public abstract class AbstractXmlChecker
 {

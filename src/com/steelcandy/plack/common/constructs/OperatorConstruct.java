@@ -38,7 +38,6 @@ import com.steelcandy.plack.common.tokens.Token;
     Subclasses just have to implement the accept() method.
 
     @author James MacKay
-    @version $Revision: 1.11 $
     @see OperatorToken
     @see OperatorData
 */

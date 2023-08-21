@@ -31,7 +31,6 @@ import com.steelcandy.common.*;
     create tokens for.
 
     @author James MacKay
-    @version $Revision: 1.17 $
 */
 public abstract class TokenCreatorSourceCodeTokenizer
     extends AbstractSourceCodeTokenizer

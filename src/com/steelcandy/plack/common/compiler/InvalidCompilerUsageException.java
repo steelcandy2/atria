@@ -27,7 +27,6 @@ package com.steelcandy.plack.common.compiler;
     message.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class InvalidCompilerUsageException
     extends CompilerException

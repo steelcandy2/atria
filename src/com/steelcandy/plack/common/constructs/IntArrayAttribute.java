@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents a construct attribute whose value is an array of ints.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class IntArrayAttribute
     extends Attribute

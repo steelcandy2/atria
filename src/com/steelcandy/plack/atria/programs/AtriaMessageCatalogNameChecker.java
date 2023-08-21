@@ -33,7 +33,6 @@ import com.steelcandy.common.text.*;
     catalogs.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class AtriaMessageCatalogNameChecker
     extends AbstractNameChecker

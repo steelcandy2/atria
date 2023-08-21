@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: grammar-section.docbook.xsl,v 1.4 2004/06/03 04:07:07 jgm Exp $
-
     Transforms a language description document into a part of a
     DocBook XML document that consists of a section element that
     describes the language's grammar.
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/06/03 04:07:07 $
 
     Copyright (C) 2002-2014 by James MacKay.
 

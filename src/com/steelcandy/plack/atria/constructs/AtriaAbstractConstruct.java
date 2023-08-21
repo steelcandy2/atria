@@ -34,7 +34,6 @@ import com.steelcandy.plack.common.constructs.*;
     AtriaConstructVisitor and pass it to the other version of accept().)
 
     @author James MacKay
-    @version $Revision: 1.12 $
 */
 public abstract class AtriaAbstractConstruct
     extends AbstractConstruct

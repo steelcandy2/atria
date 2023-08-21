@@ -25,7 +25,6 @@ import com.steelcandy.common.NoSuchItemException;
     Represents a stack of boolean items.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class BooleanStack
     extends TypedStack

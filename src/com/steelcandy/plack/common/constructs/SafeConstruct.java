@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     to a (useful) supertype.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see Construct#safe
     @see Construct#toUnsafeConstruct
 */

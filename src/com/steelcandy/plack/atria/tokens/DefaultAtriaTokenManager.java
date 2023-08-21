@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.tokens.*;
     The default token manager class.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class DefaultAtriaTokenManager
     extends AtriaTokenManagerBase

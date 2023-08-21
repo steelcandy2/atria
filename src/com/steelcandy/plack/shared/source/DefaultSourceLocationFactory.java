@@ -32,7 +32,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     weirder requirements on source locations.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see SourceLocation
 */
 public class DefaultSourceLocationFactory

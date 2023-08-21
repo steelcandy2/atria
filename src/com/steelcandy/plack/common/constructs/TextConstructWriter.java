@@ -30,7 +30,6 @@ import java.text.MessageFormat;
     A ConstructWriter that outputs constructs in a text format.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class TextConstructWriter
     extends AbstractConstructWriter

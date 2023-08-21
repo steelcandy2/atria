@@ -33,7 +33,6 @@ import java.util.*;
     override doComplexChecks().
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class AbstractXmlDocumentChecker
     extends AbstractXmlChecker

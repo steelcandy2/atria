@@ -34,7 +34,6 @@ import java.util.NoSuchElementException;
     operation.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class MultipleIterator
     implements Iterator

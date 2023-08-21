@@ -30,7 +30,6 @@ import com.steelcandy.plack.common.errors.ErrorHandler;
     language-specific.
 
     @author James MacKay
-    @version $Revision: 1.10 $
     @see Construct
     @see Construct#accept
 */

@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: semantics.xsl,v 1.7 2006/06/10 13:23:58 jgm Exp $
-
     Transforms a language description document into an HTML document
     detailing the language's semantics.
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/10 13:23:58 $
 
     Copyright (C) 2005-2008 by James MacKay.
 

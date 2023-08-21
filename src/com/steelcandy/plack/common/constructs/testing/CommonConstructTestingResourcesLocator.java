@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     this package.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CommonConstructTestingResourcesLocator
     extends ResourcesLocator

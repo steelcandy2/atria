@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: CharacterClasses.java.xsl,v 1.3 2004/11/05 11:27:21 jgm Exp $
-
     Transforms a language description document into a Java class that
     contains information related to the character classes defined in that
     document.
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/11/05 11:27:21 $
 
     Copyright (C) 2004-2016 by James MacKay.
 

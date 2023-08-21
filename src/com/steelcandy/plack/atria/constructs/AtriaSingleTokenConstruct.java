@@ -36,7 +36,6 @@ import com.steelcandy.plack.common.constructs.ValidityConstraintChecklist;
     AtriaConstructVisitor and pass it to the other version of accept().)
 
     @author James MacKay
-    @version $Revision: 1.14 $
 */
 public abstract class AtriaSingleTokenConstruct
     extends SingleTokenConstruct

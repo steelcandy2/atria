@@ -32,7 +32,6 @@ import java.io.Writer;
     An abstract base class for ConstructWriters.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public abstract class AbstractConstructWriter
     implements ConstructWriter

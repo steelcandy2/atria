@@ -47,7 +47,6 @@ import java.util.Set;
     </pre>
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public abstract class AbstractValidityConstraintChecklistFactory
 {

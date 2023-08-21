@@ -27,7 +27,6 @@ import com.steelcandy.common.ResourcesLocator;
     tokenizer.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaDefaultTokenizerResourcesLocator
     extends ResourcesLocator

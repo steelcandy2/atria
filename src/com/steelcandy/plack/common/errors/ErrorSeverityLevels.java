@@ -26,7 +26,6 @@ import com.steelcandy.common.debug.Assert;
     used conveniently as array indices.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public interface ErrorSeverityLevels
 {

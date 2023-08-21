@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     about the top-most/main Externalizable in a file or other data source.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public interface ExternalData
 {

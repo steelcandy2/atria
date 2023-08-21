@@ -39,7 +39,6 @@ import java.io.*;
     to aid in this. (Most subclasses are language-specific.)
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public abstract class AbstractSourceCodeTokenizer
     extends AbstractTokenizer

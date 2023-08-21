@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.base.InternalLanguageProcessingException;
     being parsed.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class ParsingException
     extends InternalLanguageProcessingException

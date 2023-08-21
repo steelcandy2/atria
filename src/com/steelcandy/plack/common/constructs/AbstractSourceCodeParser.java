@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.tokens.SourceCodeTokenizer;
     class.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public abstract class AbstractSourceCodeParser
     implements SourceCodeParser

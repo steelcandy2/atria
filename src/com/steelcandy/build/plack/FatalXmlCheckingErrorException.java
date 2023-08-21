@@ -24,7 +24,6 @@ package com.steelcandy.build.plack;
     information about the fatal error itself.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class FatalXmlCheckingErrorException
     extends RuntimeException

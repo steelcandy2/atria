@@ -36,7 +36,6 @@ import com.steelcandy.common.*;
     Subclasses just have to implement the createSubtokenizers() method.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see FilterTokenizer
 */
 public abstract class ShellFilterTokenizer

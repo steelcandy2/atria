@@ -25,7 +25,6 @@ import com.steelcandy.testing.*;
     The first test for testing tests.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see Tests
 */
 public class SpecialTest1 extends SingleTest

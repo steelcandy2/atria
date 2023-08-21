@@ -28,7 +28,6 @@ import java.io.IOException;
     translation of a language's source code into the target language.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public interface TranslationFragment
 {

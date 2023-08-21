@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     exactly two tokens.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see TokenCreator
 */
 public class TwoTokenCreatorResult

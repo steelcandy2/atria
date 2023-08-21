@@ -51,7 +51,6 @@ import com.steelcandy.common.Resources;
     should also override this class' implementation of cloneConstructParser().
 
     @author James MacKay
-    @version $Revision: 1.32 $
     @see Parser#parseConstruct(TrackedTokenList, Tokenizer, SubconstructParsingData, ErrorHandler)
 */
 public abstract class MinimalAbstractParser

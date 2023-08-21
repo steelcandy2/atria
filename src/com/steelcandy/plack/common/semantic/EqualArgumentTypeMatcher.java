@@ -27,7 +27,6 @@ import com.steelcandy.common.debug.Assert;
     global name then they're considered to be equal by this matcher.
 
     @author  James MacKay
-    @version $Revision: 1.3 $
 */
 public class EqualArgumentTypeMatcher
     extends AbstractArgumentTypeMatcher

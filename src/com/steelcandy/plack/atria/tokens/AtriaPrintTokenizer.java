@@ -35,7 +35,6 @@ import java.io.Writer;
     Subclasses just have to implement the outputTokenInformation() method.
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public abstract class AtriaPrintTokenizer
     extends PrintTokenizer

@@ -28,7 +28,6 @@ import org.jdom.*;
     element.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class XmlExternalDataElement
     implements ExternalDataElement

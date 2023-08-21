@@ -26,7 +26,6 @@ import com.steelcandy.plack.shared.source.DefaultSourceLocationFactory;  // java
     SourceLocations.
 
     @author James MacKay
-    @version $Revision: 1.12 $
     @see SourceLocation
     @see DefaultSourceLocationFactory
 */

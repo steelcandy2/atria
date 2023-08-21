@@ -32,7 +32,6 @@ import com.steelcandy.common.debug.Assert;
     in the SUFFIX.)
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see #SUFFIX
     @see Resources
 */

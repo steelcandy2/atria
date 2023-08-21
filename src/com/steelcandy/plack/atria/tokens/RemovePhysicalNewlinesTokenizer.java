@@ -44,7 +44,6 @@ import com.steelcandy.common.*;
     output of this filter.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see PhysicalToLogicalLinesTokenizer
     @see AtriaTokenManagerBase#NEWLINE
     @see AtriaTokenManagerBase#IS_END_OF_LINE

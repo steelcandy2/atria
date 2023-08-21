@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id: language-definition.xsl,v 1.1 2005/10/12 15:29:24 jgm Exp $
-
     Transforms the Atria language description document into a document that
     defines and explains the Atria language.
 
@@ -13,9 +11,6 @@ TODO: for now the generated document will be in HTML, but change that !!!
   that, when applied to the Atria language description document, outputs
   the language definition document in specific formats
     - e.g. HTML, LaTeX, plain text, man (?), info (?)
-
-    Author: James MacKay
-    Last Updated: $Date: 2005/10/12 15:29:24 $
 
     Copyright (C) 2005-2012 by James MacKay.
 

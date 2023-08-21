@@ -25,7 +25,6 @@ import com.steelcandy.common.text.StringList;
     Represents a construct attribute whose value is of type StringList.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class StringListAttribute
     extends Attribute

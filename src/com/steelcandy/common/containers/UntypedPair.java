@@ -28,7 +28,6 @@ import java.util.Iterator;
     Represents an (untyped) immutable pair.
 
     @author James MacKay
-    @version $Revision: 1.3 $
     @see TypedStack
 */
 public class UntypedPair

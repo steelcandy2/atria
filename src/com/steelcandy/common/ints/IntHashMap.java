@@ -29,7 +29,6 @@ import java.util.HashMap;
     Maps ints to ints using a hash table.
 
     @author James MacKay
-    @version $Revision: 1.13 $
 */
 public class IntHashMap
     extends AbstractIntMap

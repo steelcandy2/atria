@@ -33,7 +33,6 @@ import com.steelcandy.common.debug.Assert;
     An operator's precedence level is assumed to be non-negative.
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see OperatorData
 */
 public interface OperatorConstants

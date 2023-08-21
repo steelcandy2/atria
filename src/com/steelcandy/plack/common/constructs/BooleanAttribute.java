@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents a construct attribute whose value is of type boolean.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class BooleanAttribute
     extends Attribute

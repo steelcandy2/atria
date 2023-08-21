@@ -28,7 +28,6 @@ import java.text.MessageFormat;
     and constants.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class ReflectionUtilities
 {

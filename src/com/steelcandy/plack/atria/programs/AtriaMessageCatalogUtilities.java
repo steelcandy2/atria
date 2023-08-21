@@ -32,7 +32,6 @@ import com.steelcandy.plack.common.errors.ErrorHandler;
     extend.)
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaMessageCatalogUtilities
     extends AtriaUtilities

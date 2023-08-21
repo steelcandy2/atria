@@ -29,7 +29,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     fragments, such as comments and whitespace.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public abstract class AtriaNonCodeToken
     extends AtriaAbstractToken

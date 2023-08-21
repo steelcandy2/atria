@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: TokenManagers.java.xsl,v 1.15 2011/12/05 20:21:25 jgm Exp $
-
     Transforms a language description document into the Java base class
     for a token manager class for that language's tokens.
-
-    Author: James MacKay
-    Last Updated: $Date: 2011/12/05 20:21:25 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

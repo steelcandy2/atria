@@ -29,7 +29,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     just provides utility methods.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see TokenCreator
 */
 public abstract class AbstractTokenCreator

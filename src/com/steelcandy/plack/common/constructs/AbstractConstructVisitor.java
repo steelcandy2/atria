@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.errors.ErrorHandler;
     interface.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public abstract class AbstractConstructVisitor
     extends MinimalAbstractConstructVisitor

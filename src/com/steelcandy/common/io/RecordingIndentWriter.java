@@ -39,7 +39,6 @@ import java.util.LinkedList;
     method returns an incorrect value.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class RecordingIndentWriter
     extends IndentWriter

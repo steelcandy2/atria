@@ -28,7 +28,6 @@ import com.steelcandy.common.*;
     from its source tokenizer.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class NullFilterTokenizer
     extends AbstractFilterTokenizer

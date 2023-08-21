@@ -29,7 +29,6 @@ import com.steelcandy.common.debug.Assert;
     this class' implementation of isMatch().
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractArgumentTypeMatcher
     implements ArgumentTypeMatcher

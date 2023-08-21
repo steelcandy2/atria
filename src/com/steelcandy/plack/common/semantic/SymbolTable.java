@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.constructs.SymbolTableAttribute;  // javadocs
     symbol table.
 
     @author James MacKay
-    @version $Revision: 1.21 $
     @see SymbolTableAttribute
     @see SymbolTableEntry
 */

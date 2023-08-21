@@ -34,7 +34,6 @@ import com.steelcandy.common.io.*;
     superclass.
 
     @author  James MacKay
-    @version $Revision: 1.15 $
 */
 public class CommonCppGenerationUtilities
     extends CommonCodeGenerationUtilities

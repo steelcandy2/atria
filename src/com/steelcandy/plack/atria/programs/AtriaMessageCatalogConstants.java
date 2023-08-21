@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     several message catalog-related classes.
 
     @author  James MacKay
-    @version $Revision: 1.3 $
 */
 public interface AtriaMessageCatalogConstants
 {

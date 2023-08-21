@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.source.SourceCode;
     iterator that it was constructed from.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class IteratorTokenizer
     extends AbstractTokenizer

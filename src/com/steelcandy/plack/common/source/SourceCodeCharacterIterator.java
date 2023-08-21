@@ -33,7 +33,6 @@ import java.io.*;
     source code.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class SourceCodeCharacterIterator
     extends CharacterIterator

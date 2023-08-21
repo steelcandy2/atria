@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     Java source code, including CodeGenerators and Subgenerators.
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public interface CommonJavaGeneratorBase
 {

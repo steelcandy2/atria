@@ -1,4 +1,9 @@
-# $Id: aliases,v 1.31 2012/06/01 00:40:16 jgm Exp $
+# Useful development aliases, functions, etc.
+#
+# This script is intended to be sourced into a profile of some sort.
+# The DEV_ROOT variable must be set to the directory into which this
+# module was checked out - that is, the parent directory of the
+# 'plack' subdirectory.
 #
 # Copyright (C) 2001-2012 by James MacKay.
 #
@@ -15,15 +20,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-#
-# Useful development aliases, functions, etc.
-#
-# This script is intended to be sourced into a profile of some sort.
-# The DEV_ROOT variable must be set to the directory into which this
-# module was checked out - that is, the parent directory of the
-# 'plack' subdirectory.
-
 
 # Check that DEV_ROOT is set.
 if [ "x${DEV_ROOT}" = "x" ]

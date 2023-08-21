@@ -26,7 +26,6 @@ import com.steelcandy.common.Resources;
     A singleton TokenIterator that iterates over no tokens.
 
     @author James MacKay
-    @version $Revision: 1.10 $
     @see Token
 */
 public class EmptyTokenIterator

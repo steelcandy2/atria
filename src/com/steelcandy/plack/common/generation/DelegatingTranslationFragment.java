@@ -28,7 +28,6 @@ import java.io.IOException;
     TranslationFragment that can be replaced.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class DelegatingTranslationFragment
     implements TranslationFragment

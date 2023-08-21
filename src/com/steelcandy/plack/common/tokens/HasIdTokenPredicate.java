@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     specified token ID.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see Token
 */
 public class HasIdTokenPredicate

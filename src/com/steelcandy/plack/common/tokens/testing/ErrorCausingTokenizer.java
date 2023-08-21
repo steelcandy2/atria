@@ -50,7 +50,6 @@ import java.util.Random;
     new version).
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see FilterTokenizer#initialize(Tokenizer)
 */
 public abstract class ErrorCausingTokenizer

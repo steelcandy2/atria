@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents an unchecked validity constraint.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class UncheckedValidityConstraint
 {

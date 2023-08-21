@@ -26,7 +26,6 @@ import com.steelcandy.testing.*;
     classes in its package named 'Testn' for n = 1, 2, ....
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class Tests
     extends PackageTest

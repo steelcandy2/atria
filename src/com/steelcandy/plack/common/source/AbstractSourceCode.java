@@ -27,7 +27,6 @@ import java.io.*;
     An abstract base class for SourceCode classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractSourceCode
     extends SourceCode

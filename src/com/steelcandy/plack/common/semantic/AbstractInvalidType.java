@@ -25,7 +25,6 @@ import com.steelcandy.common.debug.Assert;
     all other types are equal to and conform to them.
 
     @author  James MacKay
-    @version $Revision: 1.7 $
 */
 public abstract class AbstractInvalidType
     extends AbstractFlexibleType

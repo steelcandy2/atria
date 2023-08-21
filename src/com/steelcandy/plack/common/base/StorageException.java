@@ -22,7 +22,6 @@ package com.steelcandy.plack.common.base;
     something to or loading something from a Storage instance.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see Storage
 */
 public class StorageException

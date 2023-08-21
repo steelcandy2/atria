@@ -26,7 +26,6 @@ import com.steelcandy.common.Resources;
     some sort of order or pattern.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public interface LongIntFactory
 {

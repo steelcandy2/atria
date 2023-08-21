@@ -33,7 +33,6 @@ import com.steelcandy.plack.common.base.PlackRuntimeException;
     been fully compiled.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class EntryConstructRemovedException
     extends PlackRuntimeException

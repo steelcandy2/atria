@@ -30,7 +30,6 @@ import java.util.*;
     constants.
 
     @author James MacKay
-    @version $Revision: 1.25 $
 */
 public class TextUtilities
 {

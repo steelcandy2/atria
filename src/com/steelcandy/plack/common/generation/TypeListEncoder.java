@@ -33,7 +33,6 @@ import com.steelcandy.common.text.StringList;
     their encodings are valid identifier parts in that language.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public interface TypeListEncoder
 {

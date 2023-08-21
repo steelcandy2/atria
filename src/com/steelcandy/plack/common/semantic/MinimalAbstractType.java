@@ -25,7 +25,6 @@ import com.steelcandy.common.UnsupportedMethodException;
     A minimal abstract base class for Type classes.
 
     @author  James MacKay
-    @version $Revision: 1.8 $
 */
 public abstract class MinimalAbstractType
     implements Type

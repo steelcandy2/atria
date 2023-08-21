@@ -26,7 +26,6 @@ import java.io.IOException;
     target code during code generation.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class DocumentationGenerationIoException
     extends PlackRuntimeException

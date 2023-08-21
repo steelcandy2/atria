@@ -38,7 +38,6 @@ import com.steelcandy.common.*;
     error.
 
     @author James MacKay
-    @version $Revision: 1.11 $
     @see TokenCreatorSourceCodeTokenizer.InvalidCharacterTokenCreator
 */
 public abstract class AbstractInvalidCharacterTokenCreator

@@ -31,7 +31,6 @@ import com.steelcandy.common.NoSuchItemException;
     instance's predicate.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class FilteredSymbolTable
     implements SymbolTable

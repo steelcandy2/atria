@@ -25,7 +25,6 @@ import com.steelcandy.common.io.AbstractExtensionFilenameFilter;
     A singleton FilenameFilter that only accepts C++ source files.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see CommonCppGeneratorBase#CPP_SOURCE_FILE_EXT
 */
 public class CppSourceFilenameFilter

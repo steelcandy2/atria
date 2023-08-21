@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id: documentation-base.xsl,v 1.6 2006/06/15 06:02:43 jgm Exp $
-
     A base stylesheet for XSL stylesheets that transform the
     'documentation.xml' file that contains the documentation for a language
     into an XSL stylesheet that, when it is applied to the language's
@@ -32,9 +30,6 @@
 
     As a check, a template's full name should start with either 'xsl:generate-'
     or 'x:output-', but never 'x:generate-' or 'xsl:output-'.
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/15 06:02:43 $
 
     Copyright (C) 2006 by James MacKay.
 

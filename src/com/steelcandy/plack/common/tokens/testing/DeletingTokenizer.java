@@ -39,7 +39,6 @@ import java.io.Writer;
     will be assumed to have been whitespace that was removed.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see #canDeleteToken(Token)
 */
 public abstract class DeletingTokenizer

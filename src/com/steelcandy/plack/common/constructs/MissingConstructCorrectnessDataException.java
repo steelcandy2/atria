@@ -31,7 +31,6 @@ import com.steelcandy.common.Resources;
     correctness data is missing rather than an explicit message.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class MissingConstructCorrectnessDataException
     extends InternalLanguageProcessingException

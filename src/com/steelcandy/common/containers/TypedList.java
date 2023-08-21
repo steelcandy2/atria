@@ -37,7 +37,6 @@ import java.util.Iterator;
     on the item type, and also manages the backing list.
 
     @author James MacKay
-    @version $Revision: 1.23 $
 */
 public abstract class TypedList
 {

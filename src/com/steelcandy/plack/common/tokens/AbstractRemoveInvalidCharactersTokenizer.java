@@ -35,7 +35,6 @@ import com.steelcandy.common.*;
     any sequence of tokenizers.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractRemoveInvalidCharactersTokenizer
     extends AbstractFilterTokenizer

@@ -26,7 +26,6 @@ import java.util.Map;  // javadocs only
     SymbolTableEntry objects in a Map.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see SymbolTableEntry
     @see Map
 */

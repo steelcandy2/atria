@@ -25,7 +25,6 @@ import java.io.*;
     The class of Reader used to read source code.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class SourceCodeReader
     extends Reader

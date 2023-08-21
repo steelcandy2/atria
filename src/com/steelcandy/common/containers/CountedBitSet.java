@@ -25,7 +25,6 @@ import java.util.BitSet;
     The class of BitSet that keeps track of how many bits it has set.
 
     @author  James MacKay
-    @version $Revision$
 */
 public class CountedBitSet
     extends BitSet

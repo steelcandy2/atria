@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.constructs.*;
     The custom Argument parser implementation.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CustomAtriaArgumentParser
     extends AbstractAtriaArgumentParser

@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents a construct attribute whose value is of type ConstructList.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see ConstructList
 */
 public class ConstructListAttribute

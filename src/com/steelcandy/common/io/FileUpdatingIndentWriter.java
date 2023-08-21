@@ -33,7 +33,6 @@ import java.io.Writer;  // javadocs
     file is left unchanged and the temporary file is deleted.
 
     @author James MacKay
-    @version $Revision: 1.12 $
 */
 public class FileUpdatingIndentWriter
     extends IndentWriter

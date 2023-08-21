@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.errors.ErrorHandler;
     Atria commands.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public interface AtriaCommandConstructVisitor
 {

@@ -32,7 +32,6 @@ import java.util.Collection;
     equal to each other.
 
     @author  James MacKay
-    @version $Revision: 1.3 $
 */
 public class CollectionSizeComparator
     extends AbstractComparator

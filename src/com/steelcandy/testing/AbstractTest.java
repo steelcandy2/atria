@@ -46,7 +46,6 @@ import java.util.Date;
     numberOfTests(), etc.
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public abstract class AbstractTest
     implements Test, Program

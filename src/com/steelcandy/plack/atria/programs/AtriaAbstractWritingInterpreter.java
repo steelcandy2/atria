@@ -40,7 +40,6 @@ import java.io.*;
     write out information.
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class AtriaAbstractWritingInterpreter
     extends AtriaAbstractInterpreter

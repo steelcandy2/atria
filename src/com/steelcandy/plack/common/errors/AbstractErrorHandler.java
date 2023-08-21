@@ -30,7 +30,6 @@ import com.steelcandy.plack.common.constructs.Parser;
     methods should be overridden instead).
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public abstract class AbstractErrorHandler
     implements ErrorHandler, ErrorSeverityLevels

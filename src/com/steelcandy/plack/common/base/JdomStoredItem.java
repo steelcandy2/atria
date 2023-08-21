@@ -28,7 +28,6 @@ import java.util.*;
     of XML documents.
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public class JdomStoredItem
     extends AbstractStoredItem

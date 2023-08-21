@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents an error that occurs during target code generation.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CodeGenerationError
     extends AbstractPlackError

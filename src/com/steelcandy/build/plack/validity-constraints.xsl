@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: validity-constraints.xsl,v 1.60 2006/06/10 13:24:20 jgm Exp $
-
     Transforms a language description document into an HTML document
     detailing the language's validity constraints.
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/10 13:24:20 $
 
     Copyright (C) 2002-2008 by James MacKay.
 

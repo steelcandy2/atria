@@ -31,7 +31,6 @@ import java.io.*;
     that don't fit into any one class.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CommonCompilerUtilities
 {

@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.source.SourceCode;
     it was constructed.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class ListTokenizer
     extends IteratorTokenizer

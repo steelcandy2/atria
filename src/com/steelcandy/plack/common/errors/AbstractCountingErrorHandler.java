@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.constructs.Parser;
     subclass instance.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see ErrorHandler#fatalErrorCount
     etc.
 */

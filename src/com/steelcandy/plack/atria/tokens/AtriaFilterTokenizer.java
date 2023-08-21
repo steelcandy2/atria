@@ -39,7 +39,6 @@ import com.steelcandy.common.*;
     Subclasses have to implement the generateTokens() method.
 
     @author James MacKay
-    @version $Revision: 1.14 $
     @see Token
     @see BufferedTokenizer#generateTokens
 */

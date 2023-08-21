@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: check-documentation.xsl,v 1.1 2009/12/10 21:13:01 jgm Exp $
-
     A stylesheet that checks that a language documentation document is valid.
     It assumes that any document that it is applied to has been succesfully
     validated against the 'documentation.rng' schema.
-
-    Author: James MacKay
-    Last Updated: $Date: 2009/12/10 21:13:01 $
 
     Copyright (C) 2009-2010 by James MacKay.
 

@@ -35,7 +35,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     class should be subclassed directly instead.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see AbstractToken
 */
 public class DefaultToken extends AbstractToken

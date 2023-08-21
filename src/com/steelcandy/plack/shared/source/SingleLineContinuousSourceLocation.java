@@ -32,7 +32,6 @@ import java.io.IOException;
     source file where the source fragment doesn't span more than one line.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class SingleLineContinuousSourceLocation
     extends ContinuousSourceLocation

@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: common.xsl,v 1.16 2010/01/15 10:33:27 jgm Exp $
-
     Provides common functionality for all stylesheets. It is intended to
     be xsl:imported into another stylesheet.
-
-    Author: James MacKay
-    Last Updated: $Date: 2010/01/15 10:33:27 $
 
     Copyright (C) 2002-2012 by James MacKay.
 

@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: check-description.xsl,v 1.10 2010/11/30 03:28:03 jgm Exp $
-
     A stylesheet that checks that a language description document is valid.
     It assumes that any document that it is applied to has been succesfully
     validated against the 'description.rng' schema.
-
-    Author: James MacKay
-    Last Updated: $Date: 2010/11/30 03:28:03 $
 
     Copyright (C) 2006-2015 by James MacKay.
 

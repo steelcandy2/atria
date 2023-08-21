@@ -29,7 +29,6 @@ import com.steelcandy.common.creation.ObjectCreatorException;
     A singleton factory class that creates Tokenizers.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see Tokenizer
 */
 public class TokenizerFactory

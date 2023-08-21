@@ -34,7 +34,6 @@ import java.util.HashMap;
     related to input and output.
 
     @author James MacKay
-    @version $Revision: 1.19 $
 */
 public class Io
 {

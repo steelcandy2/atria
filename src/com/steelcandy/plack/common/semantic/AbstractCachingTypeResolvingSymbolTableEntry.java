@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     the results of its type resolver resolving other types.
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see TypeResolver
 */
 public abstract class AbstractCachingTypeResolvingSymbolTableEntry

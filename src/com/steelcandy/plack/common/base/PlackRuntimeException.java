@@ -23,7 +23,6 @@ import com.steelcandy.common.SteelCandyRuntimeException;
     The base class for all Plack runtime exceptions.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class PlackRuntimeException
     extends SteelCandyRuntimeException

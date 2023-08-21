@@ -39,7 +39,6 @@ import java.io.IOException;
     A program that converts XML documents to Atria documents.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class XmlToAtriaConverterProgram
     implements Program

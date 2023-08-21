@@ -41,7 +41,6 @@ import java.util.Set;
     An error handler that reports all errors using a Writer.
 
     @author James MacKay
-    @version $Revision: 1.23 $
 */
 public class WriterErrorHandler
     extends AbstractCountingErrorHandler

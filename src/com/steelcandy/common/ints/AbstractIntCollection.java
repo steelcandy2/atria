@@ -28,7 +28,6 @@ import java.util.Iterator;
     An abstract base class for collections classes whose items are ints.
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class AbstractIntCollection
     implements IntCollection

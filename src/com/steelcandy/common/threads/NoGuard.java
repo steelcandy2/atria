@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     resource.
 
     @author James MacKay
-    @version $Revision$
 */
 public class NoGuard
     extends Guard

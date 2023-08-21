@@ -32,7 +32,6 @@ import java.util.Properties;
     our other classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class JavaSourceCodeGenerator
     extends SourceCodeGenerator

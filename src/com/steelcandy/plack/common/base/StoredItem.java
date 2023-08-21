@@ -25,7 +25,6 @@ import com.steelcandy.common.debug.Assert;
     instance.
 
     @author  James MacKay
-    @version $Revision: 1.5 $
     @see Storable
     @see StorableLoader
 */

@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     other's equals() method.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class SameErrorKey
     extends AbstractErrorKey

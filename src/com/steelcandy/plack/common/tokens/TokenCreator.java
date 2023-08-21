@@ -49,7 +49,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     and hence usable by multiple threads concurrently.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see Token
 */
 public interface TokenCreator

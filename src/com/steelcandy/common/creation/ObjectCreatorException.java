@@ -31,7 +31,6 @@ import java.lang.reflect.*;
     create an object.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class ObjectCreatorException
     extends SteelCandyException

@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     not available about or applicable to the error.
 
     @author James MacKay
-    @version $Revision: 1.12 $
 */
 public interface PlackError
     extends ErrorSeverityLevels

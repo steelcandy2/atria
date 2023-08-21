@@ -1,16 +1,11 @@
 <?xml version="1.0"?>
 <!--
-    $Id: map-string.xsl,v 1.6 2003/02/14 10:48:05 jgm Exp $
-
     Contains the variables and templates related to information about a
     language's operators.
 
     Usually only the operator-info-table template is the only one in this
     file that is called directly from outside of this file. It outputs a
     table giving information about all of the language's operators.
-
-    Author: James MacKay
-    Last Updated: $Date: 2003/02/14 10:48:05 $
 
     Copyright (C) 2004 by James MacKay.
 

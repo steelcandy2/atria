@@ -33,7 +33,6 @@ import java.util.Map;
     restricted to zero-arity symbols.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public abstract class AbstractZeroAritySymbolTable
     extends MinimalAbstractSymbolTable

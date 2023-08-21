@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     generation classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CommonJavaGenerationResourcesLocator
     extends ResourcesLocator

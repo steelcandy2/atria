@@ -39,7 +39,6 @@ import com.steelcandy.plack.common.source.SourceCode;
     be the next token obtained from the tokenizer.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public class PushbackTokenizer
     extends BufferedTokenizer

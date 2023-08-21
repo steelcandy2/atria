@@ -28,7 +28,6 @@ import java.util.*;
     java.util.Map with int as the type of its values.
 
     @author James MacKay
-    @version $Revision: 1.3 $
     @see java.util.Map
 */
 public interface ToIntMap

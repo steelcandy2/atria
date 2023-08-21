@@ -25,7 +25,6 @@ import com.steelcandy.plack.common.source.SourceCode;
     Represents an error that occurs in reading data: i.e. an I/O error.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class ReadError
     extends AbstractPlackError

@@ -42,7 +42,6 @@ import java.util.*;
     AtriaAbstractMessageCatalogBuilder that generates the source code.
 
     @author  James MacKay
-    @version $Revision: 1.15 $
 */
 public class AtriaMessageCatalogSemanticAnalyzer
     extends AtriaSemanticAnalyzer

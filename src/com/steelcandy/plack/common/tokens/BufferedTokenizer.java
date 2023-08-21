@@ -35,7 +35,6 @@ import com.steelcandy.common.*;
     to the buffer using one of the output() methods.
 
     @author James MacKay
-    @version $Revision: 1.8 $
     @see Token
 */
 public abstract class BufferedTokenizer

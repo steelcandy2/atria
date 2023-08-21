@@ -28,7 +28,6 @@ import com.steelcandy.common.debug.Assert;
     ascending order.
 
     @author  James MacKay
-    @version $Revision: 1.6 $
 */
 public interface IntSortedSet
     extends IntSet

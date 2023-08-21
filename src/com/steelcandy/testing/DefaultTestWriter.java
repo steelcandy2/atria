@@ -29,7 +29,6 @@ import java.io.Writer;
     type of output to standard output.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public class DefaultTestWriter extends TestWriter
 {

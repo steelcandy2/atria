@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.constructs.Parser;
     has handled.
 
     @author James MacKay
-    @version $Revision: 1.10 $
     @see SilentErrorHandler
 */
 public class SilentCountingErrorHandler

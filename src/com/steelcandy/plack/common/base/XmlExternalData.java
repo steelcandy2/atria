@@ -29,7 +29,6 @@ import java.io.IOException;
     The class of ExternalData that stores information in XML format.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class XmlExternalData
     implements ExternalData

@@ -32,7 +32,6 @@ import com.steelcandy.plack.common.tokens.AbstractTokenIdToObjectMap;
     mapLoadFactor() method if they wish.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see AbstractTokenIdToObjectMap#initialize
 */
 public abstract class AbstractTokenIdToParserMap

@@ -1,7 +1,5 @@
 #!/bin/bash
 #
-# $Id: run-tests.sh,v 1.1 2005/10/21 13:21:27 jgm Exp $
-#
 # Cleans up the testing directory and its subdirectories.
 #
 # Author: James MacKay

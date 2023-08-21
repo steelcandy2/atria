@@ -36,7 +36,6 @@ import com.steelcandy.common.ints.IntIterator;
     subclasses should also override <code>toString()</code>.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class ContinuousSourceLocation
     extends AbstractSourceLocation

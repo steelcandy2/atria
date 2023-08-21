@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     The default implementation of the UnaryIntPredicate interface.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public class DefaultUnaryIntPredicate
     implements UnaryIntPredicate

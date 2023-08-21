@@ -33,7 +33,6 @@ import com.steelcandy.common.debug.Assert;
     be used to parse a String into integers.
 
     @author  James MacKay
-    @version $Revision: 1.6 $
     @see #isWordCharacter(char)
 */
 public class AbstractWordParser

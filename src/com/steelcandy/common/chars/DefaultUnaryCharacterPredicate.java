@@ -26,7 +26,6 @@ import com.steelcandy.common.io.Io;
     interface.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class DefaultUnaryCharacterPredicate
     implements UnaryCharacterPredicate

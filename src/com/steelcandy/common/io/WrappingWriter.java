@@ -38,7 +38,6 @@ import java.io.*;
     the other write() methods (for better performance, for example).
 
     @author James MacKay
-    @version $Revision: 1.8 $
     @see Writer
     @see #write(int)
     @see #write(char[], int, int)

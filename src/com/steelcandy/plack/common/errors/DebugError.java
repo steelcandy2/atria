@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents a simple debug 'error'.
 
     @author James MacKay
-    @version $Revision$
 */
 public class DebugError
     extends AbstractSimplePlackError

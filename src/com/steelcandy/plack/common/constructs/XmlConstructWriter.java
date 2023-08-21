@@ -30,7 +30,6 @@ import java.io.IOException;
     A ConstructWriter that outputs constructs in an XML format.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class XmlConstructWriter
     extends AbstractConstructWriter

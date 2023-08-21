@@ -25,7 +25,6 @@ import com.steelcandy.common.Resources;
     code-related classes in this package.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public class SourceCodeResourcesLocator
     extends ResourcesLocator

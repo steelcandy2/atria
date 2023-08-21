@@ -42,7 +42,6 @@ import java.util.Map;
     occur.
 
     @author James MacKay
-    @version $Revision: 1.13 $
 */
 public class CommonConstraintChecks
     implements ErrorSeverityLevels

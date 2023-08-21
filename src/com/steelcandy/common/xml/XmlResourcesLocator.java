@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     the resources used by the XML-related classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class XmlResourcesLocator
     extends ResourcesLocator

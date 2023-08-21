@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.base.PlackException;
     an invalid SymbolTableEntry to a SymbolTable.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see SymbolTable#add(SymbolTableEntry)
 */
 public class InvalidSymbolTableEntryException

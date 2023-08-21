@@ -27,7 +27,6 @@ import com.steelcandy.common.debug.Assert;
     isSatisfied() method is reentrant, and thus the instance can be shared.
 
     @author James MacKay
-    @version $Revision: 1.7 $
     @see Token
 */
 public class HasFlagSetTokenPredicate

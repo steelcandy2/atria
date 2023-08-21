@@ -24,7 +24,6 @@ import com.steelcandy.common.ResourcesLocator;
     The class used to locate the resources used by the Atria program classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaProgramResourcesLocator
     extends ResourcesLocator

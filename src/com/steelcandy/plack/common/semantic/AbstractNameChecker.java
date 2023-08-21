@@ -40,7 +40,6 @@ import com.steelcandy.common.Resources;
     needed.
 
     @author James MacKay
-    @version $Revision: 1.8 $
     @see #isLowercaseLetter(char)
 */
 public abstract class AbstractNameChecker

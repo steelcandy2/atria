@@ -29,7 +29,6 @@ import java.io.*;
     methods delegate.
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see SteelCandyException
     @see SteelCandyRuntimeException
 */

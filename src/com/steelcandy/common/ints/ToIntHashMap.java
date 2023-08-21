@@ -28,7 +28,6 @@ import java.util.*;
     Maps Objects to ints using a hash table.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class ToIntHashMap
     extends AbstractIntCollection
@@ -295,7 +294,6 @@ abstract class AbstractValuesComparator
     than, equal to or greater than the value that the other key maps to.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 class AscendingValuesComparator
     extends AbstractValuesComparator
@@ -333,7 +331,6 @@ class AscendingValuesComparator
     greater than, equal to or less than the value that the other key maps to.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 class DescendingValuesComparator
     extends AbstractValuesComparator

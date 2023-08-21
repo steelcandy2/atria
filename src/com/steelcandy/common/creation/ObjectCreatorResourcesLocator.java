@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     ObjectCreator and related classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ObjectCreatorResourcesLocator
     extends ResourcesLocator

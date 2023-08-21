@@ -25,7 +25,6 @@ import com.steelcandy.common.debug.Assert;
     are compared lexicographically.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class DefaultStringComparator
     extends AbstractStringComparator

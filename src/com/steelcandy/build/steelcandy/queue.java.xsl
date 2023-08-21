@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: queue.java.xsl,v 1.6 2004/05/21 15:56:05 jgm Exp $
-
     Transforms the information about a typed queue into the source
     code for the Java interface that represents the queue.
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/05/21 15:56:05 $
 
     Copyright (C) 2002-2004 by James MacKay.
 

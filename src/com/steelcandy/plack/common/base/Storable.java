@@ -28,7 +28,6 @@ import java.io.IOException;
     (possibly persistent) Storage, and later (a copy can be) loaded from it.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see StorableLoader
     @see Storage
 */

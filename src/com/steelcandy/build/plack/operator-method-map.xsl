@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: operator-method-map.xsl,v 1.13 2005/03/30 16:45:19 jgm Exp $
-
     Transforms a language description document into an HTML document
     that describes the language's operator to method map.
-
-    Author: James MacKay
-    Last Updated: $Date: 2005/03/30 16:45:19 $
 
     Copyright (C) 2004-2005 by James MacKay.
 

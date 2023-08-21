@@ -25,7 +25,6 @@ import com.steelcandy.plack.common.errors.ErrorHandler;
     An abstract base class for tokenizers that manage an error handler.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public abstract class ErrorHandlerTokenizer
     implements Tokenizer

@@ -23,7 +23,6 @@ package com.steelcandy.testing;
     specified for one of the output types.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class InvalidOutputDestinationException
     extends TestWriterCreationException

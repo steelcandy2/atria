@@ -40,7 +40,6 @@ import java.io.*;
     causing a given problem.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see Token
 */
 public abstract class PrintTokenizer

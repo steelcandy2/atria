@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     most one token.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see TokenCreator
 */
 public class OneTokenCreatorResult

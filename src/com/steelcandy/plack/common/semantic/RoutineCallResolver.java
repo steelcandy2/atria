@@ -38,7 +38,6 @@ import com.steelcandy.plack.common.errors.ErrorHandler;
     necessary.
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public interface RoutineCallResolver
 {

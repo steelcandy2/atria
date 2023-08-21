@@ -26,7 +26,6 @@ import java.util.Set;
     An abstract base class for IntSets (including IntSortedSets).
 
     @author  James MacKay
-    @version $Revision: 1.7 $
 */
 public abstract class AbstractIntSet
     extends AbstractIntCollection

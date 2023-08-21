@@ -31,7 +31,6 @@ import java.util.Iterator;
     Represents an (untyped) stack.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see TypedStack
 */
 public class UntypedStack

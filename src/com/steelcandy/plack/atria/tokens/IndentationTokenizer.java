@@ -70,7 +70,6 @@ import com.steelcandy.common.*;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class IndentationTokenizer
     extends AtriaFilterTokenizer

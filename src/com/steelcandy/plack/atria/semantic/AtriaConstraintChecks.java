@@ -37,7 +37,6 @@ import java.util.*;
     about which constraint checker class they should appear in, etc.
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public class AtriaConstraintChecks
     extends AtriaConstraintChecksBase

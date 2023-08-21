@@ -21,7 +21,6 @@ package com.steelcandy.common;
     The class of exception thrown when an invalid value is encountered.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class InvalidValueException
     extends SteelCandyException

@@ -27,7 +27,6 @@ import com.steelcandy.common.debug.Assert;
     override other methods if they don't want them handled by the delegate.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public abstract class AbstractDelegatingSymbolTable
     extends MinimalAbstractSymbolTable

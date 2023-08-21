@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     The interface that defines common ErrorKey IDs and related constants.
 
     @author  James MacKay
-    @version $Revision: 1.13 $
 */
 public interface CommonErrorKeyIds
 {

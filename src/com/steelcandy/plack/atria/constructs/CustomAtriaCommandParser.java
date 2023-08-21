@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.constructs.*;
     the zero or more Argument subconstructs.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class CustomAtriaCommandParser
     extends DefaultAtriaCommandParser

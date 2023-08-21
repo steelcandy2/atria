@@ -23,7 +23,6 @@ package com.steelcandy.testing;
     for one of the output types.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class WriterCreationFailedException
     extends TestWriterCreationException

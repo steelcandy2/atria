@@ -29,7 +29,6 @@ import java.io.IOException;
     type or small set of types.
 
     @author  James MacKay
-    @version $Revision: 1.3 $
     @see Storable
     @see Storage
 */

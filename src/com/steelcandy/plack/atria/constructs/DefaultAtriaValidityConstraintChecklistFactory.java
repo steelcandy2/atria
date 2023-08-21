@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     The default validity constraint checklist factory class.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class DefaultAtriaValidityConstraintChecklistFactory
     extends AtriaValidityConstraintChecklistFactoryBase

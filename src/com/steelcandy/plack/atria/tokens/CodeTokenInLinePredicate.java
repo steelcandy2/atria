@@ -35,7 +35,6 @@ import com.steelcandy.plack.common.tokens.UnaryTokenPredicate;
     newline or comment, for example).
 
     @author James MacKay
-    @version $Revision: 1.7 $
     @see Token
 */
 public class CodeTokenInLinePredicate

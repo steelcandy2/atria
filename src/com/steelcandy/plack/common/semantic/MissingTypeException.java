@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.base.PlackRuntimeException;
     typeless language.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class MissingTypeException
     extends PlackRuntimeException

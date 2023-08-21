@@ -30,7 +30,6 @@ import com.steelcandy.common.compare.AbstractComparator;
     equal.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class DefaultSourceLocationComparator
     extends AbstractComparator

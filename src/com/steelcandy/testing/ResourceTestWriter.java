@@ -40,7 +40,6 @@ import java.util.Iterator;
     'K.output.T'.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class ResourceTestWriter extends TestWriter
 {

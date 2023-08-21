@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.base.PlackRuntimeException;
     immutable symbol table.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see SymbolTable
 */
 public class ImmutableSymbolTableException

@@ -41,7 +41,6 @@ import java.io.*;
     A converter that converts Atria documents to XML.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaToJdomConverter
     extends AtriaAbstractInterpreter

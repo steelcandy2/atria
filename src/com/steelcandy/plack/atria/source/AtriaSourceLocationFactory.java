@@ -26,7 +26,6 @@ import com.steelcandy.plack.shared.source.DefaultSourceLocationFactoryBase;
     tokens, constructs, etc.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaSourceLocationFactory
     extends DefaultSourceLocationFactoryBase

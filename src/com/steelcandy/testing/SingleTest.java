@@ -26,7 +26,6 @@ import com.steelcandy.common.debug.Assert;
     to indicate whether the test succeeded or failed.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class SingleTest extends AbstractTest
 {

@@ -27,7 +27,6 @@ import java.util.*;
     from an Atria message catalog.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class MessageCatalog
 {

@@ -33,7 +33,6 @@ import java.io.IOException;
     in a compilation.
 
     @author  James MacKay
-    @version $Revision: 1.6 $
 */
 public class SourceCodeFactory
 {

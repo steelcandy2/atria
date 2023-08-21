@@ -33,7 +33,6 @@ import java.util.*;
     Strings.
 
     @author  James MacKay
-    @version $Revision: 1.6 $
 */
 public class CppStringLookupTableGenerator
     implements CommonCppGeneratorBase

@@ -34,7 +34,6 @@ import com.steelcandy.common.NoSuchItemException;
     want them delegated and/or their results transformed.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see SymbolTable#add(SymbolTableEntry)
 */
 public abstract class AbstractTransformingSymbolTable

@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     validity constraint not being satisfied.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class ValidationError
     extends AbstractKeyedPlackError

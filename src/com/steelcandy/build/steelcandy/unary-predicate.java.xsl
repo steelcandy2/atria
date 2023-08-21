@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: unary-predicate.java.xsl,v 1.4 2003/09/07 19:51:12 jgm Exp $
-
     Transforms the information about a typed unary predicate into the
     source code for the Java interface representing the predicate.
-
-    Author: James MacKay
-    Last Updated: $Date: 2003/09/07 19:51:12 $
 
     Copyright (C) 2002-2004 by James MacKay.
 

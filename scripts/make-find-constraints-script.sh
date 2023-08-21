@@ -1,16 +1,11 @@
 #!/bin/sh
 #
-# $Id: make-find-constraints-script.sh,v 1.1 2004/05/10 23:32:02 jgm Exp $
-#
 # Given on its standard input the names of all of a language's validity
 # constraints as they appear in the language's automatically generated
 # constraint-names.txt file, this script outputs on its standard output a
 # script that finds all occurrences of the validity constraint names -
 # in both their "method" and "constant forms - in all of the Java source
 # files in and under what is the current directory when the script is run.
-#
-# Author: James MacKay
-# Version: $Revision: 1.1 $
 #
 # Copyright (C) 2004 by James MacKay.
 #

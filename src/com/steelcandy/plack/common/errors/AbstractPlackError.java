@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     An abstract base class for PlackErrors. By default they have no keys.
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see AbstractKeyedPlackError
 */
 public abstract class AbstractPlackError

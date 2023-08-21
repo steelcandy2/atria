@@ -29,7 +29,6 @@ import com.steelcandy.common.debug.Assert;
     tokenizer's tokens.
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see Tokenizer
     @see Token
 */

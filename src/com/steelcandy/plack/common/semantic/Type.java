@@ -31,7 +31,6 @@ import com.steelcandy.common.debug.Assert;
     names could be completely unrelated.
 
     @author James MacKay
-    @version $Revision: 1.16 $
 */
 public interface Type
 {

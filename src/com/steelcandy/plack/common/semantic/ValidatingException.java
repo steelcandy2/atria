@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.base.InternalLanguageProcessingException;
     being validated.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ValidatingException
     extends InternalLanguageProcessingException

@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: ConstructManagers.java.xsl,v 1.34 2016/01/14 14:49:30 jgm Exp $
-
     Transforms a language description document into the Java base class
     for a construct manager class for that language's constructs.
-
-    Author: James MacKay
-    Last Updated: $Date: 2016/01/14 14:49:30 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

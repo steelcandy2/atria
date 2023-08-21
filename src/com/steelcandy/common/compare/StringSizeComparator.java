@@ -26,7 +26,6 @@ import com.steelcandy.common.debug.Assert;
     sizes/lengths are compared lexicographically.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class StringSizeComparator
     extends AbstractStringComparator

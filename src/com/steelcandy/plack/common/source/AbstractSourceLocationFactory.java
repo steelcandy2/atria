@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     An abstract base class for classes used to create SourceLocations.
 
     @author James MacKay
-    @version $Revision: 1.10 $
     @see SourceLocation
 */
 public abstract class AbstractSourceLocationFactory

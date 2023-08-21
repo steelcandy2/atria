@@ -27,7 +27,6 @@ import java.io.FilenameFilter;
     base names end with a specific extension.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractExtensionFilenameFilter
     implements FilenameFilter

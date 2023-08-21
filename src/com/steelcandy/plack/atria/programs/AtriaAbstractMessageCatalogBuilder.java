@@ -39,7 +39,6 @@ import java.util.*;
     documents that represent a message catalog.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public abstract class AtriaAbstractMessageCatalogBuilder
     extends AtriaAbstractWritingInterpreter

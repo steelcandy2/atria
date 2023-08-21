@@ -26,7 +26,6 @@ import java.io.*;
     SourceCodeFiles.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class SourceCodeFileReader
     extends SourceCodeReader

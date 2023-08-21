@@ -51,7 +51,6 @@ import java.util.MissingResourceException;
     configured.)
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class ReflectiveShellFilterTokenizer
     extends ShellFilterTokenizer

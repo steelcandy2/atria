@@ -35,7 +35,6 @@ import java.util.*;
     Note: this class is <em>not</em> thread-safe.
 
     @author  James MacKay
-    @version $Revision: 1.5 $
 */
 public abstract class AbstractStorage
     implements Storage

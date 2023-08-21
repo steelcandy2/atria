@@ -56,7 +56,6 @@ import java.util.*;
     behaviour.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see Test
     @see java.io.Writer
     @see #registerOutputType

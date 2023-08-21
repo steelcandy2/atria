@@ -28,7 +28,6 @@ import com.steelcandy.common.debug.Assert;
     a Type object's resolve() method.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
     @see Type#resolve(TypeResolver)
 */
 public interface TypeResolver

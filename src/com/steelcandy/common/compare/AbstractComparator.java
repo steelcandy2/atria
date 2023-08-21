@@ -28,7 +28,6 @@ import java.util.Comparator;
     Subclasses just have to implement compareNonNull().
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class AbstractComparator
     implements Comparator

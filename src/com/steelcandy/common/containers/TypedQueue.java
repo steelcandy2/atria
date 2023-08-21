@@ -33,7 +33,6 @@ import java.util.Iterator;
     on the item type, and also manages the backing list.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public abstract class TypedQueue
 {

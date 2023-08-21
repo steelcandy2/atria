@@ -41,7 +41,6 @@ import com.steelcandy.common.debug.Assert;
     should be sufficient for most uses.)
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class SequentialWorkProcessor
     implements WorkProcessor

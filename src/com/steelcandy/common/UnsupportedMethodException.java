@@ -26,7 +26,6 @@ package com.steelcandy.common;
     to be created without having to specify a message.
 
     @author James MacKay
-    @version $Revision$
 */
 public class UnsupportedMethodException
     extends UnsupportedOperationException

@@ -21,7 +21,6 @@ package com.steelcandy.common.debug;
     The class of exception thrown when a precondition fails.
 
     @author James MacKay
-    @version $Revision$
 */
 public class PreconditionFailedException
     extends AssertionFailedException

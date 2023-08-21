@@ -1,7 +1,5 @@
 #!/bin/bash
 #
-# $Id: jclass-uses,v 1.1 2005/08/31 12:37:53 jgm Exp $
-#
 # Outputs a list of the classes defined in Java source files in the specified
 # directory, each followed by the names of the classes in or under the current
 # directory in which their names appear.

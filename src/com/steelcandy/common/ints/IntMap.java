@@ -26,7 +26,6 @@ import com.steelcandy.common.NoSuchItemException;
     java.util.Map with int as the type of its keys and values.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see java.util.Map
 */
 public interface IntMap

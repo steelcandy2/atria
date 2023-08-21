@@ -25,7 +25,6 @@ import com.steelcandy.common.Resources;
     An abstract base class for StoredItem classes.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public abstract class AbstractStoredItem
     implements StoredItem

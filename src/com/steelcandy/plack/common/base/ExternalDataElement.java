@@ -35,7 +35,6 @@ import com.steelcandy.common.debug.Assert;
     language-specific package.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public interface ExternalDataElement
 {

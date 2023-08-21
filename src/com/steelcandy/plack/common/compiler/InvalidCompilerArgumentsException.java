@@ -23,7 +23,6 @@ package com.steelcandy.plack.common.compiler;
     more arguments used together are invalid.)
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class InvalidCompilerArgumentsException
     extends CompilerException

@@ -33,7 +33,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     class should be subclassed directly instead.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see AbstractToken
 */
 public class OperatorToken

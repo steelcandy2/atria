@@ -35,7 +35,6 @@ import java.util.*;
     this class would extend that class and AtriaAbstractConstructVisitor.
 
     @author  James MacKay
-    @version $Revision: 1.5 $
 */
 public abstract class AtriaAbstractExtendedConstructVisitor
     extends AtriaAbstractConstructVisitor

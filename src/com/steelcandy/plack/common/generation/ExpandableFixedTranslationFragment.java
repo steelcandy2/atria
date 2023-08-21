@@ -29,7 +29,6 @@ import java.io.IOException;
     pieces of target code.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class ExpandableFixedTranslationFragment
     implements TranslationFragment

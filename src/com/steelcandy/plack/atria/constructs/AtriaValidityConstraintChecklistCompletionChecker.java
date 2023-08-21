@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.constructs.*;
     validity constraints properly checked.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaValidityConstraintChecklistCompletionChecker
     extends AbstractValidityConstraintChecklistCompletionChecker

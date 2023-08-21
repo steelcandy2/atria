@@ -26,7 +26,6 @@ import com.steelcandy.common.ints.UnaryIntPredicate;
     satisfies a UnaryIntPredicate.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see Token
     @see UnaryIntPredicate
 */

@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     An abstract base class for TypeResolvers.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractTypeResolver
     implements TypeResolver

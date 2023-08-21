@@ -21,7 +21,6 @@ package com.steelcandy.build;
     The class of exception thrown when generating source code fails.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class SourceCodeGenerationException
     extends Exception

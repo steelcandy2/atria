@@ -34,7 +34,6 @@ import java.io.IOException;
     to implement the accept() method.
 
     @author James MacKay
-    @version $Revision: 1.11 $
     @see SingleTokenConstruct
 */
 public abstract class AbstractConstruct

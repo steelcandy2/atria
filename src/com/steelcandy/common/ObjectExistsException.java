@@ -22,7 +22,6 @@ package com.steelcandy.common;
     that already exists when that is illegal.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class ObjectExistsException
     extends SteelCandyException

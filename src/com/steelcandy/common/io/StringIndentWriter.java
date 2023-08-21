@@ -29,7 +29,6 @@ import java.io.*;
     contentsBuffer() methods can be called repeatedly, though.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class StringIndentWriter
     extends IndentWriter

@@ -33,7 +33,6 @@ import com.steelcandy.common.*;
     has been processed to convert physical lines into logical lines.
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public class IndentAllLinesTokenizer
     extends AtriaFilterTokenizer

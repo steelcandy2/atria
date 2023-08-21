@@ -31,7 +31,6 @@ import com.steelcandy.common.io.Io;
     be extracted after they've been added.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class ErrorMessageBuffer
 {

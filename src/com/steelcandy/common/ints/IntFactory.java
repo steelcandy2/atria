@@ -26,7 +26,6 @@ import com.steelcandy.common.Resources;
     sort of order or pattern.
 
     @author  James MacKay
-    @version $Revision: 1.3 $
 */
 public interface IntFactory
 {

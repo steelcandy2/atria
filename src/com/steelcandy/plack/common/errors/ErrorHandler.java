@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.constructs.Parser;
     various types of errors that occur while processing source code.
 
     @author James MacKay
-    @version $Revision: 1.17 $
 */
 public interface ErrorHandler
 {

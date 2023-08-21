@@ -28,7 +28,6 @@ import com.steelcandy.common.debug.Assert;
     as equal.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see Object#equals(Object)
     @see Object#hashCode
 */

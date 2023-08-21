@@ -46,7 +46,6 @@ import com.steelcandy.common.debug.Assert;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public abstract class Attribute
 {

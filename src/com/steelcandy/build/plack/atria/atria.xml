@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <!--
-    $Id: atria.xml,v 1.30 2016/03/12 13:22:04 jgm Exp $
-
     A description of the Atria data representation language.
 
     See com/steelcandy/plack/common/docs/language-description-document-notes.txt
     for various notes on language description documents in general.
-
-    Author: James MacKay
-    Last Updated: $Date: 2016/03/12 13:22:04 $
 
     Copyright (C) 2005-2016 by James MacKay.
 

@@ -27,7 +27,6 @@ import java.io.IOException;
     A singleton DelayedTextWriter that doesn't write anything.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
     @see NullDelayedTextWriter
 */
 public class NullDelayedTextWriter

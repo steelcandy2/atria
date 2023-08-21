@@ -1,15 +1,10 @@
 <?xml version="1.0"?>
 <!--
-    $Id: documentation-in-html.xsl,v 1.8 2006/06/16 04:12:59 jgm Exp $
-
     A base stylesheet for XSL stylesheets that transform the
     'documentation.xml' file that contains the documentation for a language
     into an XSL stylesheet that, when it is applied to the language's
     language description document, results in the language's documentation
     in a specific format (such as HTML, for example).
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/16 04:12:59 $
 
     Copyright (C) 2006 by James MacKay.
 

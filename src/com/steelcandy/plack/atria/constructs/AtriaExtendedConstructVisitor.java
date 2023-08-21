@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     visit specific types of commands.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public interface AtriaExtendedConstructVisitor
     extends AtriaConstructVisitor, AtriaCommandConstructVisitor

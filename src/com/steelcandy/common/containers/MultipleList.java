@@ -31,7 +31,6 @@ import java.util.List;
     lists.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class MultipleList
     extends AbstractList

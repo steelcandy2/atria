@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     package related to externalizing.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class CommonExternalizingResourcesLocator
     extends ResourcesLocator

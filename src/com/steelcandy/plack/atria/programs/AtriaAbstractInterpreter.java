@@ -47,7 +47,6 @@ import java.util.*;
     toValidatedDocument()).
 
     @author  James MacKay
-    @version $Revision: 1.15 $
 */
 public abstract class AtriaAbstractInterpreter
     extends AtriaAbstractExtendedConstructVisitor

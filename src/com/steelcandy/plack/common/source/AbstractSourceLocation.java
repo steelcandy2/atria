@@ -25,7 +25,6 @@ import com.steelcandy.common.creation.ReflectionUtilities;
     An abstract base clas for SourceLocations.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class AbstractSourceLocation
     implements SourceLocation

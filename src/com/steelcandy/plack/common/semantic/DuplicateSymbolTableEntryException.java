@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.base.PlackException;
     by, or otherwise coexist with the existing entry.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class DuplicateSymbolTableEntryException
     extends PlackException

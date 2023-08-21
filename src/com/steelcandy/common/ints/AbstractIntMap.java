@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     An abstract base class for IntMaps.
 
     @author James MacKay
-    @version $Revision: 1.11 $
 */
 public abstract class AbstractIntMap
     extends AbstractIntCollection

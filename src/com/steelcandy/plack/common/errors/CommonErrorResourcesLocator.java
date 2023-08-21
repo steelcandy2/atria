@@ -24,7 +24,6 @@ import com.steelcandy.common.ResourcesLocator;
     The class used to locate the resources used by the common error classes.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class CommonErrorResourcesLocator
     extends ResourcesLocator

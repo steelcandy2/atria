@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <!--
-    $Id: ValidityConstraintChecklists.java.xsl,v 1.20 2005/10/24 21:56:13 jgm Exp $
-
     Transforms a language description document into the Java classes
     that represent the language's constructs' validity constraint
     checklists, as well as the factory classes that create the
     validity constraint checklist classes.
-
-    Author: James MacKay
-    Last Updated: $Date: 2005/10/24 21:56:13 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

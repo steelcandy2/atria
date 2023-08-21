@@ -38,7 +38,6 @@ import java.text.MessageFormat;
     TODO: add method that will execute (external) programs asynchronuously(?)
 
     @author James MacKay
-    @version $Revision: 1.14 $
     @see Program#EXECUTOR
 */
 public class ProgramExecutor

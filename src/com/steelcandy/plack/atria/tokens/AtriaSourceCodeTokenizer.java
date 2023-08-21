@@ -36,7 +36,6 @@ import com.steelcandy.common.*;
     sequence of other tokenizers that perform other operations on the tokens.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class AtriaSourceCodeTokenizer
     extends AtriaSourceCodeTokenizerBase

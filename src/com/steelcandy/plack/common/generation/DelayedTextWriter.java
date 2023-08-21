@@ -31,7 +31,6 @@ import java.io.IOException;
     allow pieces of target code to be pased into methods.
 
     @author  James MacKay
-    @version $Revision: 1.3 $
     @see NullDelayedTextWriter
 */
 public abstract class DelayedTextWriter

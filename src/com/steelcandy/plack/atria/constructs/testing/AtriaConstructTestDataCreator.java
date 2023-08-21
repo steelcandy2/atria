@@ -35,7 +35,6 @@ import java.io.IOException;
     The construct test data creator class.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class AtriaConstructTestDataCreator
     extends AtriaConstructTestDataCreatorBase

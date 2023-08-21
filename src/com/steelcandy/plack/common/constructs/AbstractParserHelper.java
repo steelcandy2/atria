@@ -36,7 +36,6 @@ import com.steelcandy.plack.common.tokens.Tokenizer;
     parser helper instance.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public abstract class AbstractParserHelper
     implements ErrorSeverityLevels

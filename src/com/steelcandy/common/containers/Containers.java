@@ -25,7 +25,6 @@ import java.util.*;
     A collection of container-related utility methods.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class Containers
 {

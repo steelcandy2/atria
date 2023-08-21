@@ -31,7 +31,6 @@ import java.util.HashMap;
     classes.
 
     @author James MacKay
-    @version $Revision: 1.23 $
 */
 public abstract class MinimalAbstractSymbolTable
     implements SymbolTable

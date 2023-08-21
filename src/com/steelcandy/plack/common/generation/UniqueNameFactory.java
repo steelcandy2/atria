@@ -32,7 +32,6 @@ import com.steelcandy.common.ints.OutOfUniqueValuesException;
     each name that cannot be part of other names).
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see #reset
 */
 public interface UniqueNameFactory

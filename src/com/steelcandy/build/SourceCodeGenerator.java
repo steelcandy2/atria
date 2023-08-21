@@ -48,7 +48,6 @@ import java.util.*;
     our other classes.
 
     @author James MacKay
-    @version $Revision: 1.67 $
 */
 public abstract class SourceCodeGenerator
 {

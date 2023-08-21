@@ -24,7 +24,6 @@ import com.steelcandy.common.ResourcesLocator;
     The class used to locate the resources used by the common text classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class TextResourcesLocator
     extends ResourcesLocator

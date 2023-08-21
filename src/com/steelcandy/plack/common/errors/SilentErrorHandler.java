@@ -29,7 +29,6 @@ import com.steelcandy.common.debug.Assert;
     whether any errors have occurred.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see SilentCountingErrorHandler
 */
 public class SilentErrorHandler

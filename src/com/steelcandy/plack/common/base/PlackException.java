@@ -23,7 +23,6 @@ import com.steelcandy.common.SteelCandyException;
     The base class for all Plack exceptions.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class PlackException
     extends SteelCandyException

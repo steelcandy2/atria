@@ -27,7 +27,6 @@ import com.steelcandy.common.UnsupportedMethodException;
     the other entry are resolved using a type resolver.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see TypeResolver
 */
 public abstract class AbstractTypeResolvingSymbolTableEntry

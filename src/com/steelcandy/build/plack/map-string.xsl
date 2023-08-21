@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id: map-string.xsl,v 1.8 2006/06/09 23:32:23 jgm Exp $
-
     Contains the variables and templates related to map strings, which
     map tokens to the types of constructs that they could validly start.
 
@@ -15,9 +13,6 @@
     'token-name' is the name of the first token of a construct,
     and 'construct-type' is the name of one of the types of
     constructs that the corresponding token can start.
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/09 23:32:23 $
 
     Copyright (C) 2002-2010 by James MacKay.
 

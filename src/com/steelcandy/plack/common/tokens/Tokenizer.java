@@ -48,7 +48,6 @@ import com.steelcandy.common.NoSuchItemException;
     <code>handler</code> is the constructor's ErrorHandler parameter.
 
     @author James MacKay
-    @version $Revision: 1.13 $
     @see Token
     @see ReflectiveShellFilterTokenizer
     @see ReflectiveShellSourceCodeTokenizer

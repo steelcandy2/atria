@@ -27,7 +27,6 @@ import java.util.BitSet;
     The default implementation of the RoutineCallResolver interface.
 
     @author  James MacKay
-    @version $Revision: 1.7 $
 */
 public class DefaultRoutineCallResolver
     extends AbstractRoutineCallResolver

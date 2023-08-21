@@ -25,7 +25,6 @@ import com.steelcandy.common.debug.Assert;
     source code in which it is contained.
 
     @author James MacKay
-    @version $Revision: 1.3 $
     @see SourceLocation
 */
 public interface HasSourceLocation

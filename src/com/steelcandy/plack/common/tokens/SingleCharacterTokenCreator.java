@@ -32,7 +32,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     token representing the single character.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public abstract class SingleCharacterTokenCreator
     extends AbstractTokenCreator

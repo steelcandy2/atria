@@ -30,7 +30,6 @@ import java.util.List;
     language's base construct visitor interface.
 
     @author James MacKay
-    @version $Revision: 1.20 $
 */
 public interface ChecklistCompletionConstructVisitor
 {

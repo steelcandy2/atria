@@ -29,7 +29,6 @@ import com.steelcandy.common.debug.Assert;
     before any of its other methods are called.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public interface FilterTokenizer
     extends Tokenizer

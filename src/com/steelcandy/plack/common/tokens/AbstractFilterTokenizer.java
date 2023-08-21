@@ -36,7 +36,6 @@ import com.steelcandy.common.*;
     new version).
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see Token
 */
 public abstract class AbstractFilterTokenizer

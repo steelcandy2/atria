@@ -28,7 +28,6 @@ import java.io.Writer;
     prefix is specified.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class FixedPrefixWriter
     extends PrefixWriter

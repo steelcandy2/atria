@@ -26,7 +26,6 @@ import com.steelcandy.common.NoSuchItemException;
     Represents a stack of int items.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class IntStack
     extends TypedStack

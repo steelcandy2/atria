@@ -30,7 +30,6 @@ import com.steelcandy.plack.common.base.PlackException;
     implementation.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class InvalidConstructPartException
     extends PlackException

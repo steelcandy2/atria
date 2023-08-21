@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     to corresponding formal argument types to see if they match.
 
     @author  James MacKay
-    @version $Revision$
 */
 public interface ArgumentTypeMatcher
 {

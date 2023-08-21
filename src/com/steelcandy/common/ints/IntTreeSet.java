@@ -26,7 +26,6 @@ import java.util.TreeSet;
     An IntSet implemented using a (binary) tree.
 
     @author  James MacKay
-    @version $Revision: 1.7 $
 */
 public class IntTreeSet
     extends AbstractIntSet

@@ -22,7 +22,6 @@ package com.steelcandy.common;
     the resources used by the common/base exception classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CommonExceptionResourcesLocator
     extends ResourcesLocator

@@ -31,7 +31,6 @@ import java.util.*;
     An abstract base class for SymbolTableEntry classes.
 
     @author James MacKay
-    @version $Revision: 1.19 $
 */
 public abstract class AbstractSymbolTableEntry
     extends MinimalAbstractSymbolTableEntry

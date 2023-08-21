@@ -25,7 +25,6 @@ import com.steelcandy.common.NoSuchItemException;
     An iterator over a sequence of consecutive ints.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class ConsecutiveIntIterator
     implements IntIterator

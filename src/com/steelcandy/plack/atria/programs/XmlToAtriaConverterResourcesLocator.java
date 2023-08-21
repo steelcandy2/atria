@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     converter program's classes.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class XmlToAtriaConverterResourcesLocator
     extends ResourcesLocator

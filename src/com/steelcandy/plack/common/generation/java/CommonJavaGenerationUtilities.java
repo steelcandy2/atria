@@ -35,7 +35,6 @@ import java.util.Set;
     superclass.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class CommonJavaGenerationUtilities
     extends CommonCodeGenerationUtilities

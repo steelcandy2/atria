@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     An abstract base class for Atria tokens.
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public abstract class AtriaAbstractToken
     extends AbstractToken

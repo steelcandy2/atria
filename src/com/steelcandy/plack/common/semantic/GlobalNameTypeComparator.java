@@ -29,7 +29,6 @@ import com.steelcandy.common.compare.DefaultStringComparator;
     global names. Types with the name global name will compare as equal.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see Type
 */
 public class GlobalNameTypeComparator

@@ -25,7 +25,6 @@ import com.steelcandy.common.text.TextUtilities;
     An iterator over the elements in an int array.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public class IntArrayIterator
     implements IntIterator

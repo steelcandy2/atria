@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.base.PlackException;
     Atria fails.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaConversionException
     extends PlackException

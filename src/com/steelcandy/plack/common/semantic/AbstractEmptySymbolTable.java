@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     An abstract base class for immutable empty symbol tables.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public abstract class AbstractEmptySymbolTable
     implements SymbolTable

@@ -44,7 +44,6 @@ import java.io.Writer;
     IOException).
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see #getPrefix(String, String)
 */
 public abstract class PrefixWriter

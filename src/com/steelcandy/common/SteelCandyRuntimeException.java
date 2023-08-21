@@ -21,7 +21,6 @@ package com.steelcandy.common;
     The base class for all Steel Candy runtime exceptions.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class SteelCandyRuntimeException
     extends RuntimeException

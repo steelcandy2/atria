@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     The interface implemented by all unary predicates on ints.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public interface UnaryIntPredicate
 {

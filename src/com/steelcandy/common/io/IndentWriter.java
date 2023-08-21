@@ -33,7 +33,6 @@ import java.io.Writer;
     per indent level unless and until its indent size is changed.
 
     @author James MacKay
-    @version $Revision: 1.16 $
 */
 public class IndentWriter
     extends PrefixWriter

@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     The interface implemented by classes that listen passively for tokens.
 
     @author  James MacKay
-    @version $Revision$
 */
 public interface TokenListener
 {

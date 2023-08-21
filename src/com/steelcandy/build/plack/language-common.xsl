@@ -1,16 +1,11 @@
 <?xml version="1.0"?>
 <!--
-    $Id: language-common.xsl,v 1.29 2006/06/14 04:33:36 jgm Exp $
-
     Provides common functionality for stylesheets that transform a
     language description document. It is intended to be xsl:imported
     into another stylesheet.
 
     This stylesheet makes no assumptions about the stylesheet that
     imports it.
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/14 04:33:36 $
 
     Copyright (C) 2002-2012 by James MacKay.
 

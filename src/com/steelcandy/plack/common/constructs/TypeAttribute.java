@@ -25,7 +25,6 @@ import com.steelcandy.plack.common.semantic.Type;
     Represents a construct attribute whose value is of type Type.
 
     @author James MacKay
-    @version $Revision: 1.7 $
     @see Type
 */
 public class TypeAttribute

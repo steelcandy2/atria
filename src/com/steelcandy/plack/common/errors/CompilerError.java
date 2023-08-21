@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     compiler can't find or access.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CompilerError
     extends AbstractPlackError

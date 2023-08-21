@@ -40,7 +40,6 @@ import com.steelcandy.common.debug.Assert;
     </pre>
 
     @author James MacKay
-    @version $Revision$
 */
 public abstract class Guard
 {

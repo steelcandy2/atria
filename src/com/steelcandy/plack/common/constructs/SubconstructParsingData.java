@@ -28,7 +28,6 @@ import com.steelcandy.plack.common.source.SourceLocationFactory;
     or was just parsed.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public class SubconstructParsingData
 {

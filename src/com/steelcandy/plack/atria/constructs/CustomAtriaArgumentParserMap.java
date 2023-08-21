@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.constructs.*;
     parser.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see CustomAtriaArgumentParser
 */
 public class CustomAtriaArgumentParserMap

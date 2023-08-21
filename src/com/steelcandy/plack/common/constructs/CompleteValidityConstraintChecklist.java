@@ -31,7 +31,6 @@ import java.util.Set;
     constraints are properly checked.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class CompleteValidityConstraintChecklist
     implements ValidityConstraintChecklist

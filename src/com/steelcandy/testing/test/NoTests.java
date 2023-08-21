@@ -25,7 +25,6 @@ import com.steelcandy.testing.*;
     The package test class that has no sub-tests.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class NoTests
     extends PackageTest

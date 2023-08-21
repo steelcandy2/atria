@@ -28,7 +28,6 @@ import java.io.IOException;
     code.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class FixedTranslationFragment
     implements TranslationFragment

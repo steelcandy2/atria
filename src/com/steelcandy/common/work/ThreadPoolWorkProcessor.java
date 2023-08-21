@@ -28,7 +28,6 @@ import java.util.LinkedList;
     its work.
 
     @author James MacKay
-    @version $Revision$
 */
 public class ThreadPoolWorkProcessor
     implements WorkProcessor

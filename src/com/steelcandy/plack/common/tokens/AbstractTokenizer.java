@@ -46,7 +46,6 @@ import java.util.List;
     <code>errorHandler()</code> method.
 
     @author James MacKay
-    @version $Revision: 1.17 $
     @see Token
     @see #canGetNextToken
     @see #getNextToken

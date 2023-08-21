@@ -39,7 +39,6 @@ import java.io.*;
     once it is no longer being used.
 
     @author James MacKay
-    @version $Revision: 1.10 $
     @see #close
 */
 public class CharacterIterator

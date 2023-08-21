@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <!--
-    $Id: Parsers.java.xsl,v 1.88 2016/01/14 14:49:30 jgm Exp $
-
     Transforms a language description document into a file containing the
     source code for all of the automatically-generated parts of the parsers
     used to parse the language. (The file will have to be split into
     separate source files by some other utility.)
-
-    Author: James MacKay
-    Last Updated: $Date: 2016/01/14 14:49:30 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

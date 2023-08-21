@@ -32,7 +32,6 @@ import com.steelcandy.common.*;
     tokens are to be removed.
 
     @author James MacKay
-    @version $Revision: 1.8 $
     @see Token
     @see FilterTokenizer
 */

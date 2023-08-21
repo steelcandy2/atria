@@ -32,7 +32,6 @@ import com.steelcandy.plack.common.base.PlackRuntimeException;
     throw the instance of this exception after it has reported it.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class FatalErrorException
     extends PlackRuntimeException

@@ -35,7 +35,6 @@ import com.steelcandy.common.text.TextUtilities;
     trace can be obtained directly from it.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class UnexpectedException
     extends SteelCandyRuntimeException

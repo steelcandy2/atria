@@ -53,7 +53,6 @@ import java.io.IOException;
     it non-reentrant a single instance of it can be shared.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see Token#hasObjectValue
     @see Token#objectValue
     @see OperatorData

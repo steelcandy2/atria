@@ -29,7 +29,6 @@ import com.steelcandy.common.debug.Assert;
     missing or the wrong one for this class of object.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see ExternalDataElement
     @see ExternalizingException
 */

@@ -32,7 +32,6 @@ import com.steelcandy.common.NoSuchItemException;
     false.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public interface IntIterator
 {

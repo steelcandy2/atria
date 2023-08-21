@@ -30,7 +30,6 @@ import com.steelcandy.common.Resources;
     A filter tokenizer that removes comment tokens.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class RemoveCommentsTokenizer
     extends RemovalFilterTokenizer

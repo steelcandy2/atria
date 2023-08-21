@@ -55,7 +55,6 @@ import com.steelcandy.common.debug.Assert;
     restrictions pertaining to this.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public interface Test
 {

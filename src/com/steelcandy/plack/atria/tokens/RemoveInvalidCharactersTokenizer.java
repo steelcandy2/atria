@@ -34,7 +34,6 @@ import com.steelcandy.common.Resources;
     tokenizers.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class RemoveInvalidCharactersTokenizer
     extends AbstractRemoveInvalidCharactersTokenizer

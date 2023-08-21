@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     The singleton immutable empty symbol table class.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class EmptySymbolTable
     extends AbstractEmptySymbolTable

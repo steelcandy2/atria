@@ -27,7 +27,6 @@ import com.steelcandy.testing.*;
     sub-test should be performed by the SpecialTests PackageTest).
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see Tests
 */
 public class SpecialTest3

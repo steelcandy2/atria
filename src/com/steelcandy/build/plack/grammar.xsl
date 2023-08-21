@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: grammar.xsl,v 1.47 2006/02/07 14:10:46 jgm Exp $
-
     Transforms a language description document into an HTML document
     that describes the language's grammar.
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/02/07 14:10:46 $
 
     Copyright (C) 2002-2011 by James MacKay.
 

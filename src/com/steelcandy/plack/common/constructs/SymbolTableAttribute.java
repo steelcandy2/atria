@@ -25,7 +25,6 @@ import com.steelcandy.plack.common.semantic.SymbolTable;
     Represents a construct attribute whose value is of type SymbolTable.
 
     @author James MacKay
-    @version $Revision: 1.7 $
     @see SymbolTable
 */
 public class SymbolTableAttribute

@@ -37,7 +37,6 @@ import java.io.IOException;
     child constructs are ordered and can be accessed by index.
 
     @author James MacKay
-    @version $Revision: 1.23 $
 */
 public interface Construct
     extends HasSourceLocation

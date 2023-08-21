@@ -39,7 +39,6 @@ import java.io.IOException;
     writeTokenInformation() methods.
 
     @author James MacKay
-    @version $Revision: 1.17 $
     @see #setToken(Token)
     @see AbstractConstruct
 */

@@ -28,7 +28,6 @@ import com.steelcandy.common.Resources;
     A minimal abstract base class for PlackErrors.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see AbstractKeyedPlackError
 */
 public abstract class MinimalAbstractPlackError

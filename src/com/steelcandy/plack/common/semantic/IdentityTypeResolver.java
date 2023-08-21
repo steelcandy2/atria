@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     is, according to it every type resolves to itself.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class IdentityTypeResolver
     implements TypeResolver

@@ -30,7 +30,6 @@ import java.io.Writer;
     part of the last line to be written may not get written.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see Writer
 */
 public abstract class LineFilterWriter

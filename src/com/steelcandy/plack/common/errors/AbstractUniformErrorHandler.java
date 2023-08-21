@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.constructs.Parser;
     way.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public abstract class AbstractUniformErrorHandler
     extends AbstractCountingErrorHandler

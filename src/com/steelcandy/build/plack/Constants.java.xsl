@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: Constants.java.xsl,v 1.4 2012/03/20 00:49:06 jgm Exp $
-
     Transforms a language description document into a Java class that
     contains the constants defined in that document.
-
-    Author: James MacKay
-    Last Updated: $Date: 2012/03/20 00:49:06 $
 
     Copyright (C) 2004-2016 by James MacKay.
 

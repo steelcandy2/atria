@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     classes.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CommonGenerationResourcesLocator
     extends ResourcesLocator

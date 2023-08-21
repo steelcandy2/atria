@@ -1,16 +1,11 @@
 <?xml version="1.0"?>
 <!--
-    $Id: document-common.html.xsl,v 1.37 2012/03/17 02:51:37 jgm Exp $
-
     Provides common functionality for stylesheets that transform a
     language description document into an HTML document. It is intended to
     be xsl:imported into another stylesheet.
 
     This stylesheet makes no assumptions about the stylesheet that
     imports it.
-
-    Author: James MacKay
-    Last Updated: $Date: 2012/03/17 02:51:37 $
 
     Copyright (C) 2004-2014 by James MacKay.
 

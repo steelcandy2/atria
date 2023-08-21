@@ -1,9 +1,6 @@
 #!/bin/sh
 #
-# $Id: run-java-script.build-template,v 1.3 2001/10/27 20:17:38 jgm Exp $
-#
-# Author: James MacKay
-# Last Updated: $Date: 2001/10/27 20:17:38 $
+# Runs the Java class com.steelcandy.common.io.IndentWriter.
 #
 # Copyright (C) 2002 by James MacKay.
 #
@@ -19,10 +16,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
-#
-# Runs the Java class ${class}
 #
 
 # JAVA_HOME must be set.

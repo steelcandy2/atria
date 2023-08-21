@@ -29,7 +29,6 @@ import java.io.*;
     Base class for all classes that represent a piece of source code.
 
     @author James MacKay
-    @version $Revision: 1.17 $
 */
 public abstract class SourceCode
 {

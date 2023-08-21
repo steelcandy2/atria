@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     by the int-related classes in this package.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public class IntResourcesLocator
     extends ResourcesLocator

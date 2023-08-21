@@ -29,7 +29,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     TokenCreatorResult interface except the nextTokenStartPosition() method.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see TokenCreator
 */
 public abstract class AbstractTokenCreatorResult

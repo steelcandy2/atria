@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.base.PlackRuntimeException;
     more than once on a given construct.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ValidityConstraintAlreadyCheckedException
     extends ValidatingException

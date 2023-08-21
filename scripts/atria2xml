@@ -1,9 +1,7 @@
 #!/bin/sh
 #
-# $Id: atria2xml,v 1.4 2009/01/22 19:57:57 jgm Exp $
-#
-# Author: James MacKay
-# Last Updated: $Date: 2009/01/22 19:57:57 $
+# Runs the Java class
+# com.steelcandy.plack.atria.programs.AtriaToXmlConverterProgram.
 #
 # Copyright (C) 2005-2010 by James MacKay.
 #
@@ -19,10 +17,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
-#
-# Runs the Java class com.steelcandy.plack.atria.programs.AtriaToXmlConverterProgram
 #
 
 # Set the starting and maximum amount of memory; use the server VM.

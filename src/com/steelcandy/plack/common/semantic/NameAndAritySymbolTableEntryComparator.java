@@ -32,7 +32,6 @@ import com.steelcandy.common.compare.DefaultStringComparator;
     and arity will compare as equal.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see SymbolTableEntry
 */
 public class NameAndAritySymbolTableEntryComparator

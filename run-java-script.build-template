@@ -1,9 +1,6 @@
 #!/bin/sh
 #
-# $Id: run-java-script.build-template,v 1.5 2004/06/01 02:02:10 jgm Exp $
-#
-# Author: James MacKay
-# Last Updated: $Date: 2004/06/01 02:02:10 $
+# Runs the Java class @CLASS_NAME@
 #
 # Copyright (C) 2001-2004 by James MacKay.
 #
@@ -19,10 +16,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
-#
-# Runs the Java class @CLASS_NAME@
 #
 
 # JAVA_HOME must be set.

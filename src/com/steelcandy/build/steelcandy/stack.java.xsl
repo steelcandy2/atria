@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: stack.java.xsl,v 1.7 2004/05/21 15:56:05 jgm Exp $
-
     Transforms the information about a typed stack into the source
     code for the Java interface that represents the stack.
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/05/21 15:56:05 $
 
     Copyright (C) 2002-2004 by James MacKay.
 

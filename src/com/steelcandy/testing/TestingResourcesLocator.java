@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     the testing-related classes in this package.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class TestingResourcesLocator
     extends ResourcesLocator

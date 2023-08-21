@@ -26,7 +26,6 @@ import com.steelcandy.common.io.Io;
     don't fit anywhere else.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class Utilities
 {

@@ -32,7 +32,6 @@ import com.steelcandy.common.*;
     processes.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public class RemoveBlankLinesTokenizer
     extends AtriaFilterTokenizer

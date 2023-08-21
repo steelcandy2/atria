@@ -34,7 +34,6 @@ import com.steelcandy.common.debug.Assert;
     Other types of work processors are possible as well.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public interface WorkProcessor
 {

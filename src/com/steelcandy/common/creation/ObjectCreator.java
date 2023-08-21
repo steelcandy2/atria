@@ -27,7 +27,6 @@ import java.lang.reflect.*;
     A singleton class that creates objects using reflection.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ObjectCreator
 {

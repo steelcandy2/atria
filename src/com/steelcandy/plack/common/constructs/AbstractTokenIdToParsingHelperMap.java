@@ -44,7 +44,6 @@ import com.steelcandy.common.Resources;
     get(int tokenId) method with an appropriate return type too.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see AbstractTokenIdToObjectMap#initialize
 */
 public abstract class AbstractTokenIdToParsingHelperMap

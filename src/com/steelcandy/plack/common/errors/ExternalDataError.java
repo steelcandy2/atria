@@ -26,7 +26,6 @@ import com.steelcandy.common.debug.Assert;
     At least currently this type of error is always fatal.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ExternalDataError
     extends AbstractSimplePlackError

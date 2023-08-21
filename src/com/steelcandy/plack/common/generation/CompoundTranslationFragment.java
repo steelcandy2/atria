@@ -30,7 +30,6 @@ import java.util.*;
     lines of target code.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class CompoundTranslationFragment
     implements TranslationFragment

@@ -37,7 +37,6 @@ import java.io.IOException;
     duplicates).
 
     @author James MacKay
-    @version $Revision: 1.15 $
     @see ContinuousSourceLocation
 */
 public interface SourceLocation

@@ -43,7 +43,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     fully-qualified name. (AbstractToken already does this.)
 
     @author James MacKay
-    @version $Revision: 1.8 $
     @see AbstractToken
 */
 public interface Token

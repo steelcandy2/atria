@@ -49,7 +49,6 @@ import com.steelcandy.common.io.Io;
     package's name is used to construct the names of its sub-tests.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class PackageTest extends AbstractTest
 {

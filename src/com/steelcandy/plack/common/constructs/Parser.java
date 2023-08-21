@@ -36,7 +36,6 @@ import com.steelcandy.plack.common.tokens.TrackedTokenList;
     into a constructor or other method.
 
     @author James MacKay
-    @version $Revision: 1.14 $
 */
 public interface Parser
     extends ErrorSeverityLevels

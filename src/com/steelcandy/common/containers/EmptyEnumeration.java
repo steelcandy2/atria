@@ -26,7 +26,6 @@ import java.util.NoSuchElementException;
     Represents an empty enumeration.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public class EmptyEnumeration implements Enumeration
 {

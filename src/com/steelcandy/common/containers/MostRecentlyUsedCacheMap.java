@@ -26,7 +26,6 @@ import java.util.*;
     the oldest ones.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class MostRecentlyUsedCacheMap
     extends LinkedHashMap

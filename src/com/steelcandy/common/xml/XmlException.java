@@ -23,7 +23,6 @@ import com.steelcandy.common.SteelCandyException;
     The base class for all XML exceptions.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class XmlException
     extends SteelCandyException

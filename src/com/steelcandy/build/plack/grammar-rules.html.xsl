@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: grammar-rules.html.xsl,v 1.11 2012/09/13 14:51:19 jgm Exp $
-
     Defines templates that render language grammar rules in HTML.
-
-    Author: James MacKay
-    Last Updated: $Date: 2012/09/13 14:51:19 $
 
     Copyright (C) 2004-2014 by James MacKay.
 

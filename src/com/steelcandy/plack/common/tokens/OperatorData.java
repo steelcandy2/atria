@@ -24,7 +24,6 @@ import java.text.MessageFormat;
     have the same associativity, but this is not required.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see Token#objectValue
 */
 public class OperatorData

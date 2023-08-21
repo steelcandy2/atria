@@ -37,7 +37,6 @@ import java.util.Set;
     indeed checked.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public interface ValidityConstraintChecklist
 {

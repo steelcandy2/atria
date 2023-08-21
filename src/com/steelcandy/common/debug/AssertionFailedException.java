@@ -21,7 +21,6 @@ package com.steelcandy.common.debug;
     The class of exception thrown when an assertion fails.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class AssertionFailedException
     extends DebuggingException

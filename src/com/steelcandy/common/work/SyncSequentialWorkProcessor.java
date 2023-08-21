@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     A thread-safe SequentialWorkProcessor.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see SequentialWorkProcessor
 */
 public class SyncSequentialWorkProcessor

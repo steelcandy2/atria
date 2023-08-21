@@ -29,7 +29,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     Subclasses just have to implement <code>level()</code>.
 
     @author James MacKay
-    @version $Revision: 1.3 $
     @see PlackError#level
 */
 public abstract class AbstractSimplePlackError

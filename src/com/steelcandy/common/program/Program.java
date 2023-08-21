@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     programs.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public interface Program
 {

@@ -35,7 +35,6 @@ import java.security.NoSuchAlgorithmException;
     a way that they are valid parts of Java identifiers.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class DefaultJavaTypeListEncoder
     extends AbstractTypeListEncoder

@@ -30,7 +30,6 @@ import com.steelcandy.common.NoSuchItemException;
     IntArrayMap can ever be mapped by the IntArrayMap.
 
     @author James MacKay
-    @version $Revision: 1.11 $
 */
 public class IntArrayMap
     extends AbstractIntMap

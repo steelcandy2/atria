@@ -28,7 +28,6 @@ import com.steelcandy.common.NoSuchItemException;
     not the one that is automatically generated.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see Token
 */
 public class CustomTokenIterator

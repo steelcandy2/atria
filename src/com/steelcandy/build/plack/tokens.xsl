@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: tokens.xsl,v 1.2 2004/03/27 02:39:20 jgm Exp $
-
     Contains the variables and templates related to tokens and
     that are independent of any target language (e.g. Java).
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/03/27 02:39:20 $
 
     Copyright (C) 2002-2005 by James MacKay.
 

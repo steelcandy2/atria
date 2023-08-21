@@ -30,7 +30,6 @@ import com.steelcandy.plack.common.source.SourceCode;
     before any of its other methods are called.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public interface SourceCodeTokenizer
     extends Tokenizer

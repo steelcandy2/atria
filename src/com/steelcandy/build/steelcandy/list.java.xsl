@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: list.java.xsl,v 1.18 2015/06/11 01:32:23 jgm Exp $
-
     Transforms the information about a typed list into the source
     code for the Java class that represents the list.
-
-    Author: James MacKay
-    Last Updated: $Date: 2015/06/11 01:32:23 $
 
     Copyright (C) 2002-2015 by James MacKay.
 

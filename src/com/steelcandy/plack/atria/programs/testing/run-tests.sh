@@ -1,7 +1,5 @@
 #!/bin/bash
 #
-# $Id: run-tests.sh,v 1.2 2005/10/24 21:59:54 jgm Exp $
-#
 # Runs all of the program tests.
 #
 # Author: James MacKay

@@ -41,7 +41,6 @@ import com.steelcandy.plack.common.semantic.*;
     constraints building/setting construct attributes' values).
 
     @author  James MacKay
-    @version $Revision: 1.5 $
     @see #CHECKER
 */
 public class AtriaAbstractSemanticAnalyzer

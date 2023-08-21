@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     with int as the type of its values.
 
     @author  James MacKay
-    @version $Revision: 1.5 $
 */
 public interface IntSet
     extends IntCollection

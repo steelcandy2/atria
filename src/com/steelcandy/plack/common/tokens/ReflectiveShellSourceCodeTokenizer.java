@@ -39,7 +39,6 @@ import java.util.*;
     configured.)
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class ReflectiveShellSourceCodeTokenizer
     extends ShellSourceCodeTokenizer

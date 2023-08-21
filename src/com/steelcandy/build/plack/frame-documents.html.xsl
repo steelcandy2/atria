@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <!--
-    $Id: frame-documents.html.xsl,v 1.4 2005/11/10 04:02:14 jgm Exp $
-
     Transforms a language description document into the frame-specific
     HTML documents used in the frames-enabled version of the language
     documents. This includes the frameset HTML documents, but not the index
     documents, except for the overview index document.
-
-    Author: James MacKay
-    Last Updated: $Date: 2005/11/10 04:02:14 $
 
     Copyright (C) 2004-2014 by James MacKay.
 

@@ -51,7 +51,6 @@ import java.util.*;
     directory components. Note that NEW_FILE_PREFIX ends with a space.
 
     @author James MacKay
-    @version $Revision: 1.15 $
 */
 public class FileSplitter
 {

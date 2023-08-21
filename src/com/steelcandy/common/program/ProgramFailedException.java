@@ -28,7 +28,6 @@ import com.steelcandy.common.debug.Assert;
     for output, and should only contain user-domain terms and information.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ProgramFailedException
     extends ProgramException

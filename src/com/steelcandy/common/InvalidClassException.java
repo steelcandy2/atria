@@ -26,7 +26,6 @@ package com.steelcandy.common;
     doesn't derive from a required class or interface, etc.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class InvalidClassException
     extends SteelCandyException

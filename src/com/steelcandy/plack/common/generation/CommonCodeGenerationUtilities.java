@@ -36,7 +36,6 @@ import java.util.*;
     used rather than using this class directly.
 
     @author  James MacKay
-    @version $Revision: 1.21 $
 */
 public class CommonCodeGenerationUtilities
     implements ErrorSeverityLevels

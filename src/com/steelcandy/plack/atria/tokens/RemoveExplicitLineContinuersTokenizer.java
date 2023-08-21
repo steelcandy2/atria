@@ -37,7 +37,6 @@ import com.steelcandy.common.*;
     JoinLinesTokenizer.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see JoinLinesTokenizer
     @see AtriaTokenManagerBase#EXPLICIT_LINE_CONTINUER
 */

@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id: common-generic.java.xsl,v 1.4 2004/05/12 19:27:34 jgm Exp $
-
     Provides common functionality for stylesheets that generate the
     source code for generic classes with one generic 'parameter'.
     It is intended to be xsl:imported into another stylesheet.
@@ -9,9 +7,6 @@
         - top: a variable whose value is the element that describes
                the generic class. The value of $root should be used in
                setting this variable's value
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/05/12 19:27:34 $
 
     Copyright (C) 2002-2004 by James MacKay.
 
@@ -94,12 +89,7 @@
 
     <!-- Common templates -->
 
-    <!-- Outputs the common part of a generated class' class comment.
-
-         Note: the comment does NOT include a @version tag since using
-         $Revision: 1.4 $ for its value expands to this template's revision,
-         causing all generated files to appear to have been changed when
-         they haven't otherwise changed. -->
+    <!-- Outputs the common part of a generated class' class comment. -->
     <xsl:template name="common-class-comment-part">
         <xsl:text>    &lt;p&gt;
     &lt;strong&gt;Note&lt;/strong&gt;: this file was automatically generated, and so

@@ -23,7 +23,6 @@ package com.steelcandy.common.debug;
     TODO: add a method to test Assert.unreachable().
 
     @author James MacKay
-    @version $Revision$
 */
 public class Tester
 {

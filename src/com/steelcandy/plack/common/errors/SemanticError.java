@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     checking.
 
     @author James MacKay
-    @version $Revision: 1.10 $
 */
 public class SemanticError
     extends AbstractKeyedPlackError

@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: main-document.xsl,v 1.16 2005/04/01 14:35:19 jgm Exp $
-
     Transforms a language description document into the language's
     main HTML document: a document that provides links to all of the
     other documents related to the language.
-
-    Author: James MacKay
-    Last Updated: $Date: 2005/04/01 14:35:19 $
 
     Copyright (C) 2004-2005 by James MacKay.
 

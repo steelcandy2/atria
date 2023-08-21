@@ -28,7 +28,6 @@ import com.steelcandy.common.NoSuchItemException;
     a type resolver.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see TypeResolver
     @see MinimalAbstractSymbolTable#findMatches(SymbolTableEntryList, TypeList, ArgumentTypeMatcher)
 */

@@ -21,7 +21,6 @@ package com.steelcandy.common.debug;
     The base class for all debugging-related exceptions.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class DebuggingException
     extends RuntimeException

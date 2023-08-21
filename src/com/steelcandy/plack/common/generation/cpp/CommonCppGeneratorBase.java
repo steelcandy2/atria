@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     C++ source code, including CodeGenerators and Subgenerators.
 
     @author  James MacKay
-    @version $Revision: 1.12 $
 */
 public interface CommonCppGeneratorBase
 {

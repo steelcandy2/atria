@@ -29,7 +29,6 @@ import com.steelcandy.common.*;
     The default tokenizer that completely tokenizes Atria source code.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class AtriaDefaultTokenizer
     extends ReflectiveShellSourceCodeTokenizer

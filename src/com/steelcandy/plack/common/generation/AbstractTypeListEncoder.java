@@ -36,7 +36,6 @@ import com.steelcandy.common.text.StringList;
     <code>encode(StringIterator, int, ErrorHandler)</code>.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
     @see #encode(StringIterator, int, ErrorHandler)
 */
 public abstract class AbstractTypeListEncoder

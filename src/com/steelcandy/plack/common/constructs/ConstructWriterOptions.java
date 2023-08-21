@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     A class that represents the options used to configure a ConstructWriter.
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see ConstructWriter
 */
 public interface ConstructWriterOptions

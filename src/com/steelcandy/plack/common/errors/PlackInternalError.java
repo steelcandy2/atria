@@ -32,7 +32,6 @@ import java.lang.reflect.Method;
     source code processor is working properly.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class PlackInternalError
     extends AbstractPlackError

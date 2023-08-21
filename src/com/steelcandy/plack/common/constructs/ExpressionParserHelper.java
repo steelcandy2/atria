@@ -63,7 +63,6 @@ import com.steelcandy.common.io.Io;
     it were a Parser subclass.
 
     @author James MacKay
-    @version $Revision: 1.30 $
     @see Token#hasObjectValue
     @see Token#objectValue
     @see OperatorData

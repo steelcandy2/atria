@@ -27,7 +27,6 @@ import com.steelcandy.common.Utilities;
     A singleton TestIterator that iterates over no tests.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see Test
 */
 public class EmptyTestIterator implements TestIterator

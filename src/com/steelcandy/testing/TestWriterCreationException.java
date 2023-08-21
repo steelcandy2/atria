@@ -24,7 +24,6 @@ import com.steelcandy.common.SteelCandyException;
     created.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class TestWriterCreationException
     extends SteelCandyException

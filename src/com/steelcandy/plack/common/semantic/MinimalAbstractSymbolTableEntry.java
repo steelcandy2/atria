@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.constructs.*;
     By default entries don't have an originating type.
 
     @author James MacKay
-    @version $Revision: 1.20 $
 */
 public abstract class MinimalAbstractSymbolTableEntry
     implements SymbolTableEntry

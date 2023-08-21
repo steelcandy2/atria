@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     each piece of work.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public class ThreadWorkProcessor
     implements WorkProcessor

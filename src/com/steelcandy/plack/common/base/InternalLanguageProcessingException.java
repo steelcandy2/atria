@@ -23,7 +23,6 @@ package com.steelcandy.plack.common.base;
     indicate an error in the source code being processed.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class InternalLanguageProcessingException
     extends PlackRuntimeException

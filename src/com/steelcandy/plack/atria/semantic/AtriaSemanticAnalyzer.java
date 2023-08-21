@@ -31,7 +31,6 @@ import java.util.*;
     The class of semantic analyzer that analyzes Atria constructs.
 
     @author  James MacKay
-    @version $Revision: 1.14 $
 */
 public class AtriaSemanticAnalyzer
     extends AtriaAbstractSemanticAnalyzer

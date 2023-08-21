@@ -29,7 +29,6 @@ import java.util.*;
     more Storable objects can be saved to and later loaded from.
 
     @author  James MacKay
-    @version $Revision: 1.6 $
     @see Storable
     @see StorableLoader
 */

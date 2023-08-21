@@ -29,7 +29,6 @@ import com.steelcandy.plack.common.base.PlackException;
     hence shouldn't throw exceptions.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class CompilerException
     extends PlackException

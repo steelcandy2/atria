@@ -33,7 +33,6 @@ import com.steelcandy.plack.common.source.SourceLocationList;
     the zero or more Attribute subconstructs on an Element's first line.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class CustomAtriaElementParser
     extends DefaultAtriaElementParser

@@ -58,7 +58,6 @@ import java.io.IOException;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.11 $
 */
 public abstract class AbstractSourceCodeParserTest
     implements Program

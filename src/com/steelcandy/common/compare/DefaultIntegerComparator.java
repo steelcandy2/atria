@@ -26,7 +26,6 @@ import com.steelcandy.common.debug.Assert;
     values.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class DefaultIntegerComparator
     extends AbstractComparator

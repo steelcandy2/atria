@@ -1,9 +1,6 @@
 #!/bin/sh
 #
-# $Id: test-text-utilities.sh,v 1.1 2003/10/17 21:09:50 jgm Exp $
-#
-# Author: James MacKay
-# Last Updated: $Date: 2003/10/17 21:09:50 $
+# Runs the Java class com.steelcandy.common.text.TextUtilities.
 #
 # Copyright (C) 2003-2010 by James MacKay.
 #
@@ -19,10 +16,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
-#
-# Runs the Java class ${class}
 #
 
 # PLACK_BASE must be set.

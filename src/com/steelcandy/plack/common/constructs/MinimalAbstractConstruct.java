@@ -34,7 +34,6 @@ import java.io.StringWriter;
     construct should subclass.
 
     @author James MacKay
-    @version $Revision: 1.13 $
 */
 public abstract class MinimalAbstractConstruct
     implements Construct

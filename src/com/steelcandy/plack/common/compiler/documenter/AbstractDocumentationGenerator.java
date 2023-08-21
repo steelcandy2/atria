@@ -42,7 +42,6 @@ import java.io.IOException;
     An abstract base class for documentation generators.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public abstract class AbstractDocumentationGenerator
     implements ErrorSeverityLevels

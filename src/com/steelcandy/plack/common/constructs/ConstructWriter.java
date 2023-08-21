@@ -31,7 +31,6 @@ import java.io.Writer;  // javadocs only
     Note that this class does <em>not</em> extend Writer.
 
     @author James MacKay
-    @version $Revision: 1.8 $
     @see Writer
 */
 public interface ConstructWriter

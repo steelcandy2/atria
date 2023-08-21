@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <!--
-    $Id: visitor.java.xsl,v 1.3 2004/05/21 15:56:05 jgm Exp $
-
     Transforms the information about a visitor class into the source
     code for a visitor interface, and for an abstract visitor base
     class that by default has all visitor methods call an abstract
     defaultVisit() method.
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/05/21 15:56:05 $
 
     Copyright (C) 2003-2004 by James MacKay.
 
@@ -223,12 +218,7 @@ public abstract class </xsl:text>
 
     <!-- Common templates -->
 
-    <!-- Outputs the common part of a generated class' class comment.
-
-         Note: the comment does NOT include a @version tag since using
-         $Revision: 1.3 $ for its value expands to this template's revision,
-         causing all generated files to appear to have been changed when
-         they haven't otherwise changed. -->
+    <!-- Outputs the common part of a generated class' class comment. -->
     <xsl:template name="common-class-comment-part">&lt;p&gt;
     &lt;strong&gt;Note&lt;/strong&gt;: this file was automatically generated,
     and so should not be edited directly.

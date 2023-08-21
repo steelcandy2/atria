@@ -45,7 +45,6 @@ import com.steelcandy.common.UnsupportedMethodException;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class DefaultAtriaParserFactory
     extends AtriaParserFactoryBase

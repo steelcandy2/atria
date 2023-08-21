@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     An abstract base class for Type classes.
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public abstract class AbstractType
     extends MinimalAbstractType

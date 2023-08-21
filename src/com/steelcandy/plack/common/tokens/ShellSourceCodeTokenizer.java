@@ -43,7 +43,6 @@ import com.steelcandy.common.Resources;
     createFilterSubtokenizer() methods.
 
     @author James MacKay
-    @version $Revision: 1.10 $
     @see SourceCodeTokenizer
     @see FilterTokenizer
 */

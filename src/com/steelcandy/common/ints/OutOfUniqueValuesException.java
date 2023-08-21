@@ -26,7 +26,6 @@ import com.steelcandy.common.SteelCandyRuntimeException;
     more unique values left to return.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class OutOfUniqueValuesException
     extends SteelCandyRuntimeException

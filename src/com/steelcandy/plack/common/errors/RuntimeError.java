@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     occur in compiled code.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class RuntimeError
     extends AbstractKeyedPlackError

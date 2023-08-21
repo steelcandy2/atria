@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.source.SourceCode;
     correctness.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public class ConstructCorrectnessData
 {

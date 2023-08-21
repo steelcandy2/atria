@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     methods to another Type instance.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public abstract class AbstractDelegatingType
     implements Type

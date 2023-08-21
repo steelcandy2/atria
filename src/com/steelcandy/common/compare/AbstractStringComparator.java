@@ -25,7 +25,6 @@ import com.steelcandy.common.debug.Assert;
     equal.
 
     @author James MacKay
-    @version $Revision: 1.3 $
 */
 public abstract class AbstractStringComparator
     extends AbstractComparator

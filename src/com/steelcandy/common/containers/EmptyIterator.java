@@ -26,7 +26,6 @@ import java.util.NoSuchElementException;
     Represents an empty iterator.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class EmptyIterator
     implements Iterator

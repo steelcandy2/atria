@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    $Id: language-common.java.xsl,v 1.21 2006/06/09 23:32:41 jgm Exp $
-
     Provides common functionality for stylesheets that transform a
     language description document into the source code for a Java class.
     It is intended to be xsl:imported into another stylesheet.
@@ -14,9 +12,6 @@
             the class whose source code is to be the result of the
             transformation. The value of $implementation should be used in
             setting this variable's value
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/06/09 23:32:41 $
 
     Copyright (C) 2002-2016 by James MacKay.
 
@@ -244,15 +239,13 @@ import com.steelcandy.common.debug.Assert;<xsl:text>
         &lt;li&gt;Output: <xsl:value-of select="$output-pathname"/>&lt;/li&gt;
     &lt;/ul&gt;
 
-    @author James MacKay
-    @version $Revision: 1.21 $<xsl:text/>
+    @author James MacKay<xsl:text/>
     </xsl:template>
 
     <!-- Outputs the common part of a generated skeleton class' class
          comment. -->
     <xsl:template name="common-skeleton-class-comment-part">
-    @author James MacKay
-    @version $Revision: 1.21 $<xsl:text/>
+    @author James MacKay<xsl:text/>
     </xsl:template>
 
 

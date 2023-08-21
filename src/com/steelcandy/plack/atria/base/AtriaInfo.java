@@ -28,7 +28,6 @@ import java.util.*;
     programming language that doesn't seem to belong anywhere else.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class AtriaInfo
 {

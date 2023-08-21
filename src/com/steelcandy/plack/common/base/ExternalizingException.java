@@ -22,7 +22,6 @@ package com.steelcandy.plack.common.base;
     object fails.
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public class ExternalizingException
     extends PlackException

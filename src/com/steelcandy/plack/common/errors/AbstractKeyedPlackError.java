@@ -27,7 +27,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     allowing instances to be compared in order to detect duplicate errors.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractKeyedPlackError
     extends AbstractPlackError

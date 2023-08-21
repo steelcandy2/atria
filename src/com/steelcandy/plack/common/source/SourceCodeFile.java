@@ -32,7 +32,6 @@ import java.io.*;
     SourceCodeFactory instead of calling this class' constructors directly.
 
     @author James MacKay
-    @version $Revision: 1.12 $
 */
 public class SourceCodeFile
     extends AbstractSourceCode

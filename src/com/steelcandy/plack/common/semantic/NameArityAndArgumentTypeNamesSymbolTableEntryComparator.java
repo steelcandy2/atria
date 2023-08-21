@@ -38,7 +38,6 @@ import com.steelcandy.common.compare.DefaultStringComparator;
     types.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
     @see SymbolTableEntry
 */
 public class NameArityAndArgumentTypeNamesSymbolTableEntryComparator

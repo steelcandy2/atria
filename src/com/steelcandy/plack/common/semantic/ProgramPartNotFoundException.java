@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.base.PlackException;
     or a module, for example) is not found.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class ProgramPartNotFoundException
     extends PlackException

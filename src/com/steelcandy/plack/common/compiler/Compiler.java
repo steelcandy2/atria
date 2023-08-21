@@ -24,7 +24,6 @@ import com.steelcandy.common.debug.Assert;
     source code.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public interface Compiler
 {

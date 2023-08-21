@@ -29,7 +29,6 @@ import com.steelcandy.common.debug.Assert;
     globalName()s are the same are equal.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class TypeListAsKey
 {

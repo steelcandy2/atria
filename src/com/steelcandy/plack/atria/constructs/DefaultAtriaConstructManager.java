@@ -25,7 +25,6 @@ import com.steelcandy.plack.common.constructs.*;
     The default construct manager class.
 
     @author  James MacKay
-    @version $Revision: 1.6 $
 */
 public class DefaultAtriaConstructManager
     extends AtriaConstructManagerBase

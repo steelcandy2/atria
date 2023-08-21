@@ -36,7 +36,6 @@ import com.steelcandy.common.*;
     their IS_VALIDATED flag set.
 
     @author James MacKay
-    @version $Revision: 1.9 $
     @see AtriaTokenManagerBase#IS_VALIDATED
 */
 public abstract class RemoveNonValidatedTokensTokenizer

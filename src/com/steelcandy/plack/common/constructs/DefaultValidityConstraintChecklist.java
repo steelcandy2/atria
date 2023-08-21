@@ -41,7 +41,6 @@ import java.util.Set;
     constraint names to an instance.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class DefaultValidityConstraintChecklist
     implements ValidityConstraintChecklist

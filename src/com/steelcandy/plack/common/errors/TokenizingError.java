@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     Represents an error that occurs during tokenization.
 
     @author James MacKay
-    @version $Revision: 1.7 $
 */
 public class TokenizingError
     extends AbstractPlackError

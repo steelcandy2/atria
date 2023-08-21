@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     the resources used by the Io class.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class IoResourcesLocator
     extends ResourcesLocator

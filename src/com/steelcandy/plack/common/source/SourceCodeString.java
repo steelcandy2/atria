@@ -31,7 +31,6 @@ import java.io.*;
     SourceCodeFactory instead of calling this class' constructors directly.
 
     @author James MacKay
-    @version $Revision: 1.11 $
 */
 public class SourceCodeString
     extends AbstractSourceCode

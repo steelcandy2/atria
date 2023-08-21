@@ -44,7 +44,6 @@ import com.steelcandy.common.Resources;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.5 $
 */
 public abstract class AbstractCompilerWork
     implements Runnable, ErrorSeverityLevels

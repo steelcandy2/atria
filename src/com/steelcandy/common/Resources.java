@@ -38,7 +38,6 @@ import java.util.Locale;
     latter has several final methods.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see ResourceBundle
 */
 public class Resources

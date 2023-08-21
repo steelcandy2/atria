@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <!--
-    $Id: ConstructVisitors.java.xsl,v 1.15 2006/04/17 21:15:01 jgm Exp $
-
     Transforms a language description document into a file containing the
     source code for all of the automatically-generated parts of the parsers
     used to parse the language. (The file will have to be split into
     separate source files by some other utility.)
-
-    Author: James MacKay
-    Last Updated: $Date: 2006/04/17 21:15:01 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

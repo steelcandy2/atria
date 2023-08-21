@@ -31,7 +31,6 @@ import com.steelcandy.common.Resources;
     </ul>
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class UniqueNonnegativeLongIntFactory
     implements LongIntFactory

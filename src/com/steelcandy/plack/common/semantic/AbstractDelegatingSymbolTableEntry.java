@@ -30,7 +30,6 @@ import com.steelcandy.plack.common.constructs.ConstructList;
     default) delegate all of their methods to another SymbolTableEntry.
 
     @author James MacKay
-    @version $Revision: 1.17 $
     @see SymbolTable
 */
 public abstract class AbstractDelegatingSymbolTableEntry

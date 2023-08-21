@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents the position of a single character in a piece of source code.
 
     @author James MacKay
-    @version $Revision: 1.4 $
 */
 public class SourcePosition
 {

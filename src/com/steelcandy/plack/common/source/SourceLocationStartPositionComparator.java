@@ -26,7 +26,6 @@ import com.steelcandy.common.compare.AbstractComparator;
     startPosition()s' compare() method.
 
     @author  James MacKay
-    @version $Revision$
 */
 public class SourceLocationStartPositionComparator
     extends AbstractComparator

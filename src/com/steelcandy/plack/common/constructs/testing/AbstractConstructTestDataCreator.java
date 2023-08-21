@@ -61,7 +61,6 @@ import java.util.Random;
     one of this class' methods.
 
     @author James MacKay
-    @version $Revision: 1.25 $
 */
 public abstract class AbstractConstructTestDataCreator
     implements Program

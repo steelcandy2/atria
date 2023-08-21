@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.source.SourcePosition;
     token after the <em>last</em> one returned by this result.)
 
     @author James MacKay
-    @version $Revision: 1.3 $
     @see TokenCreator
 */
 public interface TokenCreatorResult

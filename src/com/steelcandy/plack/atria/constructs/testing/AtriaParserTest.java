@@ -33,7 +33,6 @@ import java.io.File;
     A class that tests an Atria language parser.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaParserTest
     extends AbstractSourceCodeParserTest

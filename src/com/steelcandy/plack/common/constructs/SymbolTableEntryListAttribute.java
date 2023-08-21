@@ -26,7 +26,6 @@ import com.steelcandy.plack.common.semantic.SymbolTableEntryList;
     SymbolTableEntryList.
 
     @author James MacKay
-    @version $Revision: 1.2 $
     @see SymbolTableEntryList
 */
 public class SymbolTableEntryListAttribute

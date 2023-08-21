@@ -31,7 +31,6 @@ import com.steelcandy.common.Resources;
     only to prevent its being instantiated.
 
     @author James MacKay
-    @version $Revision: 1.6 $
 */
 public abstract class EmptyConstructManagerBase
 {

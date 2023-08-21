@@ -53,7 +53,6 @@ import com.steelcandy.common.*;
     zero-based index.
 
     @author James MacKay
-    @version $Revision: 1.15 $
 */
 public abstract class AbstractToken
     implements Token

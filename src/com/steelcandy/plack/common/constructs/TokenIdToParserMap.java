@@ -34,7 +34,6 @@ import com.steelcandy.plack.common.tokens.Token;  // javadocs only
     often reports an error whenever it is used.)
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see Token#id
     @see Parser
     @see #initialize

@@ -37,7 +37,6 @@ import java.util.zip.*;
     A class containing various XML-related utility and convenience methods.
 
     @author James MacKay
-    @version $Revision: 1.23 $
 */
 public class XmlUtilities
 {

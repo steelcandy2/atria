@@ -33,7 +33,6 @@ import com.steelcandy.plack.common.tokens.Tokenizer;
     provides it itself rather than requiring that it be passed into it.)
 
     @author James MacKay
-    @version $Revision: 1.1 $
     @see Tokenizer
     @see SourceCodeTokenizer
 */

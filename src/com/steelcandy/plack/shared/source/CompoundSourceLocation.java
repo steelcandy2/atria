@@ -57,7 +57,6 @@ import java.util.TreeSet;
     second case.
 
     @author James MacKay
-    @version $Revision: 1.6 $
     @see ContinuousSourceLocation
 */
 public class CompoundSourceLocation

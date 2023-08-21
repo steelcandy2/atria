@@ -25,7 +25,6 @@ import com.steelcandy.common.debug.Assert;
     to the formal's type.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class ConformingArgumentTypeMatcher
     extends AbstractArgumentTypeMatcher

@@ -32,7 +32,6 @@ import com.steelcandy.common.Resources;
     visitor methods (such as visitAll(), for example).
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public abstract class MinimalAbstractConstructVisitor
     implements ConstructVisitor

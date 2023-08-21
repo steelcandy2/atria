@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <!--
-    $Id: constructs.xsl,v 1.5 2004/05/10 16:27:54 jgm Exp $
-
     Contains the variables and templates related to constructs and
     that are independent of any target language (e.g. Java).
-
-    Author: James MacKay
-    Last Updated: $Date: 2004/05/10 16:27:54 $
 
     Copyright (C) 2002-2005 by James MacKay.
 

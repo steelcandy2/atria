@@ -38,7 +38,6 @@ import com.steelcandy.plack.common.constructs.Parser;
     to be known.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaTestInterpreterParser
     extends AbstractSourceCodeParser

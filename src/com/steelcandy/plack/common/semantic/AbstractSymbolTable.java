@@ -29,7 +29,6 @@ import java.util.Map;
     An abstract base class for SymbolTable classes.
 
     @author James MacKay
-    @version $Revision: 1.24 $
 */
 public abstract class AbstractSymbolTable
     extends MinimalAbstractSymbolTable

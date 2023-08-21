@@ -38,7 +38,6 @@ import java.util.Map;
     if they wish.
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see #initialize
 */
 public abstract class AbstractTokenIdToObjectMap

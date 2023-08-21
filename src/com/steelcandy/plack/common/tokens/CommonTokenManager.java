@@ -30,7 +30,6 @@ import com.steelcandy.common.Resources;
     manage tokens for a given language.
 
     @author James MacKay
-    @version $Revision: 1.15 $
 */
 public abstract class CommonTokenManager
     implements OperatorConstants

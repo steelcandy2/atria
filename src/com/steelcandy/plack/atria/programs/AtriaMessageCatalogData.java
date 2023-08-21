@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     Represents data about a message catalog.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public class AtriaMessageCatalogData
     implements AtriaMessageCatalogConstants

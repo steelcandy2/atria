@@ -31,7 +31,6 @@ import java.util.List;
     they can be transferred to another error handler later.
 
     @author James MacKay
-    @version $Revision: 1.9 $
 */
 public class RecordingErrorHandler
     extends AbstractCountingErrorHandler

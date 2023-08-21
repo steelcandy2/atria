@@ -54,7 +54,6 @@ import com.steelcandy.common.SteelCandyException;
     if other programs are running in the same JVM.)
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class ProgramException
     extends SteelCandyException

@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     related classes defined in this package.
 
     @author James MacKay
-    @version $Revision: 1.1 $
 */
 public class CommonStorageResourcesLocator
     extends ResourcesLocator

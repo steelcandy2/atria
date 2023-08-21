@@ -35,7 +35,6 @@ import com.steelcandy.common.UnsupportedMethodException;
     Subclasses just have to implement globalName().
 
     @author  James MacKay
-    @version $Revision: 1.3 $
     @see AbstractInvalidType
 */
 public abstract class AbstractFlexibleType

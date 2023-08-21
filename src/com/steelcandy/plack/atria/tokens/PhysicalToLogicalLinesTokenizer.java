@@ -93,7 +93,6 @@ import com.steelcandy.common.*;
     cause any confusion.
 
     @author James MacKay
-    @version $Revision: 1.15 $
     @see RemoveExplicitLineContinuersTokenizer
 */
 public class PhysicalToLogicalLinesTokenizer

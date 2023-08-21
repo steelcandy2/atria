@@ -49,7 +49,6 @@ TODO: if the last thing in an XML document is an EntityRef then there is
         - is this the case for any other parts of XML documents???
 
     @author  James MacKay
-    @version $Revision: 1.4 $
 */
 public class XmlToAtriaConverter
 {

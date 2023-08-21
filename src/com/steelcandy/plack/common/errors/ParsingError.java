@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.source.SourceLocation;
     constructing the error reporting the missing top-level construct.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public class ParsingError
     extends AbstractPlackError

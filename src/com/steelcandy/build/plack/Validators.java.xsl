@@ -1,16 +1,11 @@
 <?xml version="1.0"?>
 <!--
-    $Id: Validators.java.xsl,v 1.43 2015/06/10 21:00:16 jgm Exp $
-
     Transforms a language description document into a file containing the
     source code for all of the automatically-generated parts of the
     validators and constraint checkers used to check whether constructs
     that represent parts of the language satisfy their validity
     constraints. (The file will have to be split into separate source files
     by some other utility.)
-
-    Author: James MacKay
-    Last Updated: $Date: 2015/06/10 21:00:16 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

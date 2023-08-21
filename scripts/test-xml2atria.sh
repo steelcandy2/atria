@@ -1,9 +1,6 @@
 #!/bin/sh
 #
-# $Id: xml2atria,v 1.1 2004/06/22 03:36:09 jgm Exp $
-#
-# Author: James MacKay
-# Last Updated: $Date: 2004/06/22 03:36:09 $
+# Tests xml2atria on various XML files.
 #
 # Copyright (C) 2004 by James MacKay.
 #
@@ -19,11 +16,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
-
-#
-# Tests xml2atria on various XML files.
 #
 
 # Configuration

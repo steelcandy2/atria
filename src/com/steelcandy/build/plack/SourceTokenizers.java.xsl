@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
-    $Id: SourceTokenizers.java.xsl,v 1.3 2002/08/02 15:08:05 jgm Exp $
-
     Transforms a language description document into the Java base class
     for a token creator source code tokenizer class that tokenizes that
     language.
-
-    Author: James MacKay
-    Last Updated: $Date: 2002/08/02 15:08:05 $
 
     Copyright (C) 2002-2016 by James MacKay.
 

@@ -32,7 +32,6 @@ import java.util.Iterator;
     their validity constraints properly checked.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractValidityConstraintChecklistCompletionChecker
 {

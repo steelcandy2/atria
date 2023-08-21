@@ -31,7 +31,6 @@ import com.steelcandy.plack.common.constructs.ConstructVisitor;  // javadocs onl
     language.
 
     @author James MacKay
-    @version $Revision: 1.8 $
 */
 public interface AtriaConstruct
     extends Construct

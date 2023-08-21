@@ -25,7 +25,6 @@ import com.steelcandy.common.ResourcesLocator;
     the resources used by the program-related classes.
 
     @author James MacKay
-    @version $Revision: 1.2 $
 */
 public class ProgramResourcesLocator
     extends ResourcesLocator

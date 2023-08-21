@@ -36,7 +36,6 @@ import java.io.IOException;
     calling one of our constructors directly.
 
     @author James MacKay
-    @version $Revision: 1.4 $
     @see IndentWriter#createPostponed
 */
 public class PostponedIndentWriter

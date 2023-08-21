@@ -29,7 +29,6 @@ import java.io.*;
     A program that converts Atria document to XML.
 
     @author  James MacKay
-    @version $Revision: 1.2 $
 */
 public class AtriaToXmlConverterProgram
     implements Program

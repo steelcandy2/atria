@@ -36,7 +36,6 @@ import com.steelcandy.common.*;
     </ul>
 
     @author James MacKay
-    @version $Revision: 1.5 $
     @see PhysicalToLogicalLinesTokenizer
     @see RemoveExplicitLineContinuersTokenizer
 */

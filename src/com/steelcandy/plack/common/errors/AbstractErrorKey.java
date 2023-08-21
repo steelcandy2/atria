@@ -23,7 +23,6 @@ import com.steelcandy.common.debug.Assert;
     An abstract base class for ErrorKeys.
 
     @author  James MacKay
-    @version $Revision: 1.1 $
 */
 public abstract class AbstractErrorKey
     implements ErrorKey

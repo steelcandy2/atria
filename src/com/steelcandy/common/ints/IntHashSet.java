@@ -26,7 +26,6 @@ import java.util.Set;
     An IntSet implemented using a hash table.
 
     @author  James MacKay
-    @version $Revision: 1.7 $
 */
 public class IntHashSet
     extends AbstractIntSet
