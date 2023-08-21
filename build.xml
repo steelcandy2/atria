@@ -35,7 +35,10 @@
     <property name="src.dir" value="${java.dir}/src"/>
     <property name="script.dir" value="${src.dir}/script"/>
     <property name="lib.dir" value="${java.dir}/lib"/>
+<!--
     <property name="external.lib.dir" value="/usr/local/lib/java"/>
+-->
+    <property name="external.lib.dir" value="/usr/share/java"/>
     <property name="javadoc.dir" value="${java.dir}/javadoc"/>
     <property name="classes.dir" value="${java.dir}/classes"/>
     <property name="scripts.dir" value="scripts"/>
@@ -152,7 +155,7 @@
     <!-- Paths -->
 
     <path id="compile.classpath">
-        <pathelement location="${external.lib.dir}/jdom.jar"/>
+        <pathelement location="${external.lib.dir}/jdom1.jar"/>
     </path>
 
     <!--
@@ -160,7 +163,7 @@
         generating source code.
     -->
     <path id="generation.compile.classpath">
-        <pathelement location="${external.lib.dir}/jdom.jar"/>
+        <pathelement location="${external.lib.dir}/jdom1.jar"/>
 <!--
         <pathelement location="${external.lib.dir}/xalan.jar"/>
         <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
