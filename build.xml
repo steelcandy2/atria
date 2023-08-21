@@ -102,7 +102,12 @@
     <property name="backup.decryptor" value="gpg"/>
     <property name="backup.encrypt.recipient" value="jmackay"/>
 
+<!--
     <property name="xslt.processor" value="org.apache.xalan.xslt.Process"/>
+-->
+        <!-- For the old Java implementation of xalan. -->
+    <property name="xslt.processor" value="xalan"/>
+        <!-- For the current C++ implementation of xalan. -->
     <property name="plack.xslt.dir" value="${src.dir}/${build.subdir}/plack"/>
 
     <property name="relaxng.validator" value="xmllint"/>
@@ -156,8 +161,10 @@
     -->
     <path id="generation.compile.classpath">
         <pathelement location="${external.lib.dir}/jdom.jar"/>
+<!--
         <pathelement location="${external.lib.dir}/xalan.jar"/>
         <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
+-->
         <pathelement location="${external.lib.dir}/xerces.jar"/>
 <!-- This library seems to have been replaced with the following one.
         <pathelement location="${external.lib.dir}/xml-apis.jar"/>
@@ -166,15 +173,17 @@
     </path>
 
     <!-- The classpath used by the XSLT processor. -->
-    <path id="xslt.classpath">
+<!--    <path id="xslt.classpath"> -->
 <!-- This library seems to have been replaced with the following one.
         <pathelement location="${external.lib.dir}/xml-apis.jar"/>
 -->
+<!--
         <pathelement location="${external.lib.dir}/xml-commons-external.jar"/>
         <pathelement location="${external.lib.dir}/xerces.jar"/>
         <pathelement location="${external.lib.dir}/xalan.jar"/>
         <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
     </path>
+-->
 
     <!-- The classpath used when automatically generating source code. -->
     <path id="generation.classpath">
@@ -844,6 +853,31 @@
     <target name="xslt" depends="prepare">
         <echo>
 		Generating ${out}</echo>
+        <!-- For the current (as of 2023) C++ implementation of xalan. -->
+        <exec executable="${xslt.processor}" failonerror="yes">
+            <arg value="-param"/>
+            <arg value="input-pathname"/>
+            <arg file="${in}"/>
+            <arg value="-param"/>
+            <arg value="transform-pathname"/>
+            <arg file="${style}"/>
+            <arg value="-param"/>
+            <arg value="output-pathname"/>
+            <arg file="${out}"/>
+            <arg value="-param"/>
+            <arg value="generation-date-time"/>
+            <arg value="${TODAY} ${TSTAMP}"/>
+
+            <arg value="-in"/>
+            <arg file="${in}"/>
+            <arg value="-xsl"/>
+            <arg file="${style}"/>
+            <arg value="-out"/>
+            <arg file="${out}"/>
+        </exec>
+
+        <!-- For the old Java implementation of xalan. -->
+<!--
         <java classname="${xslt.processor}"
               classpathref="xslt.classpath" fork="yes" failonerror="yes">
             <arg value="-PARAM"/>
@@ -866,6 +900,7 @@
             <arg value="-out"/>
             <arg file="${out}"/>
         </java>
+-->
     </target>
 
     <!-- A target identical to the 'xslt' target, except that it accepts
@@ -874,6 +909,21 @@
     <target name="xslt-1" depends="prepare">
         <echo>
 Generating ${out}</echo>
+        <!-- For the current (as of 2023) C++ implementation of xalan. -->
+        <exec executable="${xslt.processor}" failonerror="yes">
+            <arg value="-param"/>
+            <arg value="${param-name}"/>
+            <arg value="${param-value}"/>
+            <arg value="-in"/>
+            <arg file="${in}"/>
+            <arg value="-xsl"/>
+            <arg file="${style}"/>
+            <arg value="-out"/>
+            <arg file="${out}"/>
+        </exec>
+
+        <!-- For the old Java implementation of xalan. -->
+<!--
         <java classname="${xslt.processor}"
               classpathref="xslt.classpath" fork="yes" failonerror="yes">
             <arg value="-PARAM"/>
@@ -886,6 +936,7 @@ Generating ${out}</echo>
             <arg value="-out"/>
             <arg file="${out}"/>
         </java>
+-->
     </target>
 
 
