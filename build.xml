@@ -515,7 +515,7 @@
             description="compiles into classes all Java sources needed to automatically generate source code">
     	<mkdir dir="${generation.classes.dir}"/>
         <javac srcdir="${src.dir}"
-               includes="${build.subdir}/**"
+               includes="${build.subdir}/**/*.java"
                destdir="${generation.classes.dir}"
                debug="${debug}"
                deprecation="${deprecation}"
@@ -550,7 +550,7 @@
                excludes="${build.subdir}/**"
 -->
         <javac srcdir="${src.dir}"
-               excludes="${build.subdir}/**"
+               excludes="${build.subdir}/**/*.java"
                destdir="${compile.classes.dir}"
                debug="${debug}"
                deprecation="${deprecation}"
