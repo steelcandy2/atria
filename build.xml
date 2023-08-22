@@ -864,15 +864,28 @@
     <target name="xslt" depends="prepare">
         <echo>
 		Generating ${out}</echo>
+        <xslt in="${in}" style="${style}" out="${out}"
+            filenameparameter="input-pathname" reloadstylesheet="yes"
+            classpathref="xslt.classpath">
+            <param name="generation-date-time" expression="${TODAY} ${TSTAMP}"/>
+<!--
+            <param name="input-pathname" expression="${in}"/>
+-->
+            <param name="transform-pathname" expression="${style}"/>
+            <param name="output-pathname" expression="${out}"/>
+        </xslt>
         <!-- For the current (as of 2023) C++ implementation of xalan. -->
+<!--
         <exec executable="${xslt.processor}" failonerror="yes">
-            <arg value="-validate"/>
+-->
 <!-- Debugging options:
             <arg value="-tt"/>
             <arg value="-ts"/>
             <arg value="-tg"/>
             <arg value="-ttc"/>
 -->
+<!--
+            <arg value="-validate"/>
             <arg value="-param"/>
             <arg value="input-pathname"/>
             <arg file="${in}"/>
