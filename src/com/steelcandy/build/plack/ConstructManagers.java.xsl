@@ -41,6 +41,8 @@
 
     <xsl:variable name="construct-flags"
         select="$top/construct-flags/section/flag-definition"/>
+    <xsl:variable name="number-of-construct-flags"
+        select="count($construct-flags)"/>
     <xsl:variable name="construct-flag-sets"
         select="$top/construct-flag-sets/section/flag-set-definition"/>
     <xsl:variable name="map-flags-to-tokens">
@@ -55,11 +57,6 @@
                 select="$construct-flags/@name"/>
         </xsl:call-template>
     </xsl:variable>
-
-    <xsl:variable name="number-of-construct-flags"
-        select="count($construct-flags)"/>
-    <xsl:variable name="construct-flag-sets"
-        select="$top/construct-flag-sets/section/flag-set-definition"/>
 
     <xsl:variable name="number-of-constructs"
         select="count($constructs)"/>
