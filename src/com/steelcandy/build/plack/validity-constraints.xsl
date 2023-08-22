@@ -192,9 +192,13 @@
          sections of this document. There will also be a bar after the
          last element in the list. -->
     <xsl:template name="section-titles">
+<!--
+NOTE: see the 'section-titles' template in semantics.xsl for the reason why
+the following is commented out.
         <xsl:call-template name="append-section-titles">
             <xsl:with-param name="sections" select="$constraints/section"/>
         </xsl:call-template>
+-->
     </xsl:template>
 
     <xsl:template match="validity-constraints">
