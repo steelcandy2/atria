@@ -130,7 +130,7 @@
         select="concat($html-stylesheet-base, '-print', $html-stylesheet-ext)"/>
 
     <xsl:variable name="author" select="'James MacKay'"/>
-    <xsl:variable name="e-mail" select="'jmackay@steelcandy.com'"/>
+    <xsl:variable name="e-mail" select="'jgm@steelcandy.org'"/>
 
     <xsl:variable name="spaces-per-indent-level" select="4"/>
 

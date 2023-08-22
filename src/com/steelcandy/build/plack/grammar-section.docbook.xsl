@@ -39,7 +39,7 @@
     <xsl:variable name="reserved-words-per-row" select="5"/>
 
     <xsl:variable name="author" select="'James MacKay'"/>
-    <xsl:variable name="e-mail" select="'jmackay@steelcandy.com'"/>
+    <xsl:variable name="e-mail" select="'jgm@steelcandy.org'"/>
 
     <xsl:variable name="spaces-per-indent-level" select="4"/>
 
@@ -526,7 +526,7 @@ The grammar is divided into the following sections:
                         <xsl:with-param name="node" select="subconstruct"/>
                         <xsl:with-param name="number" select="'one'"/>
                     </xsl:call-template>
-                    <if test="@separator-terminal">
+                    <xsl:if test="@separator-terminal">
                         <xsl:text>: </xsl:text>
                         <xsl:call-template name="as-terminal-by-name">
                             <xsl:with-param name="terminal-name"
