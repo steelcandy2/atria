@@ -310,6 +310,7 @@
         <java classname="${generator-classname}"
               classpathref="generation.classpath"
               fork="yes" failonerror="yes">
+            <arg value="-v"/>
 <!--
             <arg value="-f"/>
             <arg value="-p"/>

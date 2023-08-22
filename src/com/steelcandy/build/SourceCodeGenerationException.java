@@ -47,4 +47,16 @@ public class SourceCodeGenerationException
     {
         super(ex);
     }
+
+    /**
+        Constructs and exception from a message describing why it occurred
+        and the exception that caused it to occur.
+
+        @param msg the message describing why the exception occurred
+        @param ex the exception that this exception wraps
+    */
+    public SourceCodeGenerationException(String msg, Exception ex)
+    {
+        super(msg, ex);
+    }
 }

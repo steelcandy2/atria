@@ -571,19 +571,19 @@ public abstract class SourceCodeGenerator
         {
             String msg = "XSL transformer configuration failed: " +
                             ex.getLocalizedMessage();
-            throw new SourceCodeGenerationException(msg);
+            throw new SourceCodeGenerationException(msg, ex);
         }
         catch (TransformerException ex)
         {
             String msg = "XSL transformer error: " +
                                     ex.getLocalizedMessage();
-            throw new SourceCodeGenerationException(msg);
+            throw new SourceCodeGenerationException(msg, ex);
         }
         catch (FileNotFoundException ex)
         {
             String msg = "could not write to " + out.getPath() + ": " +
                             ex.getLocalizedMessage();
-            throw new SourceCodeGenerationException(msg);
+            throw new SourceCodeGenerationException(msg, ex);
         }
         finally
         {
@@ -597,7 +597,7 @@ public abstract class SourceCodeGenerator
                 {
                     String msg = "could not close the output stream " +
                         "opened on\n" + out.getPath();
-                    throw new SourceCodeGenerationException(msg);
+                    throw new SourceCodeGenerationException(msg, ex);
                 }
             }
         }
@@ -619,7 +619,7 @@ public abstract class SourceCodeGenerator
     {
         if (p == null)
         {
-            String msg = "Null properties specified";
+            String msg = "Null Properties object specified";
             throw new SourceCodeGenerationException(msg);
         }
 
@@ -1169,14 +1169,14 @@ public abstract class SourceCodeGenerator
             String msg = "could not create an XML Document from the " +
                          "file named " + documentFile + ":\n" +
                          ex.getLocalizedMessage();
-            throw new SourceCodeGenerationException(msg);
+            throw new SourceCodeGenerationException(msg, ex);
         }
         catch (IOException ex)
         {
             String msg = "an I/O error occurred in trying to create " +
                          "an XML Document from the file named " +
                          documentFile + ":\n" + ex.getLocalizedMessage();
-            throw new SourceCodeGenerationException(msg);
+            throw new SourceCodeGenerationException(msg, ex);
         }
 
         return result;
@@ -1592,6 +1592,9 @@ public abstract class SourceCodeGenerator
     /** Indicates whether we should allow parallel file generation. */
     private static boolean _doGenerateInParallel;
 
+    /** Indicates whether we should be verbose. */
+    private static boolean _verbose;
+
     /**
         Iff non-null, the base directory that is to override the one
         in the properties file.
@@ -1614,6 +1617,7 @@ public abstract class SourceCodeGenerator
         _force = false;
         _doGenerateInParallel = false;
         _argBaseDir = null;
+        _verbose = false;
 
         for (int i = 0; result && i < args.length; i++)
         {
@@ -1623,6 +1627,11 @@ public abstract class SourceCodeGenerator
             if (arg.equals("-f"))
             {
                 _force = true;
+                continue;
+            }
+            if (arg.equals("-v"))
+            {
+                _verbose = true;
                 continue;
             }
             if (arg.equals("-p"))
@@ -1678,7 +1687,7 @@ public abstract class SourceCodeGenerator
 
         if (parseArguments(args) == false)
         {
-            error("\nusage: java com.steelcandy.build." +
+            error(null, "\nusage: java com.steelcandy.build." +
                     "SourceCodeGenerator [properties-file]\n\n" +
                   "where 'properties-file' is the pathname of the " +
                     "properties file that\n" +
@@ -1722,7 +1731,7 @@ public abstract class SourceCodeGenerator
             }
             catch (IOException ex)
             {
-                error("\ncould not read the specified properties file " +
+                error(ex, "\ncould not read the specified properties file " +
                         args[0] + "\n" +
                       "due to an exception of class " +
                         ex.getClass().getName() + ": " +
@@ -1731,7 +1740,7 @@ public abstract class SourceCodeGenerator
             }
             catch (SourceCodeGenerationException ex)
             {
-                error("\nan error occurred in trying to generate " +
+                error(ex, "\nan error occurred in trying to generate " +
                         "the source code:\n" +
                       ex.getLocalizedMessage());
                 result = 4;
@@ -1746,7 +1755,7 @@ public abstract class SourceCodeGenerator
                     }
                     catch (IOException ex)
                     {
-                        error("\ncould not close the properties file " +
+                        error(ex, "\ncould not close the properties file " +
                                 args[0] + "\n\n");
                         result = 3;
                     }
@@ -1765,8 +1774,11 @@ public abstract class SourceCodeGenerator
 
         @param msg the error message to log
     */
-    private static void error(String msg)
+    private static void error(Throwable ex, String msg)
     {
+        if (_verbose && (ex != null)) {
+            ex.printStackTrace();
+        }
         System.err.println(msg);
     }
 
@@ -1855,7 +1867,7 @@ public abstract class SourceCodeGenerator
                 String msg = "could not copy the file " + _source.getPath() +
                     " to " + _dest.getPath() + ": " +
                     ex.getLocalizedMessage();
-                throw new SourceCodeGenerationException(msg);
+                throw new SourceCodeGenerationException(msg, ex);
             }
             finally
             {
@@ -2117,7 +2129,7 @@ public abstract class SourceCodeGenerator
                     // TODO: log the stack trace !!!
                     ex.printStackTrace();
                     String msg = ex.getLocalizedMessage();
-                    throw new SourceCodeGenerationException(msg);
+                    throw new SourceCodeGenerationException(msg, ex);
                 }
             }
         }
