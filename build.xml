@@ -320,8 +320,8 @@
         </java>
 
         <!-- Make the (non-discarded) generated files read-only
-             and build the .cvsignore file in each of the following
-             directories:
+             and build the .cvsignore and .gitignore files in each of the
+             following directories:
 
                 ${source-dir}/base
                 ${source-dir}/tokens
@@ -332,12 +332,15 @@
         -->
         <property name="dir0" value="${source-dir}/base"/>
         <delete file="${dir0}/.cvsignore"/>
+        <delete file="${dir0}/.gitignore"/>
         <exec executable="${concatenator}" failonerror="no"
                dir="${dir0}" output="${dir0}/.cvsignore">
             <arg file="${dir0}/.cvsignore-base"/>
             <arg file="${dir0}/constants.generated"/>
             <arg file="${dir0}/character-classes.generated"/>
         </exec>
+        <copy file="${dir0}/.cvsignore" tofile="${dir0}/.gitignore"
+              overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir0}"/>
             <param name="prefix" value="constants"/>
@@ -349,12 +352,15 @@
 
         <property name="dir1" value="${source-dir}/tokens"/>
         <delete file="${dir1}/.cvsignore"/>
+        <delete file="${dir1}/.gitignore"/>
         <exec executable="${concatenator}" failonerror="no"
                dir="${dir1}" output="${dir1}/.cvsignore">
             <arg file="${dir1}/.cvsignore-base"/>
             <arg file="${dir1}/token-managers.generated"/>
             <arg file="${dir1}/source-tokenizers.generated"/>
         </exec>
+        <copy file="${dir1}/.cvsignore" tofile="${dir1}/.gitignore"
+              overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir1}"/>
             <param name="prefix" value="token-managers"/>
@@ -366,6 +372,7 @@
 
         <property name="dir2" value="${source-dir}/constructs"/>
         <delete file="${dir2}/.cvsignore"/>
+        <delete file="${dir2}/.gitignore"/>
         <exec executable="${concatenator}" failonerror="no"
                dir="${dir2}" output="${dir2}/.cvsignore">
             <arg file="${dir2}/.cvsignore-base"/>
@@ -374,6 +381,8 @@
             <arg file="${dir2}/construct-visitors.generated"/>
             <arg file="${dir2}/validity-constraint-checklists.generated"/>
         </exec>
+        <copy file="${dir2}/.cvsignore" tofile="${dir2}/.gitignore"
+              overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir2}"/>
             <param name="prefix" value="parsers"/>
@@ -393,11 +402,14 @@
 
         <property name="dir3" value="${source-dir}/constructs/testing"/>
         <delete file="${dir3}/.cvsignore"/>
+        <delete file="${dir3}/.gitignore"/>
         <exec executable="${concatenator}" failonerror="no"
                dir="${dir3}" output="${dir3}/.cvsignore">
             <arg file="${dir3}/.cvsignore-base"/>
             <arg file="${dir3}/construct-test-data-creators.generated"/>
         </exec>
+        <copy file="${dir3}/.cvsignore" tofile="${dir3}/.gitignore"
+              overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir3}"/>
             <param name="prefix" value="construct-test-data-creators"/>
@@ -405,11 +417,14 @@
 
         <property name="dir4" value="${source-dir}/semantic"/>
         <delete file="${dir4}/.cvsignore"/>
+        <delete file="${dir4}/.gitignore"/>
         <exec executable="${concatenator}" failonerror="no"
                dir="${dir4}" output="${dir4}/.cvsignore">
             <arg file="${dir4}/.cvsignore-base"/>
             <arg file="${dir4}/validators.generated"/>
         </exec>
+        <copy file="${dir4}/.cvsignore" tofile="${dir4}/.gitignore"
+              overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir4}"/>
             <param name="prefix" value="validators"/>
@@ -417,6 +432,7 @@
 
         <property name="dir5" value="${source-dir}/${docs.subdir}"/>
         <delete file="${dir5}/.cvsignore"/>
+        <delete file="${dir5}/.gitignore"/>
         <exec executable="${concatenator}" failonerror="no"
                dir="${dir5}" output="${dir5}/.cvsignore">
             <arg file="${dir5}/.cvsignore-base"/>
@@ -428,6 +444,8 @@
             <arg file="${dir5}/operator-method-map.generated"/>
             <arg file="${dir5}/language-definition.generated"/>
         </exec>
+        <copy file="${dir5}/.cvsignore" tofile="${dir5}/.gitignore"
+              overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
             <param name="prefix" value="frame-documents"/>
@@ -461,7 +479,7 @@
     <target name="protect-generated-files" depends="prepare">
         <chmod perm="a-w" parallel="true" type="file">
             <fileset dir="${dir}"
-                includes="*.generated,.cvsignore"
+                includes="*.generated,.cvsignore,.gitignore"
                 includesfile="${dir}/${prefix}.generated"
                 excludesfile="${dir}/${prefix}.discard"
                 defaultexcludes="no"/>
