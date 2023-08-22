@@ -1783,6 +1783,19 @@ public abstract class SourceCodeGenerator
     }
 
     /**
+        Logs the specified debugging message (iff we're being verbose).
+
+        @param msg the message to log
+    */
+    private static void debug(String msg)
+    {
+        if (_verbose)
+        {
+            System.err.println(msg);
+        }
+    }
+
+    /**
         Logs the specified informational message.
 
         @param msg the informational message to log
