@@ -865,12 +865,9 @@
         <echo>
 		Generating ${out}</echo>
         <xslt in="${in}" style="${style}" out="${out}"
-            filenameparameter="input-pathname" reloadstylesheet="yes"
-            classpathref="xslt.classpath">
+            reloadstylesheet="yes" classpathref="xslt.classpath">
             <param name="generation-date-time" expression="${TODAY} ${TSTAMP}"/>
-<!--
             <param name="input-pathname" expression="${in}"/>
--->
             <param name="transform-pathname" expression="${style}"/>
             <param name="output-pathname" expression="${out}"/>
         </xslt>
