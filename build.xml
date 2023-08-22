@@ -164,29 +164,11 @@
     -->
     <path id="generation.compile.classpath">
         <pathelement location="${external.lib.dir}/jdom1.jar"/>
-<!--
-        <pathelement location="${external.lib.dir}/xalan.jar"/>
-        <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
--->
-        <pathelement location="${external.lib.dir}/xerces.jar"/>
-<!-- This library seems to have been replaced with the following one.
-        <pathelement location="${external.lib.dir}/xml-apis.jar"/>
--->
-        <pathelement location="${external.lib.dir}/xml-commons-external.jar"/>
     </path>
 
     <!-- The classpath used by the XSLT processor. -->
-<!--    <path id="xslt.classpath"> -->
-<!-- This library seems to have been replaced with the following one.
-        <pathelement location="${external.lib.dir}/xml-apis.jar"/>
--->
-<!--
-        <pathelement location="${external.lib.dir}/xml-commons-external.jar"/>
-        <pathelement location="${external.lib.dir}/xerces.jar"/>
-        <pathelement location="${external.lib.dir}/xalan.jar"/>
-        <pathelement location="${external.lib.dir}/xalan-serializer.jar"/>
+    <path id="xslt.classpath">
     </path>
--->
 
     <!-- The classpath used when automatically generating source code. -->
     <path id="generation.classpath">
