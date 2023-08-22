@@ -63,7 +63,24 @@
     <!-- Main templates -->
 
     <xsl:template match="generic-classes">
-        <xsl:text>// Copyright (C) James MacKay
+        <!-- Note: the copyright years in the generated file are the same as
+ours. -->
+        <xsl:text>/*
+ Copyright (C) 2002-2015 by James MacKay.
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+*/
 
 package </xsl:text>
         <xsl:value-of select="$module-name"/>
@@ -300,7 +317,7 @@ public abstract class </xsl:text>
             <xsl:value-of select="$item-name"/>
             <xsl:text>ArrayIterator(arr);
     }
-            </xsl:text>
+</xsl:text>
         </xsl:if>
             <xsl:text>
 
