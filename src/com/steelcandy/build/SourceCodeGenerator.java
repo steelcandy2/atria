@@ -484,6 +484,7 @@ public abstract class SourceCodeGenerator
                                Map parameters)
         throws SourceCodeGenerationException
     {
+        debug("===> XML{" + in + "} * " + transform.getPath() + " = " + out.getPath());
         doTransform(new StreamSource(new StringReader(in)), transform,
                     out, parameters);
     }
@@ -505,6 +506,7 @@ public abstract class SourceCodeGenerator
                                Map parameters)
         throws SourceCodeGenerationException
     {
+        debug("===> " + in.getPath() + " * " + transform.getPath() + " = " + out.getPath());
         doTransform(new StreamSource(makeAbsolute(in)), transform,
                     out, parameters);
     }
@@ -526,7 +528,7 @@ public abstract class SourceCodeGenerator
                                File out, Map parameters)
         throws SourceCodeGenerationException
     {
-
+        debug("===> doc * " + transform.getPath() + " = " + out.getPath());
         doTransform(new DOMSource(in), transform, out, parameters);
     }
 
@@ -554,17 +556,20 @@ public abstract class SourceCodeGenerator
             Transformer t = factory.
                 newTransformer(new StreamSource(makeAbsolute(transform)));
 
+            debug("===> setting xform params:");
             Iterator iter = parameters.keySet().iterator();
             while (iter.hasNext())
             {
                 String name = (String) iter.next();
                 String value = (String) parameters.get(name);
+                debug("  " + name + " = " + value);
                 t.setParameter(name, value);
             }
 
             File absoluteOut = makeAbsolute(out);
             info("generating " + absoluteOut.getPath());
             outStream = new FileOutputStream(absoluteOut);
+            //debug("===> t = " + t + ", in = " + in + ", outStream = " + outStream);
             t.transform(in, new StreamResult(outStream));
         }
         catch (TransformerConfigurationException ex)
