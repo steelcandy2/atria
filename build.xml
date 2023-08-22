@@ -719,6 +719,13 @@
     <target name="realclean" depends="clean"
             description="Deletes all temporary and generated files">
 
+        <!-- Deletes all files with .all and .generated extensions, which
+             are assumed to have been created as part of code generation. -->
+        <delete>
+            <fileset dir="." includes="**/*.all"/>
+            <fileset dir="." includes="**/*.generated"/>
+        </delete>
+
         <!-- Delete the jar files and everything in classes.dir and
              javadoc.dir -->
         <delete file="${lib.dir}/${common.jar.name}"/>
