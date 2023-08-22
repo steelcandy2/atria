@@ -1,1 +1,3 @@
-/classes /javadoc /lib
+/classes
+/javadoc
+/lib

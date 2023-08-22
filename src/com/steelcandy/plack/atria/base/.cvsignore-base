@@ -1,4 +1,5 @@
 .cvsignore
+.gitignore
 Constants.java.all
 constants.generated
 CharacterClasses.java.all

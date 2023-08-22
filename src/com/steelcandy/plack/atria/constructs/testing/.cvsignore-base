@@ -1,6 +1,7 @@
 ConstructTestDataCreators.java.all
 construct-test-data-creators.generated
 .cvsignore
+.gitignore
 source-code.atria
 parsed-construct-info.txt
 test-construct-info.txt

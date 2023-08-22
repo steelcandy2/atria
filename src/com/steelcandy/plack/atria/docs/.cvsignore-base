@@ -15,6 +15,7 @@ validity-constraints.generated
 OperatorMethodMap.all
 operator-method-map.generated
 .cvsignore
+.gitignore
 LanguageDefinition.all
 language-definition.generated
 Semantics.all

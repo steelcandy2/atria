@@ -7,4 +7,4 @@ parsers.generated
 ValidityConstraintChecklists.java.all
 validity-constraint-checklists.generated
 .cvsignore
-
+.gitignore

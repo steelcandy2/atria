@@ -1,4 +1,5 @@
 .cvsignore
+.gitignore
 TokenManagers.java.all
 token-managers.generated
 SourceTokenizers.java.all
