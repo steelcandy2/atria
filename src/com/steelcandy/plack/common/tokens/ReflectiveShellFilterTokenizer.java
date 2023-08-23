@@ -31,7 +31,7 @@ import java.util.MissingResourceException;
     A base class for shell filter tokenizers whose subtokenizers'
     fully-qualified class names are obtained from a Resources object.
     <p>
-    The (i + 1)'th subtokenizer's fully-qualified class name (where i >= 0)
+    The (i + 1)'th subtokenizer's fully-qualified class name (where i &gt;= 0)
     is given by the String resource in th Resources object with the key
     constructed from the specified prefix with the (string representation of
     the) value 'i - 1' appended to it. Note that this means that the resource
