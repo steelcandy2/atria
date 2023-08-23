@@ -19,8 +19,9 @@
 #
 
 # Configuration
-CMD=xml2atria
-DIRS="/extra/usr/jdom/build/samples"
+SCRIPTS_DIR="$(pwd)/$(dirname "$0")"
+CMD="${SCRIPTS_DIR}/xml2atria"
+DIRS="${SCRIPTS_DIR}/../src/com/steelcandy/plack/atria/programs/testing/expected-results"
 XML_EXT=.xml
 ATRIA_EXT=.atria
 TEST_DIR=~/tmp/atria
