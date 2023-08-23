@@ -555,6 +555,7 @@ public abstract class SourceCodeGenerator
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer t = factory.
                 newTransformer(new StreamSource(makeAbsolute(transform)));
+            debug("===> got Transformer of class " + t.getClass().getName());
 
             debug("===> setting xform params:");
             Iterator iter = parameters.keySet().iterator();
