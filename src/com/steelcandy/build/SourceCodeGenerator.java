@@ -1303,6 +1303,7 @@ public abstract class SourceCodeGenerator
     protected Set buildDependencies(File transform)
         throws SourceCodeGenerationException
     {
+        //debug("===> building dependencies for " + transform.getPath() + "…");
         Set result = new HashSet();
 
         Document doc = makeDocument(transform);
@@ -1314,8 +1315,10 @@ public abstract class SourceCodeGenerator
             if (target != null)
             {
                 File dependency = new File(transform.getParent(), target);
+                //debug("    candidate dependency: " + dependency.getPath());
                 if (result.contains(dependency) == false)
                 {
+                    //debug("      adding the dependency + all of its …");
                     result.add(dependency);
 
                     // Add all of 'dependency''s direct and indirect
@@ -1325,6 +1328,7 @@ public abstract class SourceCodeGenerator
             }
         }
 
+        //debug("<=== DONE building dependencies for " + transform.getPath());
         return result;
     }
 
