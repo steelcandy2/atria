@@ -310,7 +310,8 @@ public abstract class SourceCodeGenerator
     public void generateLanguageSourceCode()
         throws SourceCodeGenerationException
     {
-        File in = makeAbsolute(_languageDescriptionFile);
+        // File in = makeAbsolute(_languageDescriptionFile);
+        File in = _languageDescriptionFile;
 
         List gensToUse = generatorsToUse(_languageGenerators, in);
         if (gensToUse.isEmpty() == false)
