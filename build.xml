@@ -512,6 +512,11 @@
             description="Jars up all classes and resources needed to automatically generate source code">
         <jar jarfile="${lib.dir}/${generation.jar.name}"
              basedir="${generation.classes.dir}">
+            <manifest>
+                <attribute name="Implementation-Title"
+                    value="${Name} Code Generation"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
         </jar>
     </target>
 
@@ -559,7 +564,12 @@
         <jar jarfile="${lib.dir}/${common.jar.name}"
              basedir="${compile.classes.dir}"
              includes="com/steelcandy/common/**"
-             excludes="**/testing/**,**/test/**"/>
+             excludes="**/testing/**,**/test/**">
+            <manifest>
+                <attribute name="Implementation-Title" value="${Name} Common"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="plack-jar" depends="classes"
@@ -567,7 +577,12 @@
         <jar jarfile="${lib.dir}/${plack.jar.name}"
              basedir="${compile.classes.dir}"
              includes="com/steelcandy/plack/common/**,com/steelcandy/plack/shared/**"
-             excludes="**/testing/**,**/test/**,com/steelcandy/plack/*/runtime/**"/>
+             excludes="**/testing/**,**/test/**,com/steelcandy/plack/*/runtime/**">
+            <manifest>
+                <attribute name="Implementation-Title" value="Plack"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="atria-jar" depends="classes"
@@ -575,14 +590,24 @@
         <jar jarfile="${lib.dir}/${atria.jar.name}"
              basedir="${compile.classes.dir}"
              includes="com/steelcandy/plack/atria/**"
-             excludes="**/testing/**,**/test/**"/>
+             excludes="**/testing/**,**/test/**">
+            <manifest>
+                <attribute name="Implementation-Title" value="${Name}"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="testing-jar" depends="classes"
         description="Jars up all testing-related classes and resources">
         <jar jarfile="${lib.dir}/${testing.jar.name}"
              basedir="${compile.classes.dir}"
-             includes="**/testing/**,**/test/**"/>
+             includes="**/testing/**,**/test/**">
+            <manifest>
+                <attribute name="Implementation-Title" value="${Name} Testing"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
+        </jar>
     </target>
 
 
