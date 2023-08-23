@@ -904,18 +904,14 @@ Generating ${out}</echo>
 
 
     <!-- Creates a script with the pathname specified by 'script'
-         that runs the class whose fully-qualified class name is
+         that runs the class of ours whose fully-qualified class name is
          specified by 'class'. 'script' and 'class' are parameters. -->
     <target name="create-script" depends="prepare"
-            description="Generates a script to run a Java class">
-        <property name="app-classpath" refid="run.classpath"/>
-        <filter token="LIB_DIR" value="${basedir}/${lib.dir}"/>
-        <filter token="APP_CLASSPATH" value="${app-classpath}"/>
+            description="Generates a script to run one of our Java classes">
+        <filter token="LIB_DIR" value="${lib.dir.absolute}"/>
+        <filter token="EXTERNAL_LIB_DIR"
+            value="${external.lib.dir.absolute}"/>
         <filter token="CLASS_NAME" value="${class}"/>
-        <filter token="COMMON_JAR_NAME" value="${common.jar.name}"/>
-        <filter token="PLACK_JAR_NAME" value="${plack.jar.name}"/>
-        <filter token="ATRIA_JAR_NAME" value="${atria.jar.name}"/>
-        <filter token="TESTING_JAR_NAME" value="${testing.jar.name}"/>
         <copy file="${script.template}" tofile="${script}"
               filtering="yes" overwrite="yes"/>
         <chmod perm="ugo+x" file="${script}" />
