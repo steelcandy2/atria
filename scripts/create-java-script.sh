@@ -24,13 +24,12 @@
 # Configuration
 
 # The scripts directory, which is assumed to contain this script.
-SCRIPTS_DIR=$(dirname $0)
-
-# The directory we have to be in for Ant to find the proper build file
-BUILD_FILE_DIR=${SCRIPTS_DIR}/../java
+SCRIPTS_DIR="$(dirname "$0")"
 
 ANT=ant
-CREATE_SCRIPT_TARGET=create-script
+ANT_OPTS="-find build.xml"
+
+CREATE_SCRIPT_TARGET="create-script"
 
 
 # Argument processing
@@ -50,15 +49,17 @@ EOF
     exit 1
 fi
 
-SCRIPT_NAME=$1
-CLASS_NAME=$2
+SCRIPT_NAME="$1"
+CLASS_NAME="$2"
 
 
 # Main program
 
-SCRIPT_PATHNAME=${SCRIPTS_DIR}/${SCRIPT_NAME}
+SCRIPT_PATHNAME="${PWD}/${SCRIPTS_DIR}/${SCRIPT_NAME}"
 echo
 echo "Creating the script ${SCRIPT_PATHNAME} ..."
 echo
 
-(cd ${BUILD_FILE_DIR} && ${ANT} -Dscript="${SCRIPT_PATHNAME}" -Dclass="${CLASS_NAME}" ${CREATE_SCRIPT_TARGET})
+"${ANT}" $ANT_OPTS \
+         -Dscript="${SCRIPT_PATHNAME}" -Dclass="${CLASS_NAME}" \
+         "${CREATE_SCRIPT_TARGET}"
