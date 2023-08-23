@@ -164,10 +164,13 @@
     -->
     <path id="generation.compile.classpath">
         <pathelement location="${external.lib.dir}/jdom1.jar"/>
+        <pathelement location="${external.lib.dir}/xalan2.jar"/>
     </path>
 
     <!-- The classpath used by the XSLT processor. -->
     <path id="xslt.classpath">
+        <pathelement location="${external.lib.dir}/jdom1.jar"/>
+        <pathelement location="${external.lib.dir}/xalan2.jar"/>
     </path>
 
     <!-- The classpath used when automatically generating source code. -->
@@ -292,8 +295,8 @@
         <java classname="${generator-classname}"
               classpathref="generation.classpath"
               fork="yes" failonerror="yes">
-            <arg value="-v"/>
 <!--
+            <arg value="-v"/>
             <arg value="-f"/>
             <arg value="-p"/>
 -->
@@ -532,7 +535,7 @@
                excludes="${build.subdir}/**"
 -->
         <javac srcdir="${src.dir}"
-               excludes="${build.subdir}/**/*.java"
+               excludes="${build.subdir}/**"
                destdir="${compile.classes.dir}"
                debug="${debug}"
                deprecation="${deprecation}"
@@ -879,34 +882,10 @@
     <target name="xslt-1" depends="prepare">
         <echo>
 Generating ${out}</echo>
-        <!-- For the current (as of 2023) C++ implementation of xalan. -->
-        <exec executable="${xslt.processor}" failonerror="yes">
-            <arg value="-param"/>
-            <arg value="${param-name}"/>
-            <arg value="${param-value}"/>
-            <arg value="-in"/>
-            <arg file="${in}"/>
-            <arg value="-xsl"/>
-            <arg file="${style}"/>
-            <arg value="-out"/>
-            <arg file="${out}"/>
-        </exec>
-
-        <!-- For the old Java implementation of xalan. -->
-<!--
-        <java classname="${xslt.processor}"
-              classpathref="xslt.classpath" fork="yes" failonerror="yes">
-            <arg value="-PARAM"/>
-            <arg value="${param-name}"/>
-            <arg value="${param-value}"/>
-            <arg value="-in"/>
-            <arg file="${in}"/>
-            <arg value="-xsl"/>
-            <arg file="${style}"/>
-            <arg value="-out"/>
-            <arg file="${out}"/>
-        </java>
--->
+        <xslt in="${in}" style="${style}" out="${out}"
+            reloadstylesheet="yes" classpathref="xslt.classpath">
+            <param name="${param-name}" expression="${param-value}"/>
+        </xslt>
     </target>
 
 

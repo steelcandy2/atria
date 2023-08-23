@@ -182,18 +182,9 @@
          sections of this document. There will also be a bar after the
          last element in the list. -->
     <xsl:template name="section-titles">
-<!--
-NOTE: this is commented out since it causes the Xalan XSLT processor to barf
-with a NullPointerException, at least when it's run via the 'ant' build tool.
-It seems to work fine when I use a command-line tool like xsltproc or xalan
-directly. The exception's thrown sometime after we're called but before we
-call append-section-titles (or at least before we can output a message from
-append-section-titles). If this gets fixed then also fix the template of the
-same name in validity-constraints.xsl the same way!
         <xsl:call-template name="append-section-titles">
             <xsl:with-param name="sections" select="$semantics/section"/>
         </xsl:call-template>
--->
     </xsl:template>
 
     <xsl:template match="semantics">
