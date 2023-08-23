@@ -25,14 +25,14 @@ XML_EXT=.xml
 ATRIA_EXT=.atria
 TEST_DIR=~/tmp/atria
 
-(mkdir -p ${TEST_DIR} && cd ${TEST_DIR}
-echo "Putting test results under $(pwd)"
-for d in ${DIRS}
-do
-    for f in $d/*${XML_EXT}
-    do
-        g=$(basename $f ${XML_EXT})
-        echo "+++ $f"
-        ${CMD} $f > $g${ATRIA_EXT}
-    done
-done)
+(mkdir -p "${TEST_DIR}" && cd "${TEST_DIR}"
+ echo "Putting test results under $(pwd)"
+ for d in ${DIRS}
+ do
+     for f in "$d/*${XML_EXT}"
+     do
+         g="$(basename "$f" "${XML_EXT}")"
+         echo "+++ $f"
+         ${CMD} "$f" > "$g${ATRIA_EXT}"
+     done
+ done)
