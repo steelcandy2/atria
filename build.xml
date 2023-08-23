@@ -114,9 +114,8 @@
 
     <property name="discarded-output.pathname" value="/dev/null"/>
 
-<!-- TODO: rename atria.xml, etc. to description.xml !!! -->
     <property name="language-description.filename"
-        value="description.xml"/>
+        value="description.xml"/>  <!-- rename atria.xml to this??? -->
     <property name="language-description-schema.filename"
         value="description.rng"/>
     <property name="language-description-schema.pathname"
