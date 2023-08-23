@@ -516,6 +516,7 @@
         <jar jarfile="${lib.dir}/${generation.jar.name}"
              basedir="${generation.classes.dir}">
             <manifest>
+                <attribute name="Implementation-Vendor" value="${author}"/>
                 <attribute name="Implementation-Title"
                     value="${Name} Code Generation"/>
                 <attribute name="Implementation-Version" value="${version}"/>
@@ -569,6 +570,7 @@
              includes="com/steelcandy/common/**"
              excludes="**/testing/**,**/test/**">
             <manifest>
+                <attribute name="Implementation-Vendor" value="${author}"/>
                 <attribute name="Implementation-Title" value="${Name} Common"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
@@ -582,6 +584,7 @@
              includes="com/steelcandy/plack/common/**,com/steelcandy/plack/shared/**"
              excludes="**/testing/**,**/test/**,com/steelcandy/plack/*/runtime/**">
             <manifest>
+                <attribute name="Implementation-Vendor" value="${author}"/>
                 <attribute name="Implementation-Title" value="Plack"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
@@ -595,6 +598,7 @@
              includes="com/steelcandy/plack/atria/**"
              excludes="**/testing/**,**/test/**">
             <manifest>
+                <attribute name="Implementation-Vendor" value="${author}"/>
                 <attribute name="Implementation-Title" value="${Name}"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
@@ -607,6 +611,7 @@
              basedir="${compile.classes.dir}"
              includes="**/testing/**,**/test/**">
             <manifest>
+                <attribute name="Implementation-Vendor" value="${author}"/>
                 <attribute name="Implementation-Title" value="${Name} Testing"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
