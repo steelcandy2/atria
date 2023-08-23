@@ -95,17 +95,6 @@
     <property name="testing.jar.name" value="testing.jar"/>
     <property name="generation.jar.name" value="generation.jar"/>
 
-    <property name="backup.dir" value="/extra/home/jgm/backup"/>
-    <property name="backup.file.base" value="current6"/>
-    <property name="backup.file.base.short" value="curr6"/>
-    <property name="backup.file.archived"
-                value="${backup.file.base}.tgz"/>
-    <property name="backup.file.encrypted"
-                value="${backup.file.base}.pgp"/>
-    <property name="backup.encryptor" value="gpg"/>
-    <property name="backup.decryptor" value="gpg"/>
-    <property name="backup.encrypt.recipient" value="jmackay"/>
-
 <!--
     <property name="xslt.processor" value="org.apache.xalan.xslt.Process"/>
 -->
@@ -728,59 +717,6 @@
 
     <target name="all" depends="libs,javadocs"
             description="Builds everything (more or less)" />
-
-
-    <!-- ### Backup targets ### -->
-
-    <target name="backup" depends="encrypt-arch"
-            description="backs up and encrypts the part of the CVS repository relevant to this project">
-
-        <!-- Split the backup file into disk-sized parts. -->
-        <exec executable="split" failonerror="yes" dir="${backup.dir}">
-            <arg value="-b1420k"/>
-            <arg file="${backup.dir}/${backup.file.encrypted}"/>
-            <arg file="${backup.dir}/${backup.file.base.short}-"/>
-        </exec>
-    </target>
-
-    <!-- Encrypts the archive containing the part of the CVS repository
-         relevant to this project. -->
-    <target name="encrypt-arch" depends="arch-here">
-        <!-- Create an encrypted version of the archive ... -->
-        <exec executable="${backup.encryptor}" failonerror="true">
-            <arg value="-e"/>
-	    <!--
-            <arg value="-r"/>
-            <arg value="${backup.encrypt.recipient}"/>
-	    -->
-            <arg value="-o"/>
-            <arg file="${backup.file.encrypted}"/>
-            <arg file="${backup.file.archived}"/>
-        </exec>
-
-        <!-- ... delete the unencrypted archive ... -->
-        <delete file="${backup.file.archived}" verbose="true"/>
-
-        <!-- ... and move the encrypted archive to the backup directory. -->
-        <move file="${backup.file.encrypted}" todir="${backup.dir}"/>
-    </target>
-
-    <target name="arch" depends="arch-here"
-            description="creates an archive in the backup directory containing the part of the CVS repository relevant to this project">
-        <move file="${backup.file.archived}" todir="${backup.dir}"/>
-    </target>
-
-    <!-- Creates an archive containing the parts of the CVS repositories
-         that are relevant to this project. -->
-    <target name="arch-here" depends="prepare-env">
-        <tar basedir="${env.CVSROOT}" tarfile="${backup.file.base}.tar"
-             includes="steelcandy/**,CVSROOT/**"
-             excludes="steelcandy/plack/lib/**"
-             longfile="gnu" defaultExcludes="no"/>
-        <gzip src="${backup.file.base}.tar"
-              zipfile="${backup.file.archived}"/>
-        <delete file="${backup.file.base}.tar" verbose="true"/>
-    </target>
 
 
     <!-- ### Testing targets ### -->
