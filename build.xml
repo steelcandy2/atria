@@ -748,7 +748,7 @@
     </target>
 
 
-    <target name="all" depends="libs,javadocs"
+    <target name="all" depends="libs,scripts,javadocs"
             description="Builds everything (more or less)" />
 
 
@@ -902,6 +902,34 @@ Generating ${out}</echo>
         <!-- TODO: add code here to spellcheck any other documents !!! -->
     </target>
 
+    <target name="scripts" depends="prepare"
+            description="Generates various scripts">
+        <antcall target="create-script">
+            <param name="script" value="${scripts.dir}/xml2atria"/>
+            <param name="class"
+                value="com.steelcandy.plack.atria.programs.XmlToAtriaConverterProgram"/>
+        </antcall>
+
+        <antcall target="create-script">
+            <param name="script"
+                value="${scripts.dir}/indent-writer-test.sh"/>
+            <param name="class"
+                value="com.steelcandy.common.io.IndentWriter"/>
+        </antcall>
+        <antcall target="create-script">
+            <param name="script"
+                value="${scripts.dir}/recording-indent-writer-test.sh"/>
+            <param name="class"
+                value="com.steelcandy.common.io.RecordingIndentWriter"/>
+        </antcall>
+
+        <antcall target="create-script">
+            <param name="script"
+                value="${scripts.dir}/test-text-utilities.sh"/>
+            <param name="class"
+                value="com.steelcandy.common.text.TextUtilities"/>
+        </antcall>
+    </target>
 
     <!-- Creates a script with the pathname specified by 'script'
          that runs the class of ours whose fully-qualified class name is
