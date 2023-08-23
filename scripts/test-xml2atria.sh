@@ -29,7 +29,7 @@ TEST_DIR=~/tmp/atria
  echo "Putting test results under $(pwd)"
  for d in ${DIRS}
  do
-     for f in "$d/*${XML_EXT}"
+     for f in "$d"/*${XML_EXT}
      do
          g="$(basename "$f" "${XML_EXT}")"
          echo "+++ $f"
