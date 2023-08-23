@@ -24,8 +24,9 @@
     <property name="build.compiler" value="gcj"/>
 -->
 
-    <property name="Name" value="Plack"/>
-    <property name="name" value="plack"/>
+    <property name="Name" value="Atria"/>
+    <property name="name" value="atria"/>
+    <property name="version" value="1.0"/>
 
     <property name="debug" value="true" />
     <property name="deprecation" value="false" />
