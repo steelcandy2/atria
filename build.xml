@@ -35,7 +35,6 @@
 
     <property name="java.dir" value="."/>
     <property name="src.dir" value="${java.dir}/src"/>
-    <property name="script.dir" value="${src.dir}/script"/>
     <property name="lib.dir" value="${java.dir}/lib"/>
     <property name="external.lib.dir" value="/usr/share/java"/>
 <!--
