@@ -27,6 +27,7 @@
     <property name="Name" value="Atria"/>
     <property name="name" value="atria"/>
     <property name="version" value="1.0"/>
+    <property name="author" value="James MacKay"/>
 
     <property name="debug" value="true" />
     <property name="deprecation" value="false" />
