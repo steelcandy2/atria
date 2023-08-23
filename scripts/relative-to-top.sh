@@ -35,12 +35,12 @@ then
     exit 1
 fi
 
-topDir=$1
+topDir="$1"
 shift
 
 # The second sed strips off any leading slash in case the top-level
 # directory was specified without a trailing slash.
-for f in $*
+for f in "$@"
 do
-    echo ${PWD}/$f
-done | sed s#^${topDir}## | sed s#^/##
+    echo "${PWD}/$f"
+done | sed "s#^${topDir}##" | sed 's#^/##'
