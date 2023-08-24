@@ -196,6 +196,9 @@
 
     <!-- Targets -->
 
+    <target name="all" depends="code,javadocs"
+            description="Builds everything (more or less)" />
+
 
     <!-- ### Initialization targets ### -->
 
@@ -749,10 +752,6 @@
             <fileset dir="${javadoc.dir}" includes="**/*"/>
         </delete>
     </target>
-
-
-    <target name="all" depends="code,javadocs"
-            description="Builds everything (more or less)" />
 
 
     <!-- ### Testing targets ### -->
