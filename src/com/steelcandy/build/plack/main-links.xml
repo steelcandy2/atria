@@ -30,11 +30,10 @@
         <link url="other.html" text="Other Documentation"/>
     </group>
     <group title="Other Links">
-        <link url="file:/extra/home/jmackay/src/html/wwwhome/index.html"
-            text="James MacKay Home Page" short-text="Home Page"/>
-        <link url="file:/extra/home/jgm/src/steelcandy/plack/java/javadoc/index.html"
-            text="steelcandy.com Javadocs" short-text="Javadocs"/>
-        <link url="file:/extra/usr/jdom/build/apidocs/index.html"
-            text="JDOM Javadocs"/>
+        <link url="https://docs.oracle.com/en/java/javase/11/docs/api/index.html"
+            text="Java 11 API Documentation" short-text="Java 11 API"/>
+        <link url="http://jdom.org/docs/apidocs.1.1/"
+            text="JDOM 1.1 API Documentation" short-text="JDOM 1.1 API"/>
+        <link url="https://steelcandy.org/" text="steelcandy.org"/>
     </group>
 </links>
