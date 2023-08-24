@@ -627,6 +627,19 @@
 
     <!-- ### Documentation targets ### -->
 
+    <!-- This target exists because currently the HTML language documentation
+         doesn't get updated automatically when one of the files it's
+         generated from (e.g. main-links.xml) gets updated/modified. -->
+    <target name="regen-lang-docs" depends="delete-lang-all-docs,source"
+        description="Regenerates all of the (HTML) language documentation"/>
+
+    <!-- Deletes all of the *.all files in the Atria 'docs' directory. -->
+    <target name="delete-lang-all-docs" depends="prepare">
+        <delete>
+            <fileset dir="${atria.doc.dir}" includes="*.all"/>
+        </delete>
+    </target>
+
     <!-- Validates the language documentation document in the specified
          directory against the language documentation document schema.
          'doc-dir' is a parameter. -->
