@@ -583,7 +583,7 @@ commands.
                     concatenation, in order, of the XML that corresponds to the
                     <direct subconstruct="Prologue" of="doc"/> and the XML that
                     corresponds to each of the <direct subconstruct="Element"
-                    multiple="true" of="dec"/>.</description>
+                    multiple="true" of="doc"/>.</description>
             </construct-semantics>
             <construct-semantics type="Prologue" var="p">
                 <description>corresponds to the XML consisting of the
