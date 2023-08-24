@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<project name="plack" basedir="." default="libs">
+<project name="plack" basedir="." default="code">
 
     <!-- Properties -->
 
@@ -559,6 +559,9 @@
         </copy>
     </target>
 
+    <target name="code" depends="libs,scripts"
+        description="Processes all source code"/>
+
     <target name="libs"
         depends="common-jar,plack-jar,atria-jar,testing-jar"
         description="Jars up all classes and resources"/>
@@ -748,7 +751,7 @@
     </target>
 
 
-    <target name="all" depends="libs,scripts,javadocs"
+    <target name="all" depends="code,javadocs"
             description="Builds everything (more or less)" />
 
 
