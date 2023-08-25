@@ -127,6 +127,12 @@ public class XmlToAtriaConverter
         Assert.require(doc != null);
         Assert.require(w != null);
 
+        // Output the 'language atria' line.
+        w.write(AtriaInfo.FIRST_LANGUAGE_SPECIFIER_NAME);
+        w.write(" ");
+        writeLine(w, AtriaInfo.LANGUAGE_NAME);
+        w.write(LINE_SEPARATOR);
+
         convertAllContents(doc.getContent(), w);
     }
 
