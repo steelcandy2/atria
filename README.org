@@ -1,0 +1,124 @@
+#+title: Atria
+#+date: <2023-08-24 Thu 09:53>
+#+description: README file for the Atria data representation language
+#+OPTIONS: toc:nil num:nil date:nil
+#+OPTIONS: org-use-sub-superscripts:nil
+
+Atria is a data representation language like [[https://en.wikipedia.org/wiki/XML][XML]] that's intended to be easier
+for humans to read and write. (Whether it's easier than [[https://en.wikipedia.org/wiki/JSON][JSON]] to read and
+write is probablymore subjective.) For example, instead of having to write
+(or read) an XML document containing something like this:
+
+#+BEGIN_EXAMPLE
+<album id="loudbomb2002" year="2002" format="cd">
+    <artist>Loudbomb</artist>
+    <title>Long Playing Grooves</title>
+</album>
+<album id="lovetractor1986" year="1986" format="lp">
+    <artist>Love Tractor</artist>
+    <title>This Ain&apos;t No Outer Space Ship</title>
+</album>
+<album id="lovettlyle1986" year="1986" format="cd">
+    <artist>Lyle Lovett</artist>
+    <title>Lyle Lovett</title>
+</album>
+#+END_EXAMPLE
+
+you could write an Atria document containing this:
+
+#+BEGIN_EXAMPLE
+album id="loudbomb2002" year="2002" format="cd"
+    artist
+        "Loudbomb"
+    title
+        "Long Playing Grooves"
+album id="lovetractor1986" year="1986" format="lp"
+    artist
+        "Love Tractor"
+    title
+        "This Ain't No Outer Space Ship"
+album id="lovettlyle1986" year="1986" format="cd"
+    artist
+        "Lyle Lovett"
+    title
+        "Lyle Lovett"
+#+END_EXAMPLE
+
+and then convert that Atria to XML using the =atria2xml= command that we
+provide. While the Atria version isn't any shorter (and is in fact one line
+longer per record), you may have noticed that:
+
+  - the artist and title information isn't buried among opening and closing
+    tags (and there aren't any closing tags at all!),
+  - the single quote (') wasn't escaped (since there's no such thing as
+    escaped characters in Atria strings), and
+  - there are hardly any additional special characters to type: only double
+    quotes, equals signs and whitespace (but no less than and greater than
+    signs, slashes, ampersands, etc.)
+
+While your computer won't care which format you use, your eyes and hands
+might.
+
+* Installation
+:PROPERTIES:
+:CUSTOM_ID: Installation-section
+:END:
+
+The following assumes that you've made the top-level directory of this
+repository the current directory in a terminal session.
+
+To install our programs and their dependencies in a given location on your
+system you need to build a distribution file suitable for that location. If
+you want to install it in the default location under the =/usr= directory (so
+that our executables end up in =/usr/bin=) then build the distribution by
+running the command =ant dist=. Assuming that no problems occur you can then
+run the command =sudo tar -C /usr dist/atria-1.0.tar.bz2= to install from the
+distribution file that you just built. (You can install from the ZIP version
+of the distribution file instead if you prefer: to do that run the command
+=sudo unzip -d /usr dist/atria-1.0.zip= instead.) If the files
+=/usr/bin/xml2atria= and =/usr/bin/atria2xml= now exist and the directory
+=/usr/bin= is on your PATH then see the [[#Usage-section][next section]] to find out how to try
+them out.
+
+Installing in a location other than the default isn't much harder. For
+example, if you want to install under the =/usr/local= directory (so that our
+executables end up in =/usr/local/bin=) then
+
+  - build the distribution by running the command
+    =ant -Dprefix=/usr/local dist=, then
+  - install from the distribution file that your just built by running the
+    command =sudo tar -C /usr/local dist/atria-1.0.tar.bz2= (or the command
+    =sudo unzip -d /usr/local dist/atria-1.0.zip= to use =unzip= instead of
+    =tar=).
+
+If the directory =/usr/local/bin= is on your PATH and that directory contains
+both the =atria2xml= and =xml2atria= commands then you can see the
+[[#Usage-section][next section]] to find out how to try them out.
+
+* Usage
+:PROPERTIES:
+:CUSTOM_ID: Usage-section
+:END:
+
+The command =xml2atria= can be used to convert an XML document into an Atria
+document with the same content and structure. For example, if =something.xml=
+is the pathname of an existing XML document then running the command
+
+#+BEGIN_EXAMPLE
+xml2atria something.xml > something.atria
+#+END_EXAMPLE
+
+will create the corresponding Atria document in the file named
+=something.atria= in the same directory as =something.xml=.
+
+Conversely, the =atria2xml= command can be used to convert an Atria document
+into an XML document with the same content and structure. For example, if
+=something.atria= is the pathname of an existing Atria document then running
+the command
+
+#+BEGIN_EXAMPLE
+atria2xml something.atria > something.xml
+#+END_EXAMPLE
+
+will create the corresponding XML document in the file named =something.xml=
+in the same directory as =something.atria=.
