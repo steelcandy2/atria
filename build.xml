@@ -773,6 +773,10 @@
         <delete file="${lib.dir}/${testing.jar.name}"/>
         <delete file="${lib.dir}/${generation.jar.name}"/>
         <delete>
+            <fileset dir="${classes.dir}" includes="**/*"/>
+                <!-- The 'clean' target should delete all of these, but this
+                     is a little more general, just to be completely sure
+                     they're *all* deleted. -->
             <fileset dir="${javadoc.dir}" includes="**/*"/>
         </delete>
     </target>
