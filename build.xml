@@ -920,6 +920,11 @@ Generating ${out}</echo>
     <target name="scripts" depends="prepare"
             description="Generates various scripts">
         <antcall target="create-script">
+            <param name="script" value="${scripts.dir}/atria2xml"/>
+            <param name="class"
+                value="com.steelcandy.plack.atria.programs.AtriaToXmlConverterProgram"/>
+        </antcall>
+        <antcall target="create-script">
             <param name="script" value="${scripts.dir}/xml2atria"/>
             <param name="class"
                 value="com.steelcandy.plack.atria.programs.XmlToAtriaConverterProgram"/>
