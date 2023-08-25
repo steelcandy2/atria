@@ -49,6 +49,7 @@
     <property name="xml-to-atria.classname"
         value="${atria.pkg}.programs.XmlToAtriaConverterProgram"/>
 
+    <!-- Directories and Files. -->
     <property name="java.dir" value="."/>
     <property name="src.dir" value="${java.dir}/src"/>
     <property name="lib.dir" value="${java.dir}/lib"/>
@@ -63,6 +64,14 @@
     <property name="javadoc.dir" value="${java.dir}/javadoc"/>
     <property name="classes.dir" value="${java.dir}/classes"/>
     <property name="scripts.dir" value="scripts"/>
+
+    <property name="dist.dir" value="dist"/>
+    <property name="prefix" value="/usr"/>
+        <!-- The base directory under which our distributions assume they'll
+             be installed (unless we're overriden on the command line). -->
+    <property name="dist.basename" value="${name}-${version}"/>
+    <property name="dist.file.zip" value="${dist.dir}/${dist.basename}.zip"/>
+    <property name="dist.file.tar" value="${dist.dir}/${dist.basename}.tar"/>
 
     <property name="script.template" value="run-java-script.build-template"/>
 
@@ -210,6 +219,72 @@
     <target name="all" depends="code,javadocs"
             description="Builds everything (more or less)" />
 
+    <target name="dist" depends="libs"
+            description="Builds distributable versions of us.">
+        <property name="work" value="${dist.dir}/work"/>
+            <!-- The temporary dir where we put the files that'll be in our
+                 distribution. -->
+        <property name="work-libs" value="${work}/lib"/>
+
+        <mkdir dir="${work-libs}"/>
+        <copy todir="${work-libs}">
+            <!-- Copy just our .jar files ... -->
+            <fileset dir="${lib.dir}" includes="*.jar"/>
+
+            <!-- ... but copy *everything* from our external libraries
+                 directory (including licenses, etc.). -->
+            <fileset dir="${external.lib.dir}"/>
+        </copy>
+
+        <antcall target="dist-scripts">
+            <param name="dir" value="${work}/bin"/>
+            <param name="libs" value="${prefix}/lib/${name}-${version}"/>
+        </antcall>
+
+        <tar destfile="${dist.file.tar}">
+            <!-- Ensure the scripts are executable. -->
+            <tarfileset dir="${work}" filemode="755">
+                <include name="bin/*"/>
+            </tarfileset>
+            <tarfileset dir="${work}">
+                <exclude name="bin/*"/>
+            </tarfileset>
+        </tar>
+
+        <!-- Create a ZIP file with the same contents (and file permissions!)
+             as in the tar file that we just built. It requires that the tar
+             file not be compressed, though ... -->
+        <zip destfile="${dist.file.zip}">
+            <tarfileset src="${dist.file.tar}"/>
+        </zip>
+
+        <!-- ... so we compress the tar file now instead (and then delete the
+             uncompressed one). -->
+        <gzip src="${dist.file.tar}" destfile="${dist.file.tar}.bz2"/>
+        <delete file="${dist.file.tar}"/>
+
+        <delete dir="${work}"/>  <!-- and everything in it -->
+    </target>
+
+    <!-- Creates the scripts that will be part of a distribution in the
+         directory 'dir', where the classpaths in the script will contain
+         all of the jar files in the directory 'libs'. 'dir' and 'libs' are
+         parameters. -->
+    <target name="dist-scripts" depends="prepare">
+        <mkdir dir="${dir}"/>
+        <antcall target="flexible-create-script">
+            <param name="script" value="${dir}/atria2xml"/>
+            <param name="class" value="${atria-to-xml.classname}"/>
+            <param name="lib" value="${libs}"/>
+            <param name="ext-lib" value="${libs}"/>
+        </antcall>
+        <antcall target="flexible-create-script">
+            <param name="script" value="${dir}/xml2atria"/>
+            <param name="class" value="${xml-to-atria.classname}"/>
+            <param name="lib" value="${libs}"/>
+            <param name="ext-lib" value="${libs}"/>
+        </antcall>
+    </target>
 
     <!-- ### Initialization targets ### -->
 
@@ -336,11 +411,11 @@
               overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir0}"/>
-            <param name="prefix" value="constants"/>
+            <param name="start" value="constants"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir0}"/>
-            <param name="prefix" value="character-classes"/>
+            <param name="start" value="character-classes"/>
         </antcall>
 
         <property name="dir1" value="${source-dir}/tokens"/>
@@ -356,11 +431,11 @@
               overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir1}"/>
-            <param name="prefix" value="token-managers"/>
+            <param name="start" value="token-managers"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir1}"/>
-            <param name="prefix" value="source-tokenizers"/>
+            <param name="start" value="source-tokenizers"/>
         </antcall>
 
         <property name="dir2" value="${source-dir}/constructs"/>
@@ -378,19 +453,19 @@
               overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir2}"/>
-            <param name="prefix" value="parsers"/>
+            <param name="start" value="parsers"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir2}"/>
-            <param name="prefix" value="construct-managers"/>
+            <param name="start" value="construct-managers"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir2}"/>
-            <param name="prefix" value="construct-visitors"/>
+            <param name="start" value="construct-visitors"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir2}"/>
-            <param name="prefix" value="validity-constraint-checklists"/>
+            <param name="start" value="validity-constraint-checklists"/>
         </antcall>
 
         <property name="dir3" value="${source-dir}/constructs/testing"/>
@@ -405,7 +480,7 @@
               overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir3}"/>
-            <param name="prefix" value="construct-test-data-creators"/>
+            <param name="start" value="construct-test-data-creators"/>
         </antcall>
 
         <property name="dir4" value="${source-dir}/semantic"/>
@@ -420,7 +495,7 @@
               overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir4}"/>
-            <param name="prefix" value="validators"/>
+            <param name="start" value="validators"/>
         </antcall>
 
         <property name="dir5" value="${source-dir}/${docs.subdir}"/>
@@ -441,40 +516,40 @@
               overwrite="yes" force="yes" failonerror="no"/>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
-            <param name="prefix" value="frame-documents"/>
+            <param name="start" value="frame-documents"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
-            <param name="prefix" value="main-document"/>
+            <param name="start" value="main-document"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
-            <param name="prefix" value="grammar"/>
+            <param name="start" value="grammar"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
-            <param name="prefix" value="validity-constraints"/>
+            <param name="start" value="validity-constraints"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
-            <param name="prefix" value="semantics"/>
+            <param name="start" value="semantics"/>
         </antcall>
         <antcall target="protect-generated-files">
             <param name="dir" value="${dir5}"/>
-            <param name="prefix" value="operator-method-map"/>
+            <param name="start" value="operator-method-map"/>
         </antcall>
     </target>
 
     <!-- Protects the files in the specified directory that were
          generated from the file indicated by the specified prefix
-         by removing write permissions on them. 'dir' and 'prefix'
+         by removing write permissions on them. 'dir' and 'start'
          are parameters. -->
     <target name="protect-generated-files" depends="prepare">
         <chmod perm="a-w" parallel="true" type="file">
             <fileset dir="${dir}"
                 includes="*.generated,.cvsignore,.gitignore"
-                includesfile="${dir}/${prefix}.generated"
-                excludesfile="${dir}/${prefix}.discard"
+                includesfile="${dir}/${start}.generated"
+                excludesfile="${dir}/${start}.discard"
                 defaultexcludes="no"/>
         </chmod>
     </target>
@@ -765,8 +840,8 @@
             <fileset dir="." includes="**/*.generated"/>
         </delete>
 
-        <!-- Delete the jar files and everything in classes.dir and
-             javadoc.dir -->
+        <!-- Delete our jar files and everything in dist.dir, classes.dir
+             and javadoc.dir. -->
         <delete file="${lib.dir}/${common.jar.name}"/>
         <delete file="${lib.dir}/${plack.jar.name}"/>
         <delete file="${lib.dir}/${atria.jar.name}"/>
@@ -778,6 +853,7 @@
                      is a little more general, just to be completely sure
                      they're *all* deleted. -->
             <fileset dir="${javadoc.dir}" includes="**/*"/>
+            <fileset dir="${dist.dir}" includes="**/*"/>
         </delete>
     </target>
 
