@@ -66,7 +66,7 @@ public class AtriaToXmlConverter
     */
     private static final String
         XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"" +
-                            " standalone=\"yes\"?>";
+                            " standalone=\"yes\" ?>";
 
 
     // Private fields
