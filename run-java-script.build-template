@@ -24,7 +24,11 @@ JAVA_OPTS=
 
 PROG_NAME="$(basename "$0")"
 
-java ${JAVA_OPTS} \
-     -cp "@LIB_DIR@/*:@EXTERNAL_LIB_DIR@/*" \
-     -Dprogram.name="$PROG_NAME" \
+LIBS="@LIB_DIR@"
+EXT_LIBS="@EXTERNAL_LIB_DIR@"
+
+CP="$LIBS/*"
+[ "x${LIBS}" = "x${EXT_LIBS}" ] || CP="${CP}:${EXT_LIBS}/*"
+
+java ${JAVA_OPTS} -cp "$CP" -Dprogram.name="$PROG_NAME" \
      @CLASS_NAME@ "$@"
