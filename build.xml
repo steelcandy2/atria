@@ -283,8 +283,14 @@
             <param name="libs" value="${prefix}/${libs-subdir}"/>
         </antcall>
 
-        <!-- Copy over the file containing our project's license. -->
-        <copy todir="${work-docs}" file="LICENSE"/>
+        <!-- Copy over various documentation, including the file containing
+             our project's license. -->
+        <copy todir="${work-docs}" file="LICENSE">
+            <fileset dir="${basedir}">
+                <include name="LICENSE"/>
+                <include name="README.org"/>
+            </fileset>
+        </copy>
     </target>
 
     <!-- Creates the scripts that will be part of a distribution in the
