@@ -965,9 +965,34 @@ Generating ${out}</echo>
          specified by 'class'. 'script' and 'class' are parameters. -->
     <target name="create-script" depends="prepare"
             description="Generates a script to run one of our Java classes">
+        <antcall target="flexible-create-script">
+            <param name="script" value="${script}"/>
+            <param name="class" value="${class}"/>
+            <param name="lib" value="${lib.dir.absolute}"/>
+            <param name="ext-lib" value="${external.lib.dir.absolute}"/>
+        </antcall>
+<!--
         <filter token="LIB_DIR" value="${lib.dir.absolute}"/>
         <filter token="EXTERNAL_LIB_DIR"
             value="${external.lib.dir.absolute}"/>
+        <filter token="CLASS_NAME" value="${class}"/>
+        <copy file="${script.template}" tofile="${script}"
+              filtering="yes" overwrite="yes"/>
+        <chmod perm="ugo+x" file="${script}" />
+-->
+    </target>
+
+    <!-- Creates a script with the pathname specified by 'script'
+         that runs the class of ours whose fully-qualified class name is
+         specified by 'class', where the JAR files that the class needs are
+         in one of the directories specified by 'lib' and 'ext-lib'.
+         'script', 'class', 'lib' and 'ext-lib' are parameters.
+
+         See also: create-script. -->
+    <target name="flexible-create-script" depends="prepare"
+            description="Generates a script to run one of our Java classes">
+        <filter token="LIB_DIR" value="${lib}"/>
+        <filter token="EXTERNAL_LIB_DIR" value="${ext-lib}"/>
         <filter token="CLASS_NAME" value="${class}"/>
         <copy file="${script.template}" tofile="${script}"
               filtering="yes" overwrite="yes"/>
