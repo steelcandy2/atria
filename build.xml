@@ -33,6 +33,22 @@
     <property name="deprecation" value="false" />
     <property name="optimize" value="true" />
 
+    <!-- Package names. -->
+    <property name="base.pkg" value="com.steelcandy"/>
+    <property name="build.pkg" value="${base.pkg}.build"/>
+    <property name="common.pkg" value="${common.pkg}"/>
+    <property name="atria.pkg" value="${base.pkg}.plack.atria"/>
+
+    <!-- Class names. -->
+    <property name="file-splitter.classname"
+        value="${build.pkg}.FileSplitter"/>
+    <property name="atria.source.generator.classname"
+        value="${build.pkg}.plack.atria.AtriaJavaSourceCodeGenerator"/>
+    <property name="atria-to-xml.classname"
+        value="${atria.pkg}.programs.AtriaToXmlConverterProgram"/>
+    <property name="xml-to-atria.classname"
+        value="${atria.pkg}.programs.XmlToAtriaConverterProgram"/>
+
     <property name="java.dir" value="."/>
     <property name="src.dir" value="${java.dir}/src"/>
     <property name="lib.dir" value="${java.dir}/lib"/>
@@ -69,9 +85,6 @@
     <property name="cvs.module.project" value="steelcandy"/>
     <property name="cvs.module.admin" value="CVSROOT"/>
 
-    <property name="file-splitter.classname"
-        value="com.steelcandy.build.FileSplitter"/>
-
     <property name="atria.src.subdir"
         value="${steelcandy.src.subdir}/plack/atria"/>
     <property name="atria.src.dir"
@@ -90,8 +103,6 @@
         value="${atria.language-description.dir}/atria.dictionary"/>
     <property name="atria.source.generator.properties"
         value="Atria.generator.properties"/>
-    <property name="atria.source.generator.classname"
-        value="com.steelcandy.build.plack.atria.AtriaJavaSourceCodeGenerator"/>
 
     <property name="common.jar.name" value="steelcandy.jar"/>
     <property name="plack.jar.name" value="plack.jar"/>
@@ -703,20 +714,20 @@
             description="Generates javadocs for all Java sources">
 <!-- TODO: remove the generation.java packages from excludepackagenames attribute !!! -->
         <javadoc maxmemory="512m"
-            packagenames="com.steelcandy.*"
+            packagenames="${base.pkg}.*"
             sourcepath="${src.dir}" classpath="${javadocs.classpath}"
             destdir="${javadoc.dir}"
             author="true" version="true"
             windowtitle="${Name} API" doctitle="${Name}"
             noindex="true" additionalparam="-breakiterator"
-            excludepackagenames="com.steelcandy.testing.*,com.steelcandy.plack.testing.*"
+            excludepackagenames="${base.pkg}.testing.*,${base.pkg}.plack.testing.*"
             bottom="Copyright &#169; James MacKay. All Rights Reserved.">
             <classpath refid="compile.classpath"/>
-            <group title="Code Generation" packages="com.steelcandy.build*"/>
-            <group title="Common" packages="com.steelcandy.common*"/>
-            <group title="Plack Common" packages="com.steelcandy.plack.common*"/>
-            <group title="Plack Shared" packages="com.steelcandy.plack.shared*"/>
-            <group title="Atria" packages="com.steelcandy.plack.atria*"/>
+            <group title="Code Generation" packages="${build.pkg}*"/>
+            <group title="Common" packages="${common.pkg}*"/>
+            <group title="Plack Common" packages="${base.pkg}.plack.common*"/>
+            <group title="Plack Shared" packages="${base.pkg}.plack.shared*"/>
+            <group title="Atria" packages="${atria.pkg}*"/>
         </javadoc>
     </target>
 
@@ -771,7 +782,7 @@
 
     <target name="text-utilities-test" depends="prepare"
             description="Runs the TextUtilities class' tests">
-        <java classname="com.steelcandy.common.text.TextUtilities"
+        <java classname="${common.pkg}.text.TextUtilities"
               classpathref="run.classpath"
               fork="yes" failonerror="yes"/>
     </target>
@@ -789,7 +800,7 @@
 
     <target name="atria-construct-test-data" depends="libs"
             description="Generates Atria test data">
-        <java classname="com.steelcandy.plack.atria.constructs.testing.AtriaConstructTestDataCreator"
+        <java classname="${atria.pkg}.constructs.testing.AtriaConstructTestDataCreator"
               classpathref="run.classpath"
               fork="yes" failonerror="yes">
             <!-- We use 'arg value' rather than 'arg file' since we don't
@@ -801,7 +812,7 @@
 
     <target name="atria-parser-test" depends="prepare"
             description="Runs a single Atria parser test">
-        <java classname="com.steelcandy.plack.atria.constructs.testing.AtriaParserTest"
+        <java classname="${atria.pkg}.constructs.testing.AtriaParserTest"
               classpathref="run.classpath" maxmemory="512m"
               fork="yes" failonerror="yes">
             <arg file="${atria.src.dir}/constructs/testing"/>
@@ -811,7 +822,7 @@
 <!--
     <target name="atria-error-parser-test" depends="prepare"
             description="Runs a single Atria parser test to test error handling">
-        <java classname="com.steelcandy.plack.atria.constructs.testing.AtriaErrorHandlingParserTest"
+        <java classname="${atria.pkg}.constructs.testing.AtriaErrorHandlingParserTest"
               classpathref="run.classpath"
               fork="yes" failonerror="yes">
             <arg file="${atria.src.dir}/constructs/testing"/>
@@ -921,33 +932,31 @@ Generating ${out}</echo>
             description="Generates various scripts">
         <antcall target="create-script">
             <param name="script" value="${scripts.dir}/atria2xml"/>
-            <param name="class"
-                value="com.steelcandy.plack.atria.programs.AtriaToXmlConverterProgram"/>
+            <param name="class" value="${atria-to-xml.classname}"/>
         </antcall>
         <antcall target="create-script">
             <param name="script" value="${scripts.dir}/xml2atria"/>
-            <param name="class"
-                value="com.steelcandy.plack.atria.programs.XmlToAtriaConverterProgram"/>
+            <param name="class" value="${xml-to-atria.classname}"/>
         </antcall>
 
         <antcall target="create-script">
             <param name="script"
                 value="${scripts.dir}/indent-writer-test.sh"/>
             <param name="class"
-                value="com.steelcandy.common.io.IndentWriter"/>
+                value="${common.pkg}.io.IndentWriter"/>
         </antcall>
         <antcall target="create-script">
             <param name="script"
                 value="${scripts.dir}/recording-indent-writer-test.sh"/>
             <param name="class"
-                value="com.steelcandy.common.io.RecordingIndentWriter"/>
+                value="${common.pkg}.io.RecordingIndentWriter"/>
         </antcall>
 
         <antcall target="create-script">
             <param name="script"
                 value="${scripts.dir}/test-text-utilities.sh"/>
             <param name="class"
-                value="com.steelcandy.common.text.TextUtilities"/>
+                value="${common.pkg}.text.TextUtilities"/>
         </antcall>
     </target>
 
