@@ -208,8 +208,7 @@ public class AtriaToXmlConverter
         try
         {
             String msg = _resources.
-                getMessage(TO_XML_HEADER_COMMENT_MSG,
-                           _pathname.getAbsolutePath());
+                getMessage(TO_XML_HEADER_COMMENT_MSG, _pathname.getPath());
             writeLine(msg);
         }
         finally
