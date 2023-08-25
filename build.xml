@@ -69,6 +69,7 @@
     <property name="prefix" value="/usr"/>
         <!-- The base directory under which our distributions assume they'll
              be installed (unless we're overriden on the command line). -->
+    <property name="dist.doc.subdir" value="share/doc"/>
     <property name="dist.jar.subdir" value="share/java"/>
         <!-- The subdirectory of the 'prefix' directory under which our jar
              files are assumed to be installed (though possibly in our own
@@ -223,28 +224,13 @@
     <target name="all" depends="code,javadocs"
             description="Builds everything (more or less)" />
 
-    <target name="dist" depends="libs"
+    <target name="dist" depends="prepare"
             description="Builds distributable versions of us.">
         <property name="work" value="${dist.dir}/work"/>
-            <!-- The temporary dir where we put the files that'll be in our
-                 distribution. -->
-        <property name="libs-subdir"
-            value="${dist.jar.subdir}/${dist.basename}"/>
-        <property name="work-libs" value="${work}/${libs-subdir}"/>
-
-        <mkdir dir="${work-libs}"/>
-        <copy todir="${work-libs}">
-            <!-- Copy just our .jar files ... -->
-            <fileset dir="${lib.dir}" includes="*.jar"/>
-
-            <!-- ... but copy *everything* from our external libraries
-                 directory (including licenses, etc.). -->
-            <fileset dir="${external.lib.dir}"/>
-        </copy>
-
-        <antcall target="dist-scripts">
-            <param name="dir" value="${work}/bin"/>
-            <param name="libs" value="${prefix}/${libs-subdir}"/>
+            <!-- The temporary dir where we gather the files that'll be in
+                 our distribution. -->
+        <antcall target="dist-gather">
+            <param name="work" value="${work}"/>
         </antcall>
 
         <tar destfile="${dist.file.tar}">
@@ -270,6 +256,35 @@
         <delete file="${dist.file.tar}"/>
 
         <delete dir="${work}"/>  <!-- and everything in it -->
+    </target>
+
+    <!-- Gathers all of the file in and under the directory with pathname
+         'work'. 'work' is a parameter. -->
+    <target name="dist-gather" depends="libs"
+        description="gathers all of the files for our distribution(s)">
+        <property name="libs-subdir"
+            value="${dist.jar.subdir}/${dist.basename}"/>
+        <property name="work-libs" value="${work}/${libs-subdir}"/>
+        <property name="work-docs"
+            value="${work}/${dist.doc.subdir}/${dist.basename}"/>
+
+        <mkdir dir="${work-libs}"/>
+        <copy todir="${work-libs}">
+            <!-- Copy just our .jar files ... -->
+            <fileset dir="${lib.dir}" includes="*.jar"/>
+
+            <!-- ... but copy *everything* from our external libraries
+                 directory (including licenses, etc.). -->
+            <fileset dir="${external.lib.dir}"/>
+        </copy>
+
+        <antcall target="dist-scripts">
+            <param name="dir" value="${work}/bin"/>
+            <param name="libs" value="${prefix}/${libs-subdir}"/>
+        </antcall>
+
+        <!-- Copy over the file containing our project's license. -->
+        <copy todir="${work-docs}" file="LICENSE"/>
     </target>
 
     <!-- Creates the scripts that will be part of a distribution in the
