@@ -74,7 +74,6 @@ public class XmlToAtriaConverter
         ATRIA_ATTRIBUTE_NAME_VALUE_SEPARATOR = "=";
 
 
-// TODO: should we explicitly add namespaces to Atria???!!!!???
     /**
         The character that separates a namespace prefix from a name in
         XML that has been converted to Atria.
