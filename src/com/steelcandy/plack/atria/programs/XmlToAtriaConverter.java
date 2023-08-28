@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2005 by James MacKay.
+ Copyright (C) 2005-2023 by James MacKay.
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
