@@ -80,7 +80,6 @@ public class XmlToAtriaConverter
     */
     private static final String ATRIA_NAMESPACE_SEPARATOR = ":";
 
-// TODO: fix/remove this !!!
     /**
         The text that starts the result of converting an XML processing
         instruction to Atria.
