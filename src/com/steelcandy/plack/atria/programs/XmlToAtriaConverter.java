@@ -35,13 +35,13 @@ import java.io.IOException;
 import java.io.Writer;
 
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
     A converter that converts XML documents to Atria documents.
 
 TODO: make the output Atria code prettier !!!
-TODO: merge adjacent CDATA and Text elements ???!!!???
 TODO: have XML comments that are on the same line as text, etc. in XML
       also be on the same line in Atria !!!
 TODO: if the last thing in an XML document is an EntityRef then there is
@@ -92,6 +92,13 @@ public class XmlToAtriaConverter
     private static final String
         LINE_SEPARATOR = Io.LINE_SEPARATOR;
 
+    /** The double quote character ("). */
+    private static final char
+        DOUBLE_QUOTE_CHAR = '"';
+
+    /* The newline character. */
+    private static final char
+        NEWLINE_CHAR = '\n';
 
     // Private fields
 
@@ -154,26 +161,77 @@ public class XmlToAtriaConverter
         Assert.require(contents != null);
         Assert.require(w != null);
 
-        Iterator iter = contents.iterator();
+        Iterator iter = mergeText(contents).iterator();
         while(iter.hasNext())
         {
-            Content c = (Content) iter.next();
-// TODO: group adjacent CDATA and Text content items here ???!!!???
-            convertContent(c, w);
+            convertContent(iter.next(), w);
         }
+    }
+
+    /**
+        Returns a copy of the specified list, but with consecutive sequences
+        of elements that are of type Text (including those of type CDATA,
+        which is a subtype of Text) replaced with a single element of type
+        String (where that string is the result of concatenating the result
+        of calling the 'getText()' method on each Text).
+
+        @param contents the contents of an XML document: each item in the
+        list is assumed to be a Content object
+        @return a copy of 'contents' with each sequence of consecutive Text
+        objects replaced with a single element of type String
+    */
+    protected List mergeText(List contents)
+    {
+        Assert.require(contents != null);
+
+        List result = new ArrayList();
+        StringBuffer buf = null;
+        Iterator iter = contents.iterator();
+        while (iter.hasNext())
+        {
+            Object obj = iter.next();
+            if (obj instanceof Text)  // assumes a CDATA is a Text too
+            {
+                String part = ((Text) obj).getText();
+                if (buf == null)
+                {
+                    buf = new StringBuffer();
+                }
+                buf.append(part);
+            }
+            else
+            {
+                if (buf != null)
+                {
+                    result.add(buf.toString());
+                    buf = null;
+                }
+                result.add(obj);
+            }
+        }
+
+        if (buf != null)
+        {
+            result.add(buf.toString());
+        }
+
+        Assert.ensure(result != null);
+        Assert.ensure(result.size() <= contents.size());
+        return result;
     }
 
     /**
         Converts the specified XML content to the corresponding part of an
         Atria document.
 
-        @param c the XML content to convert
+        @param c the XML content to convert: it should be a String or a
+        (subtype of) Content
         @param w the writer to use to write the content, after it has been
         converted to Atria
         @exception IOException thrown if an I/O error occurs in outputting
         the converted XML
     */
-    protected void convertContent(Content c, IndentWriter w)
+    protected void convertContent(Object c, IndentWriter w)
         throws IOException
     {
         Assert.require(c != null);
@@ -183,19 +241,14 @@ public class XmlToAtriaConverter
         // a visitor class - to determine the exact type of content that a
         // Content object represents, so we have to resort to this sequence
         // of instanceof tests.
-        if (c instanceof Element)
+        if (c instanceof String)
+        {
+            // 'c' was built by mergeText().
+            convertText(trimLeading((String) c), w);
+        }
+        else if (c instanceof Element)
         {
             convertElement((Element) c, w);
-        }
-        else if (c instanceof CDATA)
-        {
-            // Note: since CDATA is a subclass of Text this 'else if'
-            // clause has to appear before the one for Text.
-            convertCdata((CDATA) c, w);
-        }
-        else if (c instanceof Text)
-        {
-            convertText((Text) c, w);
         }
         else if (c instanceof Comment)
         {
@@ -295,47 +348,239 @@ public class XmlToAtriaConverter
     }
 
     /**
-        Converts the specified XML text to the corresponding part of an
-        Atria document.
+        Converts the specified sequence of consecutive text in an XML
+        document to the corresponding part of an Atria document.
 
-        @param c the XML text to convert
+        @param c the sequence of consecutive text in an XML text to convert
         @param w the writer to use to write 'c', after it has been converted
         to Atria
         @exception IOException thrown if an I/O error occurs in outputting
         the converted XML
     */
-    protected void convertText(Text c, IndentWriter w)
+    protected void convertText(String text, IndentWriter w)
         throws IOException
     {
-        Assert.require(c != null);
+        Assert.require(text != null);
         Assert.require(w != null);
 
-        String text = escape(getText(c));
-        if (text.length() > 0)
+        Iterator iter = buildTextParts(text).iterator();
+        while (iter.hasNext())
         {
-            w.write(ATRIA_TEXT_START);
-            w.write(text);
-            writeLine(w, ATRIA_TEXT_END);
+            Object obj = iter.next();
+            Assert.check(obj != null);
+            if (obj instanceof String)
+            {
+                writeAtriaText((String) obj, w);
+            }
+            else
+            {
+                Assert.check(obj instanceof Character);
+                char ch = ((Character) obj).charValue();
+                String cmd;
+                if (ch == DOUBLE_QUOTE_CHAR)
+                {
+                    cmd = AtriaInfo.QUOTE_COMMAND_NAME;
+                }
+                else
+                {
+                    Assert.check(ch == NEWLINE_CHAR);
+                    cmd = AtriaInfo.NEWLINE_COMMAND_NAME;
+                }
+                writeAtriaZeroArgumentAtriaCommand(cmd, w);
+                writeLine(w, "");
+            }
         }
     }
 
     /**
-        Converts the specified XML CDATA text to the corresponding part of an
-        Atria document.
+        Builds a list of parts from the specified sequence of consecutive
+        text in an XML: a Character for each character that can't be part of
+        an Atria text, and a String for each sequence of consecutive
+        characters that can be.
 
-        @param c the XML CDATA text to convert
-        @param w the writer to use to write 'c', after it has been converted
-        to Atria
-        @exception IOException thrown if an I/O error occurs in outputting
-        the converted XML
+        @param c the sequence of consecutive text in an XML text to convert
+        @return a list each of whose elements is either a Character
+        representing a character that can't appear in an Atria text, or a
+        String representing a non-empty sequence of characters that can
     */
-    protected void convertCdata(CDATA c, IndentWriter w)
+    protected List buildTextParts(String text)
+    {
+        Assert.require(text != null);
+
+        List result = new ArrayList();
+        int sz = text.length();
+        if (sz > 0)
+        {
+            Character quote = Character.valueOf(DOUBLE_QUOTE_CHAR);
+            Assert.check(quote != null);
+            Character newline = Character.valueOf(NEWLINE_CHAR);
+            Assert.check(newline != null);
+
+            StringBuffer buf = null;
+            for (int i = 0; i < sz; i++)
+            {
+                char ch = text.charAt(i);
+                Character toAdd = null;
+                if (AtriaInfo.isTextCharacter(ch))
+                {
+                    Assert.check(ch != DOUBLE_QUOTE_CHAR);
+                    Assert.check(ch != NEWLINE_CHAR);
+                    if (buf == null)
+                    {
+                        buf = new StringBuffer();
+                    }
+                    buf.append(ch);
+                }
+                else if (ch == DOUBLE_QUOTE_CHAR)
+                {
+                    toAdd = quote;
+                }
+                else
+                {
+                    Assert.check(ch == NEWLINE_CHAR);  // newline
+                        // otherwise there's a character that we can't
+                        // represent in an Atria text
+                    toAdd = newline;
+                }
+
+                if (toAdd != null)
+                {
+                    if (buf != null)
+                    {
+                        Assert.check(buf.length() > 0);
+                        result.add(buf.toString());
+                        buf = null;
+                    }
+                    result.add(toAdd);
+                }
+            }
+
+            if (buf != null)
+            {
+                Assert.check(buf.length() > 0);
+                result.add(buf.toString());
+            }
+        }
+
+        Assert.ensure(result != null);  // though it may be empty
+        return result;
+    }
+
+    /**
+        Returns 'txt' with all leading whitespace characters removed.
+
+        @param txt a string
+        @return txt except that it doesn't include any consecutive leading
+        whitespace characters that may be at the start of it (i.e. before its
+        first non-whitespace character)
+    */
+    protected String trimLeading(String txt)
+    {
+        Assert.require(txt != null);
+
+
+        int sz = txt.length();
+        int i = 0;
+        for (; i < sz; i++)
+        {
+            if (Character.isWhitespace(txt.charAt(i)) == false)
+            {
+                break;
+            }
+        }
+
+        String result = txt;
+        if (i > 0)
+        {
+            result = txt.substring(i);
+        }
+
+        //System.err.println("===> txt=[" + txt + "], result=[" + result + "]");
+        Assert.ensure(result != null);
+        Assert.ensure(result.length() <= txt.length());
+        Assert.ensure(result.isEmpty() ||
+            Character.isWhitespace(result.charAt(0)) == false);
+            // doesn't start with a whitespace character
+        return result;
+    }
+
+    /**
+        Writes to 'w' an Atria text that contains all of the characters in
+        'txt' in order.
+
+        @param txt the characters in the Atria text
+        @param w the writer to write the Atria text to
+        @exception IOException thrown if an error occurs in writing out the
+        Atria text
+    */
+    protected void writeAtriaText(String txt, IndentWriter w)
         throws IOException
     {
-        Assert.require(c != null);
+        Assert.require(txt != null);
+        Assert.require(txt.isEmpty() == false);
         Assert.require(w != null);
 
-        convertText(c, w);
+        w.write(ATRIA_TEXT_START);
+        w.write(txt);
+        writeLine(w, ATRIA_TEXT_END);
+    }
+
+    /**
+        Writes to 'w' a use of the zero-argument Atria command named 'cmd'.
+
+        @param cmd the name of the Atria command
+        @param w the writer to write the Atria command use to
+        @exception IOException thrown if an error occurs in writing out the
+        Atria command use
+    */
+    protected void writeAtriaZeroArgumentAtriaCommand(String cmd,
+                                                      IndentWriter w)
+        throws IOException
+    {
+        Assert.require(cmd != null);
+        Assert.require(cmd.isEmpty() == false);
+        Assert.require(w != null);
+
+        writeAtriaCommandStart(cmd, w);
+        writeAtriaCommandEnd(w);
+    }
+
+    /**
+        Writes to 'w' the start of a use of the Atria command named 'cmd':
+        namely, the open bracket and the command name (but no space after the
+        command name).
+
+        @param cmd the name of the Atria command
+        @param w the writer to write the Atria command use start to
+        @exception IOException thrown if an error occurs in writing out the
+        start of the Atria command use
+        @see #writeAtriaCommandEnd(IndentWriter)
+    */
+    protected void writeAtriaCommandStart(String name, IndentWriter w)
+        throws IOException
+    {
+        Assert.require(name != null);
+        Assert.require(w != null);
+
+        w.write("[");
+        w.write(name);
+    }
+
+    /**
+        Writes to 'w' the end of a use of an Atria command: namely, the close
+        bracket.
+
+        @param w the writer to write the Atria command use end to
+        @exception IOException thrown if an error occurs in writing out the
+        end of the Atria command use
+        @see #writeAtriaCommandStart(String, IndentWriter)
+    */
+    protected void writeAtriaCommandEnd(IndentWriter w)
+        throws IOException
+    {
+        Assert.require(w != null);
+
+        w.write("]");
     }
 
     /**
@@ -520,9 +765,135 @@ public class XmlToAtriaConverter
 
         w.write(name);
         w.write(ATRIA_ATTRIBUTE_NAME_VALUE_SEPARATOR);
+        outputAttributeValueParts(buildTextParts(value), w);
+    }
+
+    /**
+        Outputs the attribute value whose parts are in 'parts' using 'w'.
+
+        @param parts the Atria attribute's value's parts: each element is
+        either a Character that represents a character in the value that
+        can't appear in an Atria text, or  String that represents a non-empty
+        sequence of characters that can
+        @param w the writer to use to output the Atria attribute value
+        @exception IOException thrown if an I/O error occurs in trying
+        to output the Atria attribute value
+        @see #buildTextParts(String)
+    */
+    protected void outputAttributeValueParts(List parts, IndentWriter w)
+        throws IOException
+    {
+        Assert.require(parts != null);
+        Assert.require(w != null);
+
+        int sz = parts.size();
+        if (sz == 0)
+        {
+            outputSimpleAttributeValue("", w);
+        }
+        else if (sz == 1)
+        {
+            Object p = parts.get(0);
+            if (p instanceof String)
+            {
+                outputSimpleAttributeValue((String) p, w);
+            }
+            else
+            {
+                outputQuoteCommandFor(p, w);
+            }
+        }
+        else
+        {
+            // 'val' contains at least one character that can't appear in an
+            // Atria text. We assume here it's not a newline since attribute
+            // values can't contain those, so it must contain one or more
+            // double quotes.
+            //
+            // We handle the case where the first and last part are both
+            // quotes by using the Atria 'quoted' command.
+            Assert.check(sz >= 2);
+            if (isDoubleQuoteCharacter(parts.get(0)) &&
+                isDoubleQuoteCharacter(parts.get(sz - 1)))
+            {
+                writeAtriaCommandStart(AtriaInfo.QUOTED_COMMAND_NAME, w);
+                w.write(" ");
+                outputAttributeValueParts(parts.subList(1, sz - 1), w);
+                writeAtriaCommandEnd(w);
+            }
+            else
+            {
+                // Otherwise we just use the 'join' command.
+                writeAtriaCommandStart(AtriaInfo.JOIN_COMMAND_NAME, w);
+                w.write(" ");
+                Iterator iter = parts.iterator();
+                while (iter.hasNext())
+                {
+                    Object p = iter.next();
+                    if (p instanceof String)
+                    {
+                        outputSimpleAttributeValue((String) p, w);
+                    }
+                    else
+                    {
+                        outputQuoteCommandFor(p, w);
+                    }
+
+                    if (iter.hasNext())
+                    {
+                        w.write(" ");
+                    }
+                }
+                writeAtriaCommandEnd(w);
+            }
+        }
+    }
+
+    /**
+        Outputs a use of the Atria 'quote' command using 'w' for 'quoteChar',
+        which must be a Character representing a double quote character (").
+
+        @param val the Atria attribute's value
+        @param w the writer to use to output the Atria attribute value
+        @exception IOException thrown if an I/O error occurs in trying
+        to output the Atria attribute value
+    */
+    protected void outputQuoteCommandFor(Object quoteChar, IndentWriter w)
+        throws IOException
+    {
+        Assert.require(isDoubleQuoteCharacter(quoteChar));
+        Assert.require(w != null);
+
+        writeAtriaZeroArgumentAtriaCommand(AtriaInfo.QUOTE_COMMAND_NAME, w);
+    }
+
+    /**
+        Outputs the attribute value 'val' using 'w', where we can assume that
+        'val' doesn't contain any characters that can't appear in an Atria
+        text.
+
+        @param val the Atria attribute's value
+        @param w the writer to use to output the Atria attribute value
+        @exception IOException thrown if an I/O error occurs in trying
+        to output the Atria attribute value
+    */
+    protected void outputSimpleAttributeValue(String val, IndentWriter w)
+        throws IOException
+    {
         w.write(ATRIA_TEXT_START);
-        w.write(value);
+        w.write(val);
         w.write(ATRIA_TEXT_END);
+    }
+
+    /**
+        Returns true iff 'q' is a Character object that represents the double
+        quote character (").
+     */
+    protected boolean isDoubleQuoteCharacter(Object q)
+    {
+        //System.err.println("===> isDoubleQuoteCharacter(" + q + ") ...");
+        return (q != null) && (q instanceof Character) &&
+            (((Character) q).charValue() == DOUBLE_QUOTE_CHAR);
     }
 
     /**
@@ -625,69 +996,5 @@ public class XmlToAtriaConverter
             w.write(msg);
             w.write(addedMsg);
         }
-    }
-
-    /**
-        @param str a string
-        @return 'str' with all characters that must be escaped in Atrie
-        documents escaped
-    */
-    protected String escape(String str)
-    {
-        String result = str;
-
-        int numChars = str.length();
-        int i;
-        for (i = 0; i < numChars; i++)
-        {
-            char ch = str.charAt(i);
-            if (ch == '&' || ch == '"')
-            {
-                break;
-            }
-        }
-
-        if (i < numChars)
-        {
-            // There is at least one character in 'str' that needs to be
-            // escaped, and the first such character is at index 'i'.
-            StringBuffer buf = new StringBuffer(numChars);
-            buf.append(str.substring(0, i));
-            for (int j = i; j < numChars; j++)
-            {
-                char ch = str.charAt(j);
-                if (ch == '&')
-                {
-                    buf.append("&amp;");
-                }
-                else if (ch == '"')
-                {
-                    buf.append("&quot;");
-                }
-                else
-                {
-                    buf.append(ch);
-                }
-            }
-
-            result = buf.toString();
-        }
-
-        Assert.ensure(result != null);
-        return result;
-    }
-
-    /**
-        @param c an XML text part
-        @return the text that 'c' represents
-    */
-    protected String getText(Text c)
-    {
-        Assert.require(c != null);
-
-        String result = c.getTextTrim();
-
-        Assert.ensure(result != null);
-        return result;
     }
 }
