@@ -1,0 +1,292 @@
+#+title: Anatomy of an Atria Document
+#+date: <2023-08-28 Mon 14:07>
+#+description: Informal introduction to the Atria data representation language
+#+OPTIONS: toc:nil num:nil date:nil
+#+OPTIONS: org-use-sub-superscripts:nil
+
+TODO: add a constraint requiring that the name argument to a get command be
+the first argument to a preceding set command (????)!!!!!!
+
+This is an informal introduction to the Atria data representation language.
+Together the grammar, validity constraints and semantics documents give a
+complete and formal description of the language. First we describe the more
+basic components of the language, then we describe the form of an Atria
+documents from beginning to end.
+
+* Basic Parts
+
+First the basic parts of an Atria document.
+
+** Names
+
+In Atria a *simple name* consists of a sequence of one or more characters
+that are all uppercase or lowercase ASCII letters (A-Z or a-z), decimal
+digits (0-9), periods (.), hyphens (-) or underscores (_). A *name* is either
+a simple name or two simple names separated by a colon (:), where there's no
+spaces or other whitespace characters on either side of the colon. So all of
+the following are valid names
+
+#+BEGIN_EXAMPLE
+name
+id2
+2by4
+23
+_-_
+.
+xsl:template
+a:b
+#+END_EXAMPLE
+
+where the first six are also valid simple names (though the last three would
+be unusual choices for names), but none of the following are valid names:
+
+#+BEGIN_EXAMPLE
+a:b:c
+any::thing
+:first
+last:
+#+END_EXAMPLE
+
+** Texts
+
+A *text* is a sequence of zero or more characters that both starts and ends
+with a double quote character ("), where both of those double quotes are on
+the same line. The characters between the double quotes can be any Unicode
+character except a double quote or a newline. So all of the following are
+valid texts
+
+#+BEGIN_EXAMPLE
+"This is a sentence. But this "
+"Hi"
+#+END_EXAMPLE
+
+but none of the following are
+
+#+BEGIN_EXAMPLE
+"""
+"
+"some"thing"
+"This is the first line
+   and another line
+followed by a third."
+#+END_EXAMPLE
+
+** Comments
+
+For any line that contains a single quote character (') that isn't between
+the double quotes of a text, the part of that line starting from (and
+including) the single quote to the end of the line is considered to be a
+*comment*. Comments are generally ignored by software programs that process
+Atria documents since they're intended to be used to contain information
+meant solely for human readers.
+
+** Blank Lines
+
+A line is considered to be a *blank line* if it contains nothing but
+whitespace characters and optionally a comment.
+
+* Documents Deconstructed
+
+Here we describe the form of Atria documents, starting at their beginning (or
+top) and proceeding through to their end (or bottom). It's important to note
+that in these documents the whitespace at the start of a line is significant
+unless that line is a blank line, and that a single level of indentation
+consists of exactly 4 consecutive spaces: tabs are not allowed.
+
+** The First Line
+
+The first non-blank line of a document must be
+
+#+BEGIN_EXAMPLE
+language atria
+#+END_EXAMPLE
+
+and it must be unindented (that is, there mustn't be any spaces before the
+word =language=).
+
+** Top-Level Commands
+
+That line can be followed by zero or more *top-level commands*, which are
+commands that start at the beginning of a line (and thus are unindented). A
+*command* is enclosed in square brackets and consists of a simple name
+followed by zero or more arguments, where an *argument* is either a name, a
+text, a command or an attribute. (Attributes will be described below.) The
+following are examples of valid commands (when they appear at the right
+places in a document)
+
+#+BEGIN_EXAMPLE
+[get out]
+[quote]
+[set name "Atria"]
+#+END_EXAMPLE
+
+but only the last one is a valid top-level command because the commands that
+can be used as top-level commands are restricted to the following ones.
+
+*** Namespace Commands
+
+A namespace command starts with the name =namespace= followed by two
+arguments, the first of which must be a simple name that's different from the
+first argument of any other namespace command in the same document, and the
+second of which must be a text or an expression command. (Expression commands
+are described below.) These are valid namespace commands:
+
+#+BEGIN_EXAMPLE
+[namespace xsl "http://www.w3.org/1999/XSL/Transform"]
+[namespace my [get my-ns-url]]
+[namespace g [join https "example.com/" year "/Graphics"]]
+#+END_EXAMPLE
+
+*** Set Commands
+
+A set command starts with the name =set= followed by two arguments, the first
+of which is a simple name and the second of which is a text or an expression
+command. These are valid set commands:
+
+#+BEGIN_EXAMPLE
+[set my-ns-url "https://steelcandy.org/ns/2023/fake"]
+[set lang "atria"]
+#+END_EXAMPLE
+
+A set command sets (or resets) the value of the variable whose name is given
+by the command's first argument. (So the examples above set the value of
+variables named =my-ns-url= and =lang=, respectively.)
+
+*** Top Commands
+
+A top command starts with the name =top= followed by one or more arguments,
+the first of which is a name. Any subsequent arguments must all be
+attributes. There can be at most one top command in a given document, and if
+a document has one then it defines the root element (see below) under which
+all of the document's other elements are effectively indented. These are
+valid top commands (assuming that each is in a different document):
+
+#+BEGIN_EXAMPLE
+[top root]
+[top xsl:transform version="1.0"]
+[top g:image width="300" height="200" background="black"]
+#+END_EXAMPLE
+
+** Elements and Attributes
+
+An *element* has a first line that consists of a name followed by zero or
+more attributes, and can have zero or more content items indented exactly one
+level under it, each of which starts on its own line. An *attribute* consists
+of a name and either a text or an expression command, separated by an equals
+sign (=); a *content item* is either a text, an expression command or
+an element.
+
+The rest of a valid Atria document consists of one or more top-level
+elements, where a *top-level element* is an element whose first line isn't
+indented. All of the elements in a document must be (effectively) indented
+under a single element called the document's *root element*, so for a given
+document to be valid it must be true that either
+
+  - the document has a top-level top command that defines the document's root
+    element, and under which all of the document's top-level elements are
+    considered to be indented exactly one level, or
+  - the document has exactly one top-level element, which is also the
+    document's root element.
+
+An Atria document that starts with
+
+#+BEGIN_EXAMPLE
+albums list="partial"
+    album id="loudbomb2002" year="2002" format="cd"
+        artist
+            "Loudbomb"
+        title
+            "Long Playing Grooves"
+    album id="lovetractor1986" year="1986" format="lp"
+        artist
+            "Love Tractor"
+        title
+            "This Ain't No Outer Space Ship"
+    album id="lovettlyle1986" year="1986" format="cd"
+        artist
+            "Lyle Lovett"
+        title
+            "Lyle Lovett"
+#+END_EXAMPLE
+
+could be rewritten as
+
+#+BEGIN_EXAMPLE
+[top albums list="partial"]
+
+album id="loudbomb2002" year="2002" format="cd"
+    artist
+        "Loudbomb"
+    title
+        "Long Playing Grooves"
+album id="lovetractor1986" year="1986" format="lp"
+    artist
+        "Love Tractor"
+    title
+        "This Ain't No Outer Space Ship"
+album id="lovettlyle1986" year="1986" format="cd"
+    artist
+        "Lyle Lovett"
+    title
+        "Lyle Lovett"
+#+END_EXAMPLE
+
+without affecting what information it represents: they both define a document
+whose root element is named =albums=, for example. The latter form just
+reduces the number of levels that elements have to be indented.
+
+** Expression Commands
+
+An *expression command* is a command that isn't a top-level command: its
+opening bracket isn't at the beginning of an unindented line. Below we
+describe the only commands that can be used as expression commands. (Note
+that none of the commands that can be used as top-level commands can be used
+as expression commands, and vice versa.)
+
+*** Get Commands
+
+A get command starts with the name =get= followed by a single name argument,
+where that name must be the same as that of the first argument of a set
+command that precedes the get command in the document. Such a get command
+represents the value represented by the second argument of the closest such
+set command.
+
+*** Newline Commands
+
+A newline command consists of the name =newline= without any arguments after
+it, and represents a single newline character.
+
+*** Quote Commands
+
+A quote command consists of the name =quote= without any arguments after it,
+and represents a single double quote character (").
+
+*** Join Commands
+
+A join command starts with the name =join= followed by one or more arguments,
+each of which must be a text or an expression command. It represents the
+concatenation of the values that each of its arguments represent, in order.
+Thus all of the join commands in the following represent the same value:
+
+#+BEGIN_EXAMPLE
+[set where "there"]
+[join "Hi" " " "there!"]
+[join "Hi " "there!"]
+[join "Hi " [get where] "!"]
+#+END_EXAMPLE
+
+** Quoted Commands
+
+A quoted command — not to be confused with a quote command — starts with the
+name =quoted= followed by a single argument that's either a text or an
+expression command, and it represents the same value that its argument
+represents preceded and followed by a double quote character ("). For
+example,
+
+#+BEGIN_EXAMPLE
+"Oops!"           ' Oops!
+[quoted "Oops!"]  ' "Oops!"
+#+END_EXAMPLE
+
+For any expression command or text =expr= the command =[quoted expr]=
+represents the same value that =[join [quote] expr [quote]]= does.
