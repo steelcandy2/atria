@@ -113,6 +113,45 @@ public class XmlToAtriaConverter
         // empty
     }
 
+    // Public static methods
+
+    /**
+        Returns 'txt' with all leading whitespace characters removed.
+
+        @param txt a string
+        @return txt except that it doesn't include any consecutive leading
+        whitespace characters that may be at the start of it (i.e. before its
+        first non-whitespace character)
+    */
+    public static String trimLeading(String txt)
+    {
+        Assert.require(txt != null);
+
+        int sz = txt.length();
+        int i = 0;
+        for (; i < sz; i++)
+        {
+            if (Character.isWhitespace(txt.charAt(i)) == false)
+            {
+                break;
+            }
+        }
+
+        String result = txt;
+        if (i > 0)
+        {
+            result = txt.substring(i);
+        }
+
+        //System.err.println("===> txt=[" + txt + "], result=[" + result + "]");
+        Assert.ensure(result != null);
+        Assert.ensure(result.length() <= txt.length());
+        Assert.ensure(result.isEmpty() ||
+            Character.isWhitespace(result.charAt(0)) == false);
+            // doesn't start with a whitespace character
+        return result;
+    }
+
 
     // Public methods
 
@@ -463,44 +502,6 @@ public class XmlToAtriaConverter
         }
 
         Assert.ensure(result != null);  // though it may be empty
-        return result;
-    }
-
-    /**
-        Returns 'txt' with all leading whitespace characters removed.
-
-        @param txt a string
-        @return txt except that it doesn't include any consecutive leading
-        whitespace characters that may be at the start of it (i.e. before its
-        first non-whitespace character)
-    */
-    protected String trimLeading(String txt)
-    {
-        Assert.require(txt != null);
-
-
-        int sz = txt.length();
-        int i = 0;
-        for (; i < sz; i++)
-        {
-            if (Character.isWhitespace(txt.charAt(i)) == false)
-            {
-                break;
-            }
-        }
-
-        String result = txt;
-        if (i > 0)
-        {
-            result = txt.substring(i);
-        }
-
-        //System.err.println("===> txt=[" + txt + "], result=[" + result + "]");
-        Assert.ensure(result != null);
-        Assert.ensure(result.length() <= txt.length());
-        Assert.ensure(result.isEmpty() ||
-            Character.isWhitespace(result.charAt(0)) == false);
-            // doesn't start with a whitespace character
         return result;
     }
 
