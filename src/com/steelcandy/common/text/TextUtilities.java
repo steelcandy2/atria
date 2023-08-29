@@ -352,6 +352,30 @@ public class TextUtilities
 
     /**
         @param str a string
+        @return true iff every character of 'str' is a whitespace character
+    */
+    public static boolean isAllWhitespace(String str)
+    {
+        Assert.require(str != null);
+
+        boolean result = true;
+
+        int len = str.length();
+        for (int i = 0; i < len; i++)
+        {
+            char ch = str.charAt(i);
+            if (Character.isWhitespace(ch) == false)
+            {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+        @param str a string
         @return true iff every character of 'str' is a decimal digit
     */
     public static boolean isAllDigits(String str)
