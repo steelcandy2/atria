@@ -379,7 +379,7 @@ public class CommonCodeGenerationUtilities
 
     /**
         Reduces 'w''s indentation level by one, writes out 'str' followed by
-        a newline, then increases 'w''w indentation level by one.
+        a newline, then increases 'w''s indentation level by one.
 
         @param w the writer to use
         @param str the string to write out
@@ -406,7 +406,7 @@ public class CommonCodeGenerationUtilities
 
     /**
         Reduces 'w''s indentation level to zero, writes out 'str' followed by
-        a newline, then increases 'w''w indentation level to where it was.
+        a newline, then increases 'w''s indentation level to where it was.
 
         @param w the writer to use
         @param str the string to write out
@@ -434,7 +434,7 @@ public class CommonCodeGenerationUtilities
 
     /**
         Reduces 'w''s indentation level to zero, writes out 'str', then
-        increases 'w''w indentation level to where it was.
+        increases 'w''s indentation level to where it was.
         <p>
         Note: this method won't have any effect unless 'str' is being written
         at the start of a line.
