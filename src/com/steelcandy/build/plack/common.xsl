@@ -54,7 +54,7 @@
     <xsl:variable name="default-list-separator" select="'|'"/>
 
     <!-- The last year to appear in copyright notices. -->
-    <xsl:variable name="last-copyright-year" select="'2012'"/>
+    <xsl:variable name="last-copyright-year" select="'2023'"/>
 
 
     <!-- Utility templates -->
