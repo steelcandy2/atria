@@ -512,6 +512,13 @@ commands.
                     <note>the command '[<constant name="QuotedCommandName"/>
                         expr]' is effectively the same as
                         '[join [quote] expr [quote]]'</note>
+                    <note>there's not currently a constraint on 'get'
+                        commands requiring that the variable it names be the
+                        first argument to a preceding 'set' command since I
+                        think we probably want to allow the user to
+                        specify/set Atria variables on the command line (and
+                        I haven't worked out the exact details of how that
+                        might work yet)</note>
                 </notes>
             </construct-constraints>
             <definition name="NameNamespacePrefix">a Name construct includes a
