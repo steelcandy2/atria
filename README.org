@@ -128,3 +128,12 @@ in the same directory as =something.atria=.
 There's an [[file:doc/language-definition.html][informal introduction]] to the Atria data representation language,
 but see the documents about the language's [[file:doc/grammar.html][grammar]], [[file:doc/validity-constraints.html][validity constraints]] and
 [[file:doc/semantics.html][semantics]] for a more complete and formal description.
+
+* Quick Code Overview
+
+The main definition of Atria is in the XML file =atria.xml=, which is then
+transformed using a number of XSL stylesheets into HTML documentation and
+Java source code. This helps keep the documentation and implementation up to
+date with any language changes. Though especially in the case of the
+implementation, non-trivial changes to the language definition will commonly
+also involve manually changing code that isn't automatically generated.
