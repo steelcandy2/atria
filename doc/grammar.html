@@ -1,0 +1,305 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Atria Grammar</title>
+<link media="all" href="stylesheet.css" rel="stylesheet" type="text/css">
+<link media="screen" href="stylesheet-screen.css" rel="stylesheet" type="text/css">
+<link media="print" href="stylesheet-print.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a name="Top"><span></span></a>
+<div class="plack-language-document-menu">
+            [<a href="grammar-frames.html" target="_top">Frames</a> |
+            <a href="grammar.html" target="_top">No Frames</a>]
+        </div>
+<div align="center" class="plack-top">
+<h1>Atria Grammar</h1>
+<span class="plack-author">James MacKay</span>
+<br>
+<span class="plack-generation-time">August 30, 2023 10:54.24AM</span>
+<br>
+</div>
+<hr>
+<p>
+    The following is a summary of the grammar of the Atria programming language. Terminal symbols look like
+    <span class="plack-terminal">this</span> and nonterminals look like
+    <a href="grammar.html#this">this</a>. A nonterminal being defined appears to the left of a
+    nonterminal definition operator '::=',
+    and the nonterminal's definition appears to the right of the definition
+    operator.
+    </p>
+<p>
+<a name="DefPart">Several shorthands are employed in this grammar, most of
+    which have a slightly nonstandard representation. For a part of a definition
+    <a href="grammar.html#DefPart">DefPart</a> and a terminal <span class="plack-terminal">separator</span></a>
+<ul>
+<li>[<a href="grammar.html#DefPart">DefPart</a>] means that <a href="grammar.html#DefPart">DefPart</a>
+            is optional: it can appear or not appear (though not more than once)
+            in an instance of the construct</li>
+<li>{<a href="grammar.html#DefPart">DefPart</a>}* means that <a href="grammar.html#DefPart">DefPart</a> can
+            appear zero or more times</li>
+<li>{<a href="grammar.html#DefPart">DefPart</a>:
+            <span class="plack-terminal">separator</span>}* means that <a href="grammar.html#DefPart">DefPart</a> can
+            be repeated zero or more times, separated by <span class="plack-terminal">separator</span>s (so there will be a <span class="plack-terminal">separator</span> between any two consecutive <a href="grammar.html#DefPart">DefPart</a>s, but not before the first or after the last
+            <a href="grammar.html#DefPart">DefPart</a>)</li>
+<li>{<a href="grammar.html#DefPart">DefPart</a>}+ means that <a href="grammar.html#DefPart">DefPart</a> can
+            be repeated one or more times (but must appear at least once)</li>
+<li>{<a href="grammar.html#DefPart">DefPart</a>:
+            <span class="plack-terminal">separator</span>}+ means that <a href="grammar.html#DefPart">DefPart</a> can
+            be repeated one or more times (but must appear at least once),
+            separated by <span class="plack-terminal">separator</span>s (so there will be a
+            <span class="plack-terminal">separator</span> between any two consecutive
+            <a href="grammar.html#DefPart">DefPart</a>s, but not before the first or after
+            the last <a href="grammar.html#DefPart">DefPart</a>)</li>
+<li>{<a href="grammar.html#DefPart">DefPart</a>}@ means that <a href="grammar.html#DefPart">DefPart</a> can
+            be repeated one or more times (but must appear at least once), with
+            the second and subsequent <a href="grammar.html#DefPart">DefPart</a>s on
+            consecutive lines (ignoring blank and comment lines) immediately after
+            the line that the first <a href="grammar.html#DefPart">DefPart</a> is on, and
+            indented exactly the same number of levels as the first
+            <a href="grammar.html#DefPart">DefPart</a>'s line. (In this case a
+            <a href="grammar.html#DefPart">DefPart</a> must be the only construct on a
+            line)</li>
+</ul>
+    Any appearance of any part of these shorthands as terminals are not part of
+    one of these shorthands, but are part of the language construct being
+    described.
+    </p>
+<p>
+    The grammar is divided into the following sections:
+    <ul>
+<li>
+<a href="#Documents">Documents</a>
+</li>
+<li>
+<a href="#Elements_and_Attributes">Elements and Attributes</a>
+</li>
+<li>
+<a href="#Expressions">Expressions</a>
+</li>
+<li>
+<a href="#Character_Classes">Character Classes</a>
+</li>
+<li>
+<a href="#Reserved_Words">Reserved Words</a>
+</li>
+</ul>
+</p>
+<hr>
+<h2>
+<a name="Documents">Documents</a>
+</h2>
+            
+<a name="Document">
+<pre>
+<span class="plack-nonterminal">Document</span> ::= <a href="grammar.html#Prologue">Prologue</a>
+             [{<a href="grammar.html#Element">Element</a>}@]</pre>
+</a>
+            <a name="Prologue">
+<pre>
+<span class="plack-nonterminal">Prologue</span> ::= <a href="grammar.html#LanguageSpecifier">LanguageSpecifier</a>
+             [{<a href="grammar.html#PrologueItem">PrologueItem</a>}@]</pre>
+</a>
+            <a name="LanguageSpecifier">
+<pre>
+<span class="plack-nonterminal">LanguageSpecifier</span> ::= <a href="grammar.html#Name">Name</a> <a href="grammar.html#Name">Name</a>
+</pre>
+</a>
+
+            <a name="PrologueItem">
+<pre>
+<span class="plack-nonterminal">PrologueItem</span> ::= <a href="grammar.html#Command">Command</a>
+</pre>
+</a>
+
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a> | <a href="#Character_Classes">Character Classes</a> | <a href="#Reserved_Words">Reserved Words</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Elements_and_Attributes">Elements and Attributes</a>
+</h2>
+            
+<a name="Element">
+<pre>
+<span class="plack-nonterminal">Element</span> ::= <a href="grammar.html#Name">Name</a> {<a href="grammar.html#Attribute">Attribute</a>}*
+               [{<a href="grammar.html#ContentItem">ContentItem</a>}@]</pre>
+</a>
+            <a name="ContentItem">
+<pre>
+<span class="plack-nonterminal">ContentItem</span> ::= <a href="grammar.html#Element">Element</a> | <a href="grammar.html#ExpressionItem">ExpressionItem</a>
+</pre>
+</a>
+
+            <a name="ExpressionItem">
+<pre>
+<span class="plack-nonterminal">ExpressionItem</span> ::= <a href="grammar.html#Expression">Expression</a>
+</pre>
+</a>
+
+            <a name="Attribute">
+<pre>
+<span class="plack-nonterminal">Attribute</span> ::= <a href="grammar.html#Name">Name</a> <span class="plack-terminal">=</span> <a href="grammar.html#Expression">Expression</a>
+</pre>
+</a>
+
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a> | <a href="#Character_Classes">Character Classes</a> | <a href="#Reserved_Words">Reserved Words</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Expressions">Expressions</a>
+</h2>
+            
+<a name="Argument">
+<pre>
+<span class="plack-nonterminal">Argument</span> ::= <a href="grammar.html#Attribute">Attribute</a> | <a href="grammar.html#Name">Name</a> | <a href="grammar.html#Expression">Expression</a>
+</pre>
+</a>
+
+            <a name="Name">
+<pre>
+<span class="plack-nonterminal">Name</span> ::= {<a href="grammar.html#NameCharacter">NameCharacter</a>}+</pre>
+</a>
+
+
+            <a name="Expression">
+<pre>
+<span class="plack-nonterminal">Expression</span> ::= <a href="grammar.html#Command">Command</a> | <a href="grammar.html#Text">Text</a>
+</pre>
+</a>
+
+            <a name="Command">
+<pre>
+<span class="plack-nonterminal">Command</span> ::= <span class="plack-terminal">[</span> <a href="grammar.html#Name">Name</a> {<a href="grammar.html#Argument">Argument</a>}* <span class="plack-terminal">]</span>
+</pre>
+</a>
+
+            <a name="Text">
+<pre>
+<span class="plack-nonterminal">Text</span> ::= <span class="plack-single-character">"</span>{<a href="grammar.html#TextCharacter">TextCharacter</a>}*<span class="plack-single-character">"</span>
+</pre>
+</a>
+
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a> | <a href="#Character_Classes">Character Classes</a> | <a href="#Reserved_Words">Reserved Words</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Character_Classes">Character Classes</a>
+</h2>
+            
+<a name="NameCharacter">
+<pre>
+<span class="plack-nonterminal">NameCharacter</span> ::= <a href="grammar.html#UnqualifiedNameCharacter">UnqualifiedNameCharacter</a> | <a href="grammar.html#NamespaceSeparator">NamespaceSeparator</a>
+</pre>
+</a>
+
+            <a name="UnqualifiedNameCharacter">
+<pre>
+<span class="plack-nonterminal">UnqualifiedNameCharacter</span> ::= <span class="plack-single-character">A</span> | <span class="plack-single-character">B</span> | <span class="plack-single-character">C</span> | <span class="plack-single-character">D</span> | <span class="plack-single-character">E</span> | <span class="plack-single-character">F</span> | <span class="plack-single-character">G</span> | <span class="plack-single-character">H</span> | <span class="plack-single-character">I</span> | <span class="plack-single-character">J</span> | <span class="plack-single-character">K</span> | <span class="plack-single-character">L</span> | <span class="plack-single-character">M</span> | <span class="plack-single-character">N</span> | <span class="plack-single-character">O</span> | <span class="plack-single-character">P</span> | <span class="plack-single-character">Q</span> | <span class="plack-single-character">R</span> | <span class="plack-single-character">S</span> | <span class="plack-single-character">T</span> | <span class="plack-single-character">U</span> | <span class="plack-single-character">V</span> | <span class="plack-single-character">W</span> | <span class="plack-single-character">X</span> | <span class="plack-single-character">Y</span> | <span class="plack-single-character">Z</span> | <span class="plack-single-character">a</span> | <span class="plack-single-character">b</span> | <span class="plack-single-character">c</span> | <span class="plack-single-character">d</span> | <span class="plack-single-character">e</span> | <span class="plack-single-character">f</span> | <span class="plack-single-character">g</span> | <span class="plack-single-character">h</span> | <span class="plack-single-character">i</span> | <span class="plack-single-character">j</span> | <span class="plack-single-character">k</span> | <span class="plack-single-character">l</span> | <span class="plack-single-character">m</span> | <span class="plack-single-character">n</span> | <span class="plack-single-character">o</span> | <span class="plack-single-character">p</span> | <span class="plack-single-character">q</span> | <span class="plack-single-character">r</span> | <span class="plack-single-character">s</span> | <span class="plack-single-character">t</span> | <span class="plack-single-character">u</span> | <span class="plack-single-character">v</span> | <span class="plack-single-character">w</span> | <span class="plack-single-character">x</span> | <span class="plack-single-character">y</span> | <span class="plack-single-character">z</span> | <span class="plack-single-character">0</span> | <span class="plack-single-character">1</span> | <span class="plack-single-character">2</span> | <span class="plack-single-character">3</span> | <span class="plack-single-character">4</span> | <span class="plack-single-character">5</span> | <span class="plack-single-character">6</span> | <span class="plack-single-character">7</span> | <span class="plack-single-character">8</span> | <span class="plack-single-character">9</span> | <span class="plack-single-character">.</span> | <span class="plack-single-character">-</span> | <span class="plack-single-character">_</span>
+</pre>
+</a>
+
+
+            <a name="PrintableCharacter">
+<pre>
+<span class="plack-nonterminal">PrintableCharacter</span> ::= <a href="grammar.html#TextCharacter">TextCharacter</a> | <a href="grammar.html#QuotationMark">QuotationMark</a>
+</pre>
+</a>
+
+
+            <a name="TextCharacter">
+<pre>
+<span class="plack-nonterminal">TextCharacter</span> ::= <a href="grammar.html#NameCharacter">NameCharacter</a> | <a href="grammar.html#TextSymbolCharacter">TextSymbolCharacter</a>
+</pre>
+</a>
+
+            <a name="TextSymbolCharacter">
+<pre>
+<span class="plack-nonterminal">TextSymbolCharacter</span> ::= <a href="grammar.html#Space">Space</a> | <a href="grammar.html#OtherTextSymbolCharacter">OtherTextSymbolCharacter</a>
+</pre>
+</a>
+
+            <a name="OtherTextSymbolCharacter">
+<pre>
+<span class="plack-nonterminal">OtherTextSymbolCharacter</span> ::= <span class="plack-single-character">~</span> | <span class="plack-single-character">!</span> | <span class="plack-single-character">@</span> | <span class="plack-single-character">#</span> | <span class="plack-single-character">$</span> | <span class="plack-single-character">%</span> | <span class="plack-single-character">^</span> | <span class="plack-single-character">&amp;</span> | <span class="plack-single-character">*</span> | <span class="plack-single-character">(</span> | <span class="plack-single-character">)</span> | <span class="plack-single-character">+</span> | <span class="plack-single-character">`</span> | <span class="plack-single-character">=</span> | <span class="plack-single-character">{</span> | <span class="plack-single-character">}</span> | <span class="plack-single-character">|</span> | <span class="plack-single-character">[</span> | <span class="plack-single-character">]</span> | <span class="plack-single-character">\</span> | <span class="plack-single-character">:</span> | <span class="plack-single-character">;</span> | <span class="plack-single-character">'</span> | <span class="plack-single-character">&lt;</span> | <span class="plack-single-character">&gt;</span> | <span class="plack-single-character">?</span> | <span class="plack-single-character">,</span> | <span class="plack-single-character">/</span>
+</pre>
+</a>
+
+
+            <a name="NamespaceSeparator">
+<pre>
+<span class="plack-nonterminal">NamespaceSeparator</span> ::= <span class="plack-single-character">:</span>
+</pre>
+</a>
+
+            <a name="Space">
+<pre>
+<span class="plack-nonterminal">Space</span> ::= <span class="plack-single-character"> </span>
+</pre>
+</a>
+
+            <a name="QuotationMark">
+<pre>
+<span class="plack-nonterminal">QuotationMark</span> ::= <span class="plack-single-character">"</span>
+</pre>
+</a>
+
+
+            
+<div class="plack-notes">
+<h3>Notes:</h3>
+<ul>
+<li>in addition to the characters specified above, the
+                    TextSymbolCharacter character class also includes all
+                    Unicode characters that are not also in the set of
+                    7-bit ASCII characters</li>
+<li>
+<a href="grammar.html#Space">Space</a> is a single space character
+                    (though it's difficult to tell from the above)</li>
+<li>there are no escapable characters in Atria, and hence
+                    also no escape character: each character represents
+                    itself. (Various commands can be used to represent
+                    characters - such as newlines and double quotation
+                    marks - that cannot appear in Text constructs)</li>
+</ul>
+</div>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a> | <a href="#Character_Classes">Character Classes</a> | <a href="#Reserved_Words">Reserved Words</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Reserved_Words">Reserved Words</a>
+</h2>
+There are no reserved words.
+            <p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a> | <a href="#Character_Classes">Character Classes</a> | <a href="#Reserved_Words">Reserved Words</a>
+</div>
+</p>
+<address>
+<div class="document-title">Title: Atria Grammar</div>
+<div class="author">Author: James MacKay
+                (<a href="mailto:jgm@steelcandy.org">jgm@steelcandy.org</a>)</div>
+<div class="copyright">Copyright &copy; 2005-2023 James MacKay</div>
+<div class="last-updated">Last Updated: August 30, 2023 10:54.24AM</div>
+<div class="url">URL:<nobr></nobr><script>
+                document.write(document.URL);</script>
+<noscript>&nbsp;[unknown]</noscript>
+</div>
+</address>
+</body>
+</html>

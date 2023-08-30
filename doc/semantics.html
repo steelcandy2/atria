@@ -1,0 +1,502 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Atria Semantics</title>
+<link media="all" href="stylesheet.css" rel="stylesheet" type="text/css">
+<link media="screen" href="stylesheet-screen.css" rel="stylesheet" type="text/css">
+<link media="print" href="stylesheet-print.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a name="Top"><span></span></a>
+<div class="plack-language-document-menu">
+            [<a href="semantics-frames.html" target="_top">Frames</a> |
+            <a href="semantics.html" target="_top">No Frames</a>]
+        </div>
+<div align="center" class="plack-top">
+<h1>Atria Semantics</h1>
+<span class="plack-author">James MacKay</span>
+<br>
+<span class="plack-generation-time">August 30, 2023 10:54.24AM</span>
+<br>
+</div>
+<hr>
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<p>
+        This document specifies the semantics of the Atria programming language.
+        </p>
+<p>
+        A construct's semantics are as they are described below iff the
+        construct satisfies all of its validity constraints: a construct's
+        semantics are undefined if it does not satisfy all of its validity
+        constraints (and so usually executable representations of such
+        constructs should not be generated).
+        </p>
+<p>
+<strong>Note</strong>: at least as far as construct semantics are
+        concerned, a choice construct is treated as though exactly one of
+        its subconstructs - that is, the constructs among which it represents
+        a choice - is present.
+        </p>
+<p>
+        In this document the terms 'subconstruct', 'direct subconstruct' and
+        'indirect subconstruct' have very specific meanings: let
+        SomeConstruct and OtherConstruct be types of constructs in our
+        <a href="grammar.html">grammar</a>,
+        and let <span class="plack-var">c</span> be an instance of SomeConstruct.
+        Then
+        <ul>
+<li>an <strong>OtherConstruct subconstruct</strong> of <span class="plack-var">c</span> is an OtherConstruct construct that
+                is either a direct subconstruct of <span class="plack-var">c</span> or an indirect subconstruct of <span class="plack-var">c</span>
+</li>
+<li>a <strong>direct OtherConstruct subconstruct</strong> of <span class="plack-var">c</span> is an OtherConstruct that appears on
+                the right-hand side of the definition of SomeConstruct in the
+                grammar</li>
+<li>an <strong>indirect OtherConstruct subconstruct</strong> of <span class="plack-var">c</span> is an OtherConstruct subconstruct of
+                a direct subconstruct of <span class="plack-var">c</span>
+</li>
+</ul>
+</p>
+<p>
+<strong>Note</strong>: the definition numbers in this document can - and
+        often will - change between even minor revisions of this document, and
+        so should not be used to identify definitions anywhere outside of this
+        document.
+        </p>
+<p>
+        This document is divided into the following sections:
+        <ul>
+<li>
+<a href="#Documents">Documents</a>
+</li>
+<li>
+<a href="#Elements_and_Attributes">Elements and Attributes</a>
+</li>
+<li>
+<a href="#Expressions">Expressions</a>
+</li>
+</ul>
+</p>
+<p>
+<tr>
+<td colspan="2">
+<h3>General Notes:</h3>
+<ul>
+<li>Atria is a data representation language and not a programming
+                language, so its semantics cannot be described in terms of how
+                its constructs are executed or evaluated. Since it is roughly
+                equivalent to the data representation language XML the
+                semantics of Atria's constructs are instead described in terms
+                of the XML fragments that they correspond to</li>
+<li>unlike in XML, Atria also allows variables to be used. An
+                Atria variable is in scope from the point at which its value
+                is first set until the end of the document. The value of a
+                variable whose value has already been set can be modified by
+                setting its value again later</li>
+<li>applications can pre-set the values of Atria variables, and
+                such variables are in scope from the beginning to the end of
+                an Atria document</li>
+<li>in the following a <em>newline</em> refers to the single
+                character with decimal ASCII code 10</li>
+</ul>
+</td>
+</tr>
+</p>
+<hr>
+<h2>
+<a name="Documents">Documents</a>
+</h2>
+            
+<a name="Document">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">DocumentSemantics</span></td><td class="menu">Previous&nbsp;<a href="#Prologue">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="DocumentGrammarRule">
+<pre>
+<span class="plack-nonterminal">Document</span> ::= <a href="semantics.html#Prologue">Prologue</a>
+             [{<a href="semantics.html#Element">Element</a>}@]</pre>
+</a>
+</div>
+<div class="definition">A given Document <span class="plack-var">doc</span>, where <ul>
+<li>
+<span class="plack-var">p</span> is the direct Prologue subconstruct of <span class="plack-var">doc</span>
+</li>
+</ul> corresponds to the XML consisting of the
+                    concatenation, in order, of the XML that corresponds to the
+                    direct Prologue subconstruct of <span class="plack-var">doc</span> and the XML that
+                    corresponds to each of the direct Element subconstructs of <span class="plack-var">doc</span>.</div>
+</div>
+</a>
+            <a name="Prologue">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">PrologueSemantics</span></td><td class="menu"><a href="#Document">Previous</a>&nbsp;<a href="#LanguageSpecifier">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="PrologueGrammarRule">
+<pre>
+<span class="plack-nonterminal">Prologue</span> ::= <a href="semantics.html#LanguageSpecifier">LanguageSpecifier</a>
+             [{<a href="semantics.html#PrologueItem">PrologueItem</a>}@]</pre>
+</a>
+</div>
+<div class="definition">A given Prologue <span class="plack-var">p</span> corresponds to the XML consisting of the
+                    concatenation, in order, of the XML that corresponds to the
+                    direct LanguageSpecifier subconstruct of <span class="plack-var">p</span> and the
+                    XML that corresponds to each of the direct PrologueItem subconstructs of <span class="plack-var">p</span>.</div>
+</div>
+</a>
+            <a name="LanguageSpecifier">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">LanguageSpecifierSemantics</span></td><td class="menu"><a href="#Prologue">Previous</a>&nbsp;<a href="#PrologueItem">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="LanguageSpecifierGrammarRule">
+<pre>
+<span class="plack-nonterminal">LanguageSpecifier</span> ::= <a href="semantics.html#Name">Name</a> <a href="semantics.html#Name">Name</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given LanguageSpecifier <span class="plack-var">spec</span> corresponds to the XML text declaration
+                    <code>&lt;?xml version="1.0"&gt;</code> (with
+                    no newline at the end of it).</div>
+</div>
+</a>
+            <a name="PrologueItem">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">PrologueItemSemantics</span></td><td class="menu"><a href="#LanguageSpecifier">Previous</a>&nbsp;<a href="#Element">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="PrologueItemGrammarRule">
+<pre>
+<span class="plack-nonterminal">PrologueItem</span> ::= <a href="semantics.html#Command">Command</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given PrologueItem <span class="plack-var">item</span> corresponds to the XML that the direct Command subconstruct of <span class="plack-var">item</span> corresponds
+                    to.</div>
+</div>
+</a>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Elements_and_Attributes">Elements and Attributes</a>
+</h2>
+            
+<a name="Element">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">ElementSemantics</span></td><td class="menu"><a href="#PrologueItem">Previous</a>&nbsp;<a href="#ContentItem">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ElementGrammarRule">
+<pre>
+<span class="plack-nonterminal">Element</span> ::= <a href="semantics.html#Name">Name</a> {<a href="semantics.html#Attribute">Attribute</a>}*
+               [{<a href="semantics.html#ContentItem">ContentItem</a>}@]</pre>
+</a>
+</div>
+<div class="definition">A given Element <span class="plack-var">elem</span>, where <ul>
+<li>
+<span class="plack-var">name</span> is the direct Name subconstruct of <span class="plack-var">elem</span>, and</li>
+<li>
+<span class="plack-var">numAttr</span> is the number of direct Attribute subconstructs of <span class="plack-var">elem</span>
+</li>
+</ul> corresponds to the concatenation of a newline
+                    and an XML element
+                    <ul>
+<li>whose name corresponds to <span class="plack-var">name</span>,</li>
+<li>that has <span class="plack-var">numAttr</span> attributes,
+                            each of which corresponds to a different direct Attribute subconstruct of <span class="plack-var">elem</span>, and</li>
+<li>whose contents consists of the concatenation,
+                            in order, of the XML that corresponds to each
+                            direct ContentItem subconstruct of <span class="plack-var">elem</span>
+</li>
+</ul>
+
+                
+</div>
+</div>
+</a>
+            <a name="ContentItem">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">ContentItemSemantics</span></td><td class="menu"><a href="#Element">Previous</a>&nbsp;<a href="#ExpressionItem">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ContentItemGrammarRule">
+<pre>
+<span class="plack-nonterminal">ContentItem</span> ::= <a href="semantics.html#Element">Element</a> | <a href="semantics.html#ExpressionItem">ExpressionItem</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given ContentItem <span class="plack-var">item</span> corresponds to the XML that corresponds to the
+                    direct subconstruct of <span class="plack-var">item</span> that is
+                    present.</div>
+</div>
+</a>
+            <a name="ExpressionItem">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">ExpressionItemSemantics</span></td><td class="menu"><a href="#ContentItem">Previous</a>&nbsp;<a href="#Attribute">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ExpressionItemGrammarRule">
+<pre>
+<span class="plack-nonterminal">ExpressionItem</span> ::= <a href="semantics.html#Expression">Expression</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given ExpressionItem <span class="plack-var">item</span> corresponds to the XML that the direct Expression subconstruct of <span class="plack-var">item</span> corresponds
+                    to.</div>
+</div>
+</a>
+            <a name="Attribute">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">AttributeSemantics</span></td><td class="menu"><a href="#ExpressionItem">Previous</a>&nbsp;<a href="#Argument">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="AttributeGrammarRule">
+<pre>
+<span class="plack-nonterminal">Attribute</span> ::= <a href="semantics.html#Name">Name</a> <span class="plack-terminal">=</span> <a href="semantics.html#Expression">Expression</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Attribute <span class="plack-var">attr</span>, where <ul>
+<li>
+<span class="plack-var">name</span> is the direct Name subconstruct of <span class="plack-var">attr</span>, and</li>
+<li>
+<span class="plack-var">expr</span> is the direct Expression subconstruct of <span class="plack-var">attr</span>
+</li>
+</ul> corresponds to the XML attribute whose name
+                    corresponds to the XML that <span class="plack-var">name</span> corresponds
+                    to, and whose value corresponds to the XML that <span class="plack-var">expr</span> corresponds to, enclosed in double
+                    quotation marks.</div>
+</div>
+</a>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Expressions">Expressions</a>
+</h2>
+            
+<a name="Argument">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">ArgumentSemantics</span></td><td class="menu"><a href="#Attribute">Previous</a>&nbsp;<a href="#Name">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ArgumentGrammarRule">
+<pre>
+<span class="plack-nonterminal">Argument</span> ::= <a href="semantics.html#Attribute">Attribute</a> | <a href="semantics.html#Name">Name</a> | <a href="semantics.html#Expression">Expression</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Argument <span class="plack-var">arg</span> corresponds to the XML that corresponds to the
+                    direct subconstruct of <span class="plack-var">arg</span> that is
+                    present.</div>
+</div>
+</a>
+            <a name="Name">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">NameSemantics</span></td><td class="menu"><a href="#Argument">Previous</a>&nbsp;<a href="#Expression">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="NameGrammarRule">
+<pre>
+<span class="plack-nonterminal">Name</span> ::= {<a href="semantics.html#NameCharacter">NameCharacter</a>}+</pre>
+</a>
+
+</div>
+<div class="definition">A given Name <span class="plack-var">name</span> corresponds to the XML consisting of the
+                    concatenation, in order, of all of the direct NameCharacter subconstructs of <span class="plack-var">name</span>.</div>
+</div>
+</a>
+            <a name="Expression">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">ExpressionSemantics</span></td><td class="menu"><a href="#Name">Previous</a>&nbsp;<a href="#Command">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ExpressionGrammarRule">
+<pre>
+<span class="plack-nonterminal">Expression</span> ::= <a href="semantics.html#Command">Command</a> | <a href="semantics.html#Text">Text</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Expression <span class="plack-var">expr</span> corresponds to the XML that corresponds to the
+                    direct subconstruct of <span class="plack-var">expr</span> that is
+                    present.</div>
+</div>
+</a>
+            <a name="Command">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">CommandSemantics</span></td><td class="menu"><a href="#Expression">Previous</a>&nbsp;<a href="#Text">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="CommandGrammarRule">
+<pre>
+<span class="plack-nonterminal">Command</span> ::= <span class="plack-terminal">[</span> <a href="semantics.html#Name">Name</a> {<a href="semantics.html#Argument">Argument</a>}* <span class="plack-terminal">]</span>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Command <span class="plack-var">cmd</span>, where <ul>
+<li>
+<span class="plack-var">name</span> is the direct Name subconstruct of <span class="plack-var">cmd</span>
+</li>
+<li>
+<span class="plack-var">numArgs</span> is the number of direct Argument subconstructs of <span class="plack-var">cmd</span>
+</li>
+<li>
+<span class="plack-var">arg[i]</span> is the <span class="plack-var">i</span>th direct Argument subconstruct of <span class="plack-var">cmd</span>, where 1 &lt;= <span class="plack-var">i</span> &lt;= <span class="plack-var">numArgs</span>, and</li>
+<li>
+<span class="plack-var">doc</span> is the Document construct that <span class="plack-var">cmd</span>
+                    is an indirect subconstruct of</li>
+</ul> corresponds to different XML depending on the
+                    value of <span class="plack-var">name</span>:
+                    <ul>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'namespace' then <span class="plack-var">cmd</span> corresponds to
+                            the empty string, but also defines the namespace
+                            prefix given by <span class="plack-expr">arg[1]</span> to denote
+                            the namespace corresponding to the URL given by
+                            <span class="plack-expr">arg[2]</span>
+</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'set' then <span class="plack-var">cmd</span> corresponds to the
+                            empty string, but also sets the Atria variable
+                            whose name is given by <span class="plack-expr">arg[1]</span> to
+                            the XML corresponding to <span class="plack-expr">arg[2]</span>
+</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'get' then <span class="plack-var">cmd</span> corresponds to the
+                            value of the Atria variable whose name is given
+                            by <span class="plack-expr">arg[1]</span>
+</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'top' then <span class="plack-var">cmd</span> corresponds to the
+                            same XML that would correspond to an Atria Element
+                            whose
+                            <ul>
+<li>direct Name subconstruct is given by
+                                    <span class="plack-expr">arg[1]</span>,</li>
+<li>direct Attribute subconstructs, if any,
+                                    are given by <span class="plack-expr">arg[i]</span> where
+                                    2 &lt;= <span class="plack-var">i</span> &lt;= <span class="plack-var">numArgs</span>
+</li>
+</ul>
+                            except that the closing XML tag follows the
+                            XML corresponding to all of the direct Element subconstructs of <span class="plack-var">doc</span>
+</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'join' then <span class="plack-var">cmd</span> corresponds to the
+                            XML consisting of the concatenation, in order, of
+                            the XML that each <span class="plack-expr">arg[i]</span> corresponds
+                            to, for 1 &lt;= <span class="plack-var">i</span> &lt;= <span class="plack-var">numArgs</span>
+</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'newline' then <span class="plack-var">cmd</span> corresponds to
+                            a newline</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'quote' then <span class="plack-var">cmd</span> corresponds to
+                            the XML entity <code>&amp;quot;</code>
+</li>
+<li>if <span class="plack-var">name</span> specifies the name
+                            'quoted' then <span class="plack-var">cmd</span> corresponds to
+                            the same XML that the command
+                            <code>[join [quote] arg[1] [quote]]</code>
+                            would correspond to</li>
+</ul>
+                
+</div>
+</div>
+</a>
+            <a name="Text">
+<div class="plack-construct-semantics">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-one-construct-semantics-name">TextSemantics</span></td><td class="menu"><a href="#Command">Previous</a>&nbsp;Next&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="TextGrammarRule">
+<pre>
+<span class="plack-nonterminal">Text</span> ::= <span class="plack-single-character">"</span>{<a href="semantics.html#TextCharacter">TextCharacter</a>}*<span class="plack-single-character">"</span>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Text <span class="plack-var">txt</span> corresponds to the XML consisting of the
+                    concatenation, in order, of all of the direct TextCharacter subconstructs of <span class="plack-var">txt</span> (without the enclosing double quotation
+                    marks).</div>
+</div>
+</a>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<address>
+<div class="document-title">Title: Atria Semantics</div>
+<div class="author">Author: James MacKay
+                (<a href="mailto:jgm@steelcandy.org">jgm@steelcandy.org</a>)</div>
+<div class="copyright">Copyright &copy; 2005-2023 James MacKay</div>
+<div class="last-updated">Last Updated: August 30, 2023 10:54.24AM</div>
+<div class="url">URL:<nobr></nobr><script>
+                document.write(document.URL);</script>
+<noscript>&nbsp;[unknown]</noscript>
+</div>
+</address>
+</body>
+</html>

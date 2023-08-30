@@ -1,0 +1,552 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Atria Validity Constraints</title>
+<link media="all" href="stylesheet.css" rel="stylesheet" type="text/css">
+<link media="screen" href="stylesheet-screen.css" rel="stylesheet" type="text/css">
+<link media="print" href="stylesheet-print.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a name="Top"><span></span></a>
+<div class="plack-language-document-menu">
+            [<a href="validity-constraints-frames.html" target="_top">Frames</a> |
+            <a href="validity-constraints.html" target="_top">No Frames</a>]
+        </div>
+<div align="center" class="plack-top">
+<h1>Atria Validity Constraints</h1>
+<span class="plack-author">James MacKay</span>
+<br>
+<span class="plack-generation-time">August 30, 2023 10:54.24AM</span>
+<br>
+</div>
+<hr>
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<p>
+<span class="box">Total number of constraints: 21</span>
+</p>
+<p>
+        This document specifies the validity constraints that apply to each of the
+        constructs of the Atria programming
+        language. Each set of constraints also includes the following validity
+        constraints implicitly:
+        <div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">ImplicitConstraints</span></td><td class="menu">Previous&nbsp;Next&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="definition">A construct is valid <span class="plack-constraint-only-if">only if</span>
+<ol>
+<li>it is syntactically correct, and</li>
+<li>all of its subconstructs are valid.</li>
+</ol>
+</div>
+</div>
+        Note that these implicit constraints even apply to constraint sets that
+        specify that a construct is always valid.
+        </p>
+<p>
+        Constructs that are choices in a choice construct must satisfy the
+        choice construct's constraints in addition to their own constraints.
+        </p>
+<p>
+        In this document the terms 'subconstruct', 'direct subconstruct' and
+        'indirect subconstruct' have very specific meanings: let
+        SomeConstruct and OtherConstruct be types of constructs in our
+        <a href="grammar.html">grammar</a>,
+        and let <span class="plack-var">c</span> be an instance of SomeConstruct.
+        Then
+        <ul>
+<li>an <strong>OtherConstruct subconstruct</strong> of <span class="plack-var">c</span> is an OtherConstruct construct that
+                is either a direct subconstruct of <span class="plack-var">c</span> or an indirect subconstruct of <span class="plack-var">c</span>
+</li>
+<li>a <strong>direct OtherConstruct subconstruct</strong> of <span class="plack-var">c</span> is an OtherConstruct that appears on
+                the right-hand side of the definition of SomeConstruct in the
+                grammar</li>
+<li>an <strong>indirect OtherConstruct subconstruct</strong> of <span class="plack-var">c</span> is an OtherConstruct subconstruct of
+                a direct subconstruct of <span class="plack-var">c</span>
+</li>
+</ul>
+</p>
+<p>
+<strong>Note</strong>: the definition numbers in this document can - and
+        often will - change between even minor revisions of this document, and
+        so should not be used to identify definitions anywhere outside of this
+        document.
+        </p>
+<p>
+        This document is divided into the following sections:
+        <ul>
+<li>
+<a href="#Documents">Documents</a>
+</li>
+<li>
+<a href="#Elements_and_Attributes">Elements and Attributes</a>
+</li>
+<li>
+<a href="#Expressions">Expressions</a>
+</li>
+</ul>
+</p>
+<hr>
+<h2>
+<a name="Documents">Documents</a>
+</h2>
+            
+<a name="Document">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">DocumentConstraints</span></td><td class="menu">Previous&nbsp;<a href="#Prologue">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="DocumentGrammarRule">
+<pre>
+<span class="plack-nonterminal">Document</span> ::= <a href="validity-constraints.html#Prologue">Prologue</a>
+             [{<a href="validity-constraints.html#Element">Element</a>}@]</pre>
+</a>
+</div>
+<div class="definition">A given Document <span class="plack-var">doc</span>, where <ul>
+<li>
+<span class="plack-var">prologue</span> is the direct Prologue subconstruct of <span class="plack-var">doc</span>
+</li>
+</ul> is valid <span class="plack-constraint-iff">if and only if</span><td colspan="2">
+<ol>
+<li>
+<span class="plack-constraint-name">IsTopElement</span>: unless
+                    <span class="plack-var">prologue</span> has a direct PrologueItem
+                    subconstruct whose direct Command subconstruct has a
+                    direct CommandName subconstruct that is 'top', <span class="plack-var">doc</span> must have exactly one direct Element
+                    subconstruct, and</li>
+<li>
+<span class="plack-constraint-name">Application</span>: if <span class="plack-var">doc</span> is being used in an application that
+                    further constrains the Atria documents that it accepts
+                    then <span class="plack-var">doc</span> and all of its direct and
+                    indirect constructs satisfies those constraints as
+                    well</li>
+</ol>
+</td>
+</div>
+</div>
+</a>
+            <a name="Prologue">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">PrologueConstraints</span></td><td class="menu"><a href="#Document">Previous</a>&nbsp;<a href="#LanguageSpecifier">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="PrologueGrammarRule">
+<pre>
+<span class="plack-nonterminal">Prologue</span> ::= <a href="validity-constraints.html#LanguageSpecifier">LanguageSpecifier</a>
+             [{<a href="validity-constraints.html#PrologueItem">PrologueItem</a>}@]</pre>
+</a>
+</div>
+<div class="definition">A given Prologue <span class="plack-var">prologue</span> is valid <span class="plack-constraint-iff">if and only if</span><td colspan="2">
+<ol>
+<li>
+<span class="plack-constraint-name">AtMostOneTopItem</span>: there is
+                    at most one direct PrologueItem subconstruct of <span class="plack-var">prologue</span> whose direct Command subconstruct's direct
+                    CommandName subconstruct is 'top'</li>
+</ol>
+</td>
+</div>
+</div>
+</a>
+            <a name="LanguageSpecifier">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">LanguageSpecifierConstraints</span></td><td class="menu"><a href="#Prologue">Previous</a>&nbsp;<a href="#PrologueItem">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="LanguageSpecifierGrammarRule">
+<pre>
+<span class="plack-nonterminal">LanguageSpecifier</span> ::= <a href="validity-constraints.html#Name">Name</a> <a href="validity-constraints.html#Name">Name</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given LanguageSpecifier <span class="plack-var">spec</span>, where <ul>
+<li>
+<span class="plack-var">first</span> is the first direct Name subconstruct of <span class="plack-var">spec</span>, and</li>
+<li>
+<span class="plack-var">second</span> is the second direct Name subconstruct of <span class="plack-var">spec</span>
+</li>
+</ul> is valid <span class="plack-constraint-iff">if and only if</span><td colspan="2">
+<ol>
+<li>
+<span class="plack-constraint-name">FirstIsLanguage</span>: <span class="plack-var">first</span> is 'language', and</li>
+<li>
+<span class="plack-constraint-name">Name</span>: <span class="plack-var">second</span>
+                    is 'atria'</li>
+</ol>
+</td>
+</div>
+</div>
+</a>
+            <a name="PrologueItem">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">PrologueItemConstraints</span></td><td class="menu"><a href="#LanguageSpecifier">Previous</a>&nbsp;<a href="#Element">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="PrologueItemGrammarRule">
+<pre>
+<span class="plack-nonterminal">PrologueItem</span> ::= <a href="validity-constraints.html#Command">Command</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given PrologueItem is always valid.</div>
+</div>
+</a>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Elements_and_Attributes">Elements and Attributes</a>
+</h2>
+            
+<a name="Element">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">ElementConstraints</span></td><td class="menu"><a href="#PrologueItem">Previous</a>&nbsp;<a href="#ContentItem">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ElementGrammarRule">
+<pre>
+<span class="plack-nonterminal">Element</span> ::= <a href="validity-constraints.html#Name">Name</a> {<a href="validity-constraints.html#Attribute">Attribute</a>}*
+               [{<a href="validity-constraints.html#ContentItem">ContentItem</a>}@]</pre>
+</a>
+</div>
+<div class="definition">A given Element <span class="plack-var">elem</span> is valid <span class="plack-constraint-iff">if and only if</span><td colspan="2">
+<ol>
+<li>
+<span class="plack-constraint-name">UniqueAttributeNames</span>: no
+                    two direct Attribute subconstructs of <span class="plack-var">elem</span> have direct AttributeName subconstructs
+                    that are the same</li>
+</ol>
+</td>
+</div>
+</div>
+</a>
+            <a name="ContentItem">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">ContentItemConstraints</span></td><td class="menu"><a href="#Element">Previous</a>&nbsp;<a href="#ExpressionItem">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ContentItemGrammarRule">
+<pre>
+<span class="plack-nonterminal">ContentItem</span> ::= <a href="validity-constraints.html#Element">Element</a> | <a href="validity-constraints.html#ExpressionItem">ExpressionItem</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given ContentItem is always valid.</div>
+</div>
+</a>
+            <a name="ExpressionItem">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">ExpressionItemConstraints</span></td><td class="menu"><a href="#ContentItem">Previous</a>&nbsp;<a href="#Attribute">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ExpressionItemGrammarRule">
+<pre>
+<span class="plack-nonterminal">ExpressionItem</span> ::= <a href="validity-constraints.html#Expression">Expression</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given ExpressionItem is always valid.</div>
+</div>
+</a>
+            <a name="Attribute">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">AttributeConstraints</span></td><td class="menu"><a href="#ExpressionItem">Previous</a>&nbsp;<a href="#Expression">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="AttributeGrammarRule">
+<pre>
+<span class="plack-nonterminal">Attribute</span> ::= <a href="validity-constraints.html#Name">Name</a> <span class="plack-terminal">=</span> <a href="validity-constraints.html#Expression">Expression</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Attribute is always valid.</div>
+</div>
+</a>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<hr>
+<h2>
+<a name="Expressions">Expressions</a>
+</h2>
+            
+<a name="Expression">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">ExpressionConstraints</span></td><td class="menu"><a href="#Attribute">Previous</a>&nbsp;<a href="#Command">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ExpressionGrammarRule">
+<pre>
+<span class="plack-nonterminal">Expression</span> ::= <a href="validity-constraints.html#Command">Command</a> | <a href="validity-constraints.html#Text">Text</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Expression is always valid.</div>
+</div>
+</a>
+            <a name="Command">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">CommandConstraints</span></td><td class="menu"><a href="#Expression">Previous</a>&nbsp;<a href="#Argument">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="CommandGrammarRule">
+<pre>
+<span class="plack-nonterminal">Command</span> ::= <span class="plack-terminal">[</span> <a href="validity-constraints.html#Name">Name</a> {<a href="validity-constraints.html#Argument">Argument</a>}* <span class="plack-terminal">]</span>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Command <span class="plack-var">cmd</span>, where <ul>
+<li>
+<span class="plack-var">name</span> is the direct Name subconstruct of <span class="plack-var">cmd</span>
+</li>
+<li>
+<span class="plack-var">numArgs</span> is the number of direct Argument subconstructs of <span class="plack-var">cmd</span>, and</li>
+<li>
+<span class="plack-var">arg[i]</span> is the i'th direct Argument subconstruct of <span class="plack-var">cmd</span> for all 1 &lt;= i &lt;= <span class="plack-var">numArgs</span>
+</li>
+</ul> is valid <span class="plack-constraint-iff">if and only if</span><td colspan="2">
+<ol>
+<li>
+<span class="plack-constraint-name">PredefinedName</span>: <span class="plack-var">name</span> must be one of 'namespace', 'set', 'top', 'get', 'join', 'newline', 'quote' or 'quoted'</li>
+<li>
+<span class="plack-constraint-name">PrologueItemOnly</span>: if <span class="plack-var">name</span> is 'namespace', 'set' or 'top' then <span class="plack-var">cmd</span> must be the direct Command subconstruct of
+                    a PrologueItem</li>
+<li>
+<span class="plack-constraint-name">NonPrologueItem</span>: if <span class="plack-var">name</span> is 'get', 'join', 'newline', 'quote' or 'quoted' then <span class="plack-var">cmd</span> must <em>not</em> be the direct Command
+                    subconstruct of a PrologueItem</li>
+<li>
+<span class="plack-constraint-name">NoArguments</span>: if <span class="plack-var">name</span> is 'newline'
+                    or 'quote' then <span class="plack-var">numArgs</span> is zero</li>
+<li>
+<span class="plack-constraint-name">OneArgument</span>: if <span class="plack-var">name</span> is 'get' or
+                    'quoted' then <span class="plack-var">numArgs</span> is one</li>
+<li>
+<span class="plack-constraint-name">TwoArguments</span>: if <span class="plack-var">name</span> is 'namespace'
+                    or 'set' then <span class="plack-var">numArgs</span> is two</li>
+<li>
+<span class="plack-constraint-name">OneNameArgument</span>: if <span class="plack-var">name</span> is 'get' then
+                    <span class="plack-expr">arg[1]</span> is a Name</li>
+<li>
+<span class="plack-constraint-name">OneExpressionArgument</span>: if
+                    <span class="plack-var">name</span> is 'quoted' then <span class="plack-expr">arg[1]</span> is
+                    an Expression</li>
+<li>
+<span class="plack-constraint-name">JoinArguments</span>: if <span class="plack-var">name</span> is 'join' then
+                    <span class="plack-var">numArgs</span> is greater than zero and each direct Argument subconstruct of <span class="plack-var">cmd</span> is an
+                    Expression</li>
+<li>
+<span class="plack-constraint-name">NamespaceArguments</span>: if <span class="plack-var">name</span> is 'namespace'
+                    then
+                    <ul>
+<li>
+<span class="plack-expr">arg[1]</span> is a Name that does not
+                            contain a NamespaceSeparator,</li>
+<li>there is not a namespace command
+                            that precedes <span class="plack-constraint-definition-link"><a href="validity-constraints.html#def.PrecedingNamespaceCommand" title="PrecedingNamespaceCommand">[3]</a></span> <span class="plack-var">cmd</span> and defines
+                            the namespace prefix <span class="plack-constraint-definition-link"><a href="validity-constraints.html#def.PrefixDefinedByNamespaceCommand" title="PrefixDefinedByNamespaceCommand">[2]</a></span> represented by
+                            <span class="plack-expr">arg[1]</span>, and</li>
+<li>
+<span class="plack-expr">arg[2]</span> is an Expression</li>
+</ul>
+</li>
+<li>
+<span class="plack-constraint-name">SetArguments</span>: if <span class="plack-var">name</span> is 'set' then
+                    <span class="plack-expr">arg[1]</span> is a Name that does not contain a
+                    NamespaceSeparator and <span class="plack-expr">arg[2]</span> is an
+                    Expression, and</li>
+<li>
+<span class="plack-constraint-name">TopArguments</span>: if <span class="plack-var">name</span> is 'top' then
+                    <span class="plack-var">numArgs</span> is greater than zero, <span class="plack-expr">arg[1]</span> is a Name and the second and subsequent
+                    direct Argument subconstructs of <span class="plack-var">cmd</span>,
+                    if any, are all Attributes</li>
+</ol>
+</td>
+<tr>
+<td colspan="2">
+<h3>Notes:</h3>
+<ul>
+<li>the command '[quoted
+                        expr]' is effectively the same as
+                        '[join [quote] expr [quote]]'</li>
+<li>there's not currently a constraint on 'get'
+                        commands requiring that the variable it names be the
+                        first argument to a preceding 'set' command since I
+                        think we probably want to allow the user to
+                        specify/set Atria variables on the command line (and
+                        I haven't worked out the exact details of how that
+                        might work yet)</li>
+</ul>
+</td>
+</tr>
+</div>
+</div>
+</a>
+            
+<p>
+<a name="def.NameNamespacePrefix"><span class="plack-constraint-definition-number">[1] </span><span class="plack-constraint-definition-name">NameNamespacePrefix. </span>a Name construct includes a
+                namespace prefix if it contains exactly one NamespaceSeparator
+                that is not the first or last character in the Name. If a Name
+                does include a namespace prefix then the namespace prefix is
+                the part of the Name that precedes the
+                NamespaceSeparator</a>
+</p>
+            
+<p>
+<a name="def.PrefixDefinedByNamespaceCommand"><span class="plack-constraint-definition-number">[2] </span><span class="plack-constraint-definition-name">PrefixDefinedByNamespaceCommand. </span>the namespace
+                prefix defined by a 'namespace'
+                command represented by a Command construct <span class="plack-var">c</span> is
+                the Name that is the first direct Argument subconstruct of <span class="plack-var">c</span>. If <span class="plack-var">c</span> doesn't have any direct Argument
+                subconstructs or its first direct Argument subconstruct is not
+                a Name construct then <span class="plack-var">c</span> does not define a
+                namespace prefix</a>
+</p>
+
+            
+<a name="Argument">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">ArgumentConstraints</span></td><td class="menu"><a href="#Command">Previous</a>&nbsp;<a href="#Text">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="ArgumentGrammarRule">
+<pre>
+<span class="plack-nonterminal">Argument</span> ::= <a href="validity-constraints.html#Attribute">Attribute</a> | <a href="validity-constraints.html#Name">Name</a> | <a href="validity-constraints.html#Expression">Expression</a>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Argument is always valid.</div>
+</div>
+</a>
+            <a name="Text">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">TextConstraints</span></td><td class="menu"><a href="#Argument">Previous</a>&nbsp;<a href="#Name">Next</a>&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="TextGrammarRule">
+<pre>
+<span class="plack-nonterminal">Text</span> ::= <span class="plack-single-character">"</span>{<a href="validity-constraints.html#TextCharacter">TextCharacter</a>}*<span class="plack-single-character">"</span>
+</pre>
+</a>
+
+</div>
+<div class="definition">A given Text is always valid.</div>
+</div>
+</a>
+
+            <a name="Name">
+<div class="plack-construct-constraints">
+<table class="header" width="100%" border="0">
+<tr>
+<td class="title"><span class="plack-constraint-set-name">NameConstraints</span></td><td class="menu"><a href="#Text">Previous</a>&nbsp;Next&nbsp;<a href="#Top">Top</a></td>
+</tr>
+</table>
+<div class="grammar-def">
+<a name="NameGrammarRule">
+<pre>
+<span class="plack-nonterminal">Name</span> ::= {<a href="validity-constraints.html#NameCharacter">NameCharacter</a>}+</pre>
+</a>
+
+</div>
+<div class="definition">A given Name <span class="plack-var">id</span> is valid <span class="plack-constraint-iff">if and only if</span><td colspan="2">
+<ol>
+<li>
+<span class="plack-constraint-name">OneNamespaceSeparator</span>: <span class="plack-var">id</span> contains at most one
+                    NamespaceSeparator</li>
+<li>
+<span class="plack-constraint-name">NamespaceSeparatorNotAtEnds</span>: <span class="plack-var">id</span> does not start or end
+                    with a NamespaceSeparator, and</li>
+<li>
+<span class="plack-constraint-name">DefinedNamespacePrefix</span>: if
+                    <span class="plack-var">id</span> includes a namespace
+                    prefix <span class="plack-constraint-definition-link"><a href="validity-constraints.html#def.NameNamespacePrefix" title="NameNamespacePrefix">[1]</a></span> then that prefix must be one defined by
+                    a 'namespace'
+                    command that precedes <span class="plack-constraint-definition-link"><a href="validity-constraints.html#def.PrecedingNamespaceCommand" title="PrecedingNamespaceCommand">[3]</a></span> <span class="plack-var">id</span>
+</li>
+</ol>
+</td>
+</div>
+</div>
+</a>
+            
+<p>
+<a name="def.PrecedingNamespaceCommand"><span class="plack-constraint-definition-number">[3] </span><span class="plack-constraint-definition-name">PrecedingNamespaceCommand. </span>a namespace command
+                that precedes another construct <span class="plack-var">c</span> is a Command
+                construct whose direct CommandName subconstruct is 'namespace',
+                and that occurs earlier than <span class="plack-var">c</span> in a Document and
+                does not have <span class="plack-var">c</span> as a direct or indirect
+                subconstruct</a>
+</p>
+        
+<p>
+<div align="center" class="plack-toolbar">
+<a href="#Top">Top</a> | <a href="#Documents">Documents</a> | <a href="#Elements_and_Attributes">Elements and Attributes</a> | <a href="#Expressions">Expressions</a>
+</div>
+</p>
+<address>
+<div class="document-title">Title: Atria Validity Constraints</div>
+<div class="author">Author: James MacKay
+                (<a href="mailto:jgm@steelcandy.org">jgm@steelcandy.org</a>)</div>
+<div class="copyright">Copyright &copy; 2005-2023 James MacKay</div>
+<div class="last-updated">Last Updated: August 30, 2023 10:54.24AM</div>
+<div class="url">URL:<nobr></nobr><script>
+                document.write(document.URL);</script>
+<noscript>&nbsp;[unknown]</noscript>
+</div>
+</address>
+</body>
+</html>

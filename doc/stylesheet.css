@@ -1,0 +1,491 @@
+/*
+  Copyright (C) 2004-2012 by James MacKay.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+    General rules
+*/
+
+body
+{
+    margin-left: 5%;
+    margin-right: 5%;
+/*
+    font-family: Times,serif;
+*/
+    background: black;
+    color: white;
+}
+
+.box
+{
+    border: solid;
+    border-style: groove;
+    border-width: thin;
+}
+
+.footnote-icon
+{
+    font-weight: bolder;
+}
+
+address
+{
+    margin-top: 2em;
+    border-top: medium solid;
+    padding-top: 1em;
+    font-size: small;
+}
+
+/*
+    TODO: the following .author, .copyright and .last-updated rules should
+    only apply when they're inside 'address' tags, but for some reason they
+    don't seem to match when they are declared to match 'address .author',
+    etc. Figure out why!!!
+*/
+
+.document-title
+{
+    font-weight: normal;
+    font-style: normal;
+}
+
+.url
+{
+    font-weight: normal;
+    font-style: italic;
+}
+
+.author
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+.copyright
+{
+    font-weight: normal;
+    font-style: normal;
+}
+
+.last-updated
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+/*
+    Plack-specific rules
+*/
+
+div.plack-top
+{
+    text-align: center;
+}
+
+div.plack-language-document-menu
+{
+    font-size: small;
+    white-space: nowrap;
+}
+
+
+div.plack-main-index-entry
+{
+    font-size: small;
+    white-space: nowrap;
+    margin-left: -5%;   /* offsets the 'body' margin (above) */
+}
+
+div.plack-major-index-entry
+{
+    white-space: nowrap;
+    font-weight: bold;
+    margin-left: -5%;   /* offsets the 'body' margin (above) */
+}
+
+div.plack-minor-index-entry
+{
+    font-size: small;
+    white-space: nowrap;
+    font-style: italic;
+    /* padding-left: 0.5em; */
+    margin-left: -5%;   /* offsets the 'body' margin (above) */
+}
+
+
+span.plack-author
+{
+    font-style: italic;
+}
+
+span.plack-generation-time
+{
+    font-style: italic;
+}
+
+div.plack-toolbar
+{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+span.plack-includes-header
+{
+    font-weight: bold;
+}
+
+
+/*
+    Plack construct part rules
+*/
+
+span.plack-var
+{
+    font-style: italic;
+}
+
+span.plack-expr
+{
+    font-style: italic;
+}
+
+span.plack-terminal
+{
+    font-weight: bold;
+}
+
+span.plack-nonterminal
+{
+    /* empty */
+}
+
+span.plack-single-character
+{
+    font-family: fixed;
+}
+
+
+/*
+    Plack reserved word list rules
+*/
+
+table.reserved-words td
+{
+    padding: 0 1em;
+    font-size: small;
+}
+
+
+/*
+    Plack operator method-related rules
+*/
+
+div.operator-method-information
+{
+    margin-bottom: 1em;
+}
+
+div.operator-method-information table
+{
+    border: thin dotted;
+}
+
+
+/* An operator */
+div.operator-method-information .op
+{
+    font-family: Helvetica,sans-serif;
+}
+
+/* A method. */
+div.operator-method-information .method
+{
+    font-family: Helvetica,sans-serif;
+}
+
+/* An expression (as used in examples, etc.) */
+div.operator-method-information .expr
+{
+    font-style: italic;
+    font-family: Helvetica,sans-serif;
+}
+
+/* A type (as used in method signatures, etc.) */
+div.operator-method-information .type
+{
+    font-family: Helvetica,sans-serif;
+}
+
+
+/* All operator information titles */
+div.operator-method-information .title
+{
+    text-align: left;
+    padding-right: 2em;
+    width: 50%;
+}
+
+div.operator-method-information .operator
+{
+    /* empty */
+}
+
+div.operator-method-information .operator .title
+{
+    border-bottom: thin dotted;
+}
+
+div.operator-method-information .operator .value
+{
+    text-align: left;
+    font-weight: bold;
+    border-bottom: thin dotted;
+}
+
+div.operator-method-information .example
+{
+    /* empty */
+}
+
+div.operator-method-information .example .value
+{
+    /* empty */
+}
+
+div.operator-method-information .method-name
+{
+    /* empty */
+}
+
+div.operator-method-information .method-name .value
+{
+    /* empty */
+}
+
+div.operator-method-information .method-signature
+{
+    /* empty */
+}
+
+div.operator-method-information .method-signature .value
+{
+    /* empty */
+}
+
+div.operator-method-information .method-call
+{
+    /* empty */
+}
+
+div.operator-method-information .method-call .value
+{
+    /* empty */
+}
+
+
+/*
+    Plack validity constraint-related rules
+*/
+
+div.plack-construct-constraints
+{
+    margin: 1em 0%;
+    border: thin dotted;
+}
+
+div.plack-construct-constraints .header
+{
+    border-bottom: thin dotted;
+}
+
+div.plack-construct-constraints .header .title
+{
+    /* empty */
+}
+
+div.plack-construct-constraints .header .menu
+{
+    text-align: right;
+    text-transform: lowercase;
+}
+
+div.plack-construct-constraints .grammar-def
+{
+    border-bottom: thin dotted;
+    padding: 0 .5em;
+}
+
+div.plack-construct-constraints .definition
+{
+    padding: 0.25em 0.5em;
+}
+
+
+span.plack-constraint-set-name
+{
+    font-weight: bold;
+}
+
+span.plack-constraint-name, span.plack-per-clone-constraint-name
+{
+    font-weight: bold;
+    font-variant: small-caps;
+    font-family: Helvetica,sans-serif;
+}
+
+span.plack-per-clone-constraint-name
+{
+    /*
+        Note: remove this if/when we don't need to be able to identify
+        per-clone constraints in the documentation !!!
+    */
+    text-decoration: underline;
+}
+
+span.plack-constraint-definition-number
+{
+    font-weight: bold;
+}
+
+span.plack-constraint-definition-name
+{
+    font-style: italic;
+    font-weight: bold;
+    font-family: Helvetica,sans-serif;
+
+    /* Uncomment the following to hide definition names. */
+/*
+    display: none;
+*/
+}
+
+span.plack-constraint-definition-link
+{
+    font-style: italic;
+}
+
+div.plack-constraint-definition-example
+{
+    padding-left: 0.5em;
+    border-left: medium solid;
+
+    /* Uncomment the following to hide examples in definitions. */
+/*
+    display: none;
+*/
+}
+
+span.plack-constraint-iff
+{
+    /* empty */
+}
+
+span.plack-constraint-only-if
+{
+    font-weight: bold;
+}
+
+
+/*
+    Plack semantics-related rules
+*/
+
+div.plack-construct-semantics
+{
+    margin: 1em 0%;
+    border: thin dotted;
+}
+
+div.plack-construct-semantics .header
+{
+    border-bottom: thin dotted;
+}
+
+div.plack-construct-semantics .header .title
+{
+    /* empty */
+}
+
+div.plack-construct-semantics .header .menu
+{
+    text-align: right;
+    text-transform: lowercase;
+}
+
+div.plack-construct-semantics .grammar-def
+{
+    border-bottom: thin dotted;
+    padding: 0 .5em;
+}
+
+div.plack-construct-semantics .definition
+{
+    padding: 0.25em 0.5em;
+}
+
+
+span.plack-one-construct-semantics-name
+{
+    font-weight: bold;
+}
+
+span.plack-semantics-definition-number
+{
+    font-weight: bold;
+}
+
+span.plack-semantics-definition-name
+{
+    font-style: italic;
+    font-weight: bold;
+    font-family: Helvetica,sans-serif;
+
+    /* Uncomment the following to hide definition names. */
+/*
+    display: none;
+*/
+}
+
+span.plack-semantics-definition-link
+{
+    font-style: italic;
+}
+
+div.plack-semantics-definition-example
+{
+    padding-left: 0.5em;
+    border-left: medium solid;
+
+    /* Uncomment the following to hide examples in definitions. */
+/*
+    display: none;
+*/
+}
+
+
+/* TODO: get this to work!!! */
+div.plack-notes
+{
+    list-style-type: disc;
+}
+
+/*
+For use in ensuring that a rule is being matched
+
+    font-size: xx-large;  /* !!! */
+*/
