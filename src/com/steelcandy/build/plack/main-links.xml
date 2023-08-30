@@ -22,7 +22,9 @@
         <link id="Grammar" text="Grammar"/>
         <link id="ValidityConstraints" text="Validity Constraints"/>
         <link id="Semantics" text="Semantics"/>
+<!--
         <link id="OperatorMethodMap" text="Operator-Method Map"/>
+-->
         <link id="LanguageDefinition" text="Language Definition"/>
         <link url="introduction.html" text="Informal Introduction"/>
         <link url="documentation.html" text="Documentation Comments"
