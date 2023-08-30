@@ -37,7 +37,10 @@
 
     <xsl:variable name="overview-index-filename"
         select="concat('overview-index', $htmlExt)"/>
-
+    <xsl:variable name="are-operators"
+        select="$number-of-operator-precedence-levels &gt; 0"/>
+        <!-- We assume that the language has operators iff it has one or more
+             operator precedence levels. -->
 
     <!-- Global variables -->
 
@@ -53,7 +56,9 @@
         <xsl:call-template name="grammar-frameset"/>
         <xsl:call-template name="validity-constraints-frameset"/>
         <xsl:call-template name="semantics-frameset"/>
-        <xsl:call-template name="operator-method-map-frameset"/>
+        <xsl:if test="$are-operators">
+            <xsl:call-template name="operator-method-map-frameset"/>
+        </xsl:if>
         <xsl:call-template name="language-definition-frameset"/>
         <xsl:call-template name="other-docs-frameset"/>
     </xsl:template>
@@ -91,10 +96,12 @@
             <xsl:with-param name="id" select="'Semantics'"/>
             <xsl:with-param name="text" select="'Semantics'"/>
         </xsl:call-template>
-        <xsl:call-template name="make-main-index-entry">
-            <xsl:with-param name="id" select="'OperatorMethodMap'"/>
-            <xsl:with-param name="text" select="'Operators'"/>
-        </xsl:call-template>
+        <xsl:if test="$are-operators">
+            <xsl:call-template name="make-main-index-entry">
+                <xsl:with-param name="id" select="'OperatorMethodMap'"/>
+                <xsl:with-param name="text" select="'Operators'"/>
+            </xsl:call-template>
+        </xsl:if>
         <xsl:call-template name="make-main-index-entry">
             <xsl:with-param name="id" select="'LanguageDefinition'"/>
             <xsl:with-param name="text" select="'Language Definition'"/>
