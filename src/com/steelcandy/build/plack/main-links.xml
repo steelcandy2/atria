@@ -26,10 +26,12 @@
         <link id="OperatorMethodMap" text="Operator-Method Map"/>
 -->
         <link id="LanguageDefinition" text="Language Definition"/>
+<!--
         <link url="introduction.html" text="Informal Introduction"/>
         <link url="documentation.html" text="Documentation Comments"
             short-text="Doc Comments"/>
         <link url="other.html" text="Other Documentation"/>
+-->
     </group>
     <group title="Other Links">
         <link url="https://docs.oracle.com/en/java/javase/11/docs/api/index.html"
