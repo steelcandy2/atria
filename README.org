@@ -122,3 +122,9 @@ atria2xml something.atria > something.xml
 
 will create the corresponding XML document in the file named =something.xml=
 in the same directory as =something.atria=.
+
+* Further Reading
+
+There's an [[file:doc/language-definition.html][informal introduction]] to the Atria data representation language,
+but see the documents about the language's [[file:doc/grammar.html][grammar]], [[file:doc/validity-constraints.html][validity constraints]] and
+[[file:doc/semantics.html][semantics]] for a more complete and formal description.
