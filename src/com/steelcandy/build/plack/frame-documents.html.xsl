@@ -157,7 +157,7 @@
         <xsl:call-template name="frameset-document">
             <xsl:with-param name="id" select="'OtherDocumentation'"/>
             <xsl:with-param name="title"
-                select="concat('Other ', $language-name, ' Documaentation')"/>
+                select="concat('Other ', $language-name, ' Documentation')"/>
         </xsl:call-template>
     </xsl:template>
 
