@@ -386,7 +386,7 @@ Notes:
                     name="doc"/> is being used in an application that
                     further constrains the Atria documents that it accepts
                     then <var name="doc"/> and all of its direct and
-                    indirect constructs satisfies those constraints as
+                    indirect constructs satisfy those constraints as
                     well</constraint>
             </construct-constraints>
             <construct-constraints type="Prologue" var="prologue" iff="true">
