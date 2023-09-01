@@ -102,6 +102,22 @@ public class XmlToAtriaConverter
 
     // Private fields
 
+    /**
+        The level of the content we're currently processing: -1 if we're not
+        currently processing any content, 0 if it's part of the document's
+        content (and not that of any of the document's elements), 1 if it's
+        part of the root element's content (and not that of any of the root
+        element's descendent elements), etc.
+    */
+    private int _contentLevel;
+
+    /**
+        Indicates whether the part of an XML document we're currently
+        converted is immediately preceded by one or more whitespace
+        characters (where whitespace includes newlines).
+    */
+    private boolean _isPrecededByWhitespace;
+
 
     // Constructors
 
@@ -110,46 +126,8 @@ public class XmlToAtriaConverter
     */
     public XmlToAtriaConverter()
     {
-        // empty
-    }
-
-    // Public static methods
-
-    /**
-        Returns 'txt' with all leading whitespace characters removed.
-
-        @param txt a string
-        @return txt except that it doesn't include any consecutive leading
-        whitespace characters that may be at the start of it (i.e. before its
-        first non-whitespace character)
-    */
-    public static String trimLeading(String txt)
-    {
-        Assert.require(txt != null);
-
-        int sz = txt.length();
-        int i = 0;
-        for (; i < sz; i++)
-        {
-            if (Character.isWhitespace(txt.charAt(i)) == false)
-            {
-                break;
-            }
-        }
-
-        String result = txt;
-        if (i > 0)
-        {
-            result = txt.substring(i);
-        }
-
-        //System.err.println("===> txt=[" + txt + "], result=[" + result + "]");
-        Assert.ensure(result != null);
-        Assert.ensure(result.length() <= txt.length());
-        Assert.ensure(result.isEmpty() ||
-            Character.isWhitespace(result.charAt(0)) == false);
-            // doesn't start with a whitespace character
-        return result;
+        _contentLevel = -1;
+        _isPrecededByWhitespace = false;
     }
 
 
@@ -177,7 +155,20 @@ public class XmlToAtriaConverter
         writeLine(w, AtriaInfo.LANGUAGE_NAME);
         writeLine(w);
 
+        _contentLevel = -1;
+        _isPrecededByWhitespace = false;
         convertAllContents(doc.getContent(), w);
+
+        // Try to ensure that the document ends with a newline: this won't
+        // work if it ends with a space, but it does handle the case where
+        // the document ends with an entity reference: see
+        // convertEntityReference().
+        if (_isPrecededByWhitespace == false)
+        {
+            writeLine(w);
+        }
+
+        Assert.ensure(_contentLevel == -1);
     }
 
 
@@ -200,11 +191,76 @@ public class XmlToAtriaConverter
         Assert.require(contents != null);
         Assert.require(w != null);
 
+        _contentLevel += 1;
         Iterator iter = mergeText(contents).iterator();
-        while(iter.hasNext())
+        String prefixText = "";
+        String rawPrefixText = "";
+        boolean wasPrevAnElement = false;
+        boolean isFirst = true;
+        while (iter.hasNext())
         {
-            convertContent(iter.next(), w);
+            Object obj = iter.next();
+            Assert.check(obj != null);
+            if (obj instanceof String)
+            {
+                Assert.check(prefixText.isEmpty());
+                    // since there shouldn't be two Strings in a row (because
+                    // we merged consecutive text together)
+                rawPrefixText = prefixText = (String) obj;
+                if (wasPrevAnElement &&
+                    TextUtilities.isAllWhitespace(prefixText))
+                {
+                    prefixText = "";
+                }
+            }
+            else
+            {
+                Content c = (Content) obj;
+                if (c instanceof Element)
+                {
+                    if (isFirst ||
+                        (wasPrevAnElement && rawPrefixText.isEmpty()))
+                    {
+                        // There's no whitespace between the opening tag of
+                        // 'c' and either the opening tag of its parent
+                        // element or of the closing tag of sibling element
+                        // immediately preceding it. Write out a
+                        // zero-argument 'join' command to indicate the
+                        // absence of whitespace here.
+                        writeZeroArgumentJoinCommandLine(w);
+                        _isPrecededByWhitespace = false;
+                    }
+                    convertContent(prefixText, c, w);
+                    if (_contentLevel > 0 && iter.hasNext() == false)
+                    {
+                        // There's no Text content after this Element, so
+                        // there mustn't be any whitespace between us an our
+                        // parent element's closing tag. Write out a
+                        // zero-argument 'join' command to indicate the
+                        // absence of whitespace here (but not at the end of
+                        // a document).
+                        writeZeroArgumentJoinCommandLine(w);
+                        _isPrecededByWhitespace = false;
+                    }
+                    wasPrevAnElement = true;
+                }
+                else
+                {
+                    convertContent(prefixText, c, w);
+                    wasPrevAnElement = false;
+                }
+                rawPrefixText = prefixText = "";
+            }
+            isFirst = false;
         }
+
+        String txt =
+            normalizeWhitespace(prefixText, _isPrecededByWhitespace);
+        convertText(txt, w);
+        _isPrecededByWhitespace = doesEndWithWhitespace(txt);
+        _contentLevel -= 1;
+
+        //Assert.ensure("_contentLevel == old _contentLevel");
     }
 
     /**
@@ -260,9 +316,10 @@ public class XmlToAtriaConverter
     }
 
     /**
-        Converts the specified XML content to the corresponding part of an
-        Atria document.
+        Converts the specified XML content - as well as the specified text
+        that precedes it - to the corresponding part of an Atria document.
 
+        @param txt the text that immediately precedes 'c'
         @param c the XML content to convert: it should be a String or a
         (subtype of) Content
         @param w the writer to use to write the content, after it has been
@@ -270,9 +327,10 @@ public class XmlToAtriaConverter
         @exception IOException thrown if an I/O error occurs in outputting
         the converted XML
     */
-    protected void convertContent(Object c, IndentWriter w)
+    protected void convertContent(String txt, Content c, IndentWriter w)
         throws IOException
     {
+        Assert.require(txt != null);  // though it may be empty
         Assert.require(c != null);
         Assert.require(w != null);
 
@@ -280,35 +338,40 @@ public class XmlToAtriaConverter
         // a visitor class - to determine the exact type of content that a
         // Content object represents, so we have to resort to this sequence
         // of instanceof tests.
-        if (c instanceof String)
+        if (c instanceof Element)
         {
-            // 'c' was built by mergeText().
-            convertText(trimLeading((String) c), w);
-        }
-        else if (c instanceof Element)
-        {
+            txt = normalizeWhitespace(txt, _isPrecededByWhitespace);
+            convertText(txt, w);
+            _isPrecededByWhitespace = doesEndWithWhitespace(txt);
             convertElement((Element) c, w);
         }
         else if (c instanceof Comment)
         {
+            txt = normalizeWhitespace(txt, _isPrecededByWhitespace);
+            convertText(txt, w);
+            _isPrecededByWhitespace = doesEndWithWhitespace(txt);
             convertComment((Comment) c, w);
-        }
-        else if (c instanceof EntityRef)
-        {
-            convertEntityReference((EntityRef) c, w);
-        }
-        else if (c instanceof ProcessingInstruction)
-        {
-            convertProcessingInstruction((ProcessingInstruction) c, w);
-        }
-        else if (c instanceof DocType)
-        {
-            convertDocumentType((DocType) c, w);
         }
         else
         {
-            Assert.unreachable();
-                // since there shouldn't be any other types of Content.
+            convertText(txt, w);
+            if (c instanceof EntityRef)
+            {
+                convertEntityReference((EntityRef) c, w);
+            }
+            else if (c instanceof ProcessingInstruction)
+            {
+                convertProcessingInstruction((ProcessingInstruction) c, w);
+            }
+            else if (c instanceof DocType)
+            {
+                convertDocumentType((DocType) c, w);
+            }
+            else
+            {
+                Assert.unreachable();
+                    // since there shouldn't be any other types of Content
+            }
         }
     }
 
@@ -526,6 +589,23 @@ public class XmlToAtriaConverter
     }
 
     /**
+        Writes out using the specified writer an Atria 'join' command with
+        no arguments, as well as a newline at the end of it.
+
+        @param w the writer to use to write out the command
+        @exception IOException thrown if an I/O error occurs in writing out
+        the command
+    */
+    protected void writeZeroArgumentJoinCommandLine(IndentWriter w)
+        throws IOException
+    {
+        Assert.require(w != null);
+
+        writeZeroArgumentAtriaCommand(AtriaInfo.JOIN_COMMAND_NAME, w);
+        writeLine(w);
+    }
+
+    /**
         Writes to 'w' a use of the zero-argument Atria command named 'cmd'.
 
         @param cmd the name of the Atria command
@@ -543,14 +623,15 @@ public class XmlToAtriaConverter
 
         writeAtriaCommandStart(cmd, w);
         writeAtriaCommandEnd(w);
+        _isPrecededByWhitespace = false;
     }
 
     /**
-        Writes to 'w' the start of a use of the Atria command named 'cmd':
+        Writes to 'w' the start of a use of the Atria command named 'name':
         namely, the open bracket and the command name (but no space after the
         command name).
 
-        @param cmd the name of the Atria command
+        @param name the name of the Atria command
         @param w the writer to write the Atria command use start to
         @exception IOException thrown if an error occurs in writing out the
         start of the Atria command use
@@ -581,6 +662,7 @@ public class XmlToAtriaConverter
         Assert.require(w != null);
 
         w.write("]");
+        _isPrecededByWhitespace = false;
     }
 
     /**
@@ -633,6 +715,7 @@ public class XmlToAtriaConverter
         w.write("&");
         w.write(c.getName());
         w.write(";");
+        _isPrecededByWhitespace = false;
     }
 
     /**
@@ -847,6 +930,7 @@ public class XmlToAtriaConverter
                 writeAtriaCommandEnd(w);
             }
         }
+        _isPrecededByWhitespace = false;
     }
 
     /**
@@ -883,17 +967,7 @@ public class XmlToAtriaConverter
         w.write(ATRIA_TEXT_START);
         w.write(val);
         w.write(ATRIA_TEXT_END);
-    }
-
-    /**
-        Returns true iff 'q' is a Character object that represents the double
-        quote character (").
-     */
-    protected boolean isDoubleQuoteCharacter(Object q)
-    {
-        //System.err.println("===> isDoubleQuoteCharacter(" + q + ") ...");
-        return (q != null) && (q instanceof Character) &&
-            (((Character) q).charValue() == DOUBLE_QUOTE_CHAR);
+        _isPrecededByWhitespace = false;
     }
 
     /**
@@ -937,8 +1011,8 @@ public class XmlToAtriaConverter
         Assert.require(w != null);
 
         writeNonEmpty(w, prefix, ATRIA_NAMESPACE_SEPARATOR);
+        _isPrecededByWhitespace = false;
     }
-
 
 
     /**
@@ -951,6 +1025,9 @@ public class XmlToAtriaConverter
         Assert.require(msg != null);
 
         Io.writeLine(w, msg);
+        _isPrecededByWhitespace = true;  // the newline
+    }
+
     /**
         Writes out, using the specified writer, just the newline character(s)
         that indicate the end of a line.
@@ -1008,5 +1085,83 @@ public class XmlToAtriaConverter
             w.write(msg);
             w.write(addedMsg);
         }
+    }
+
+
+    /**
+        Returns true iff 'q' is a Character object that represents the double
+        quote character (").
+     */
+    protected boolean isDoubleQuoteCharacter(Object q)
+    {
+        //System.err.println("===> isDoubleQuoteCharacter(" + q + ") ...");
+        return (q != null) && (q instanceof Character) &&
+            (((Character) q).charValue() == DOUBLE_QUOTE_CHAR);
+    }
+
+    /**
+        @see TextUtilities.doesEndWithWhitespace(String)
+    */
+    protected boolean doesEndWithWhitespace(String txt)
+    {
+        Assert.require(txt != null);
+
+        return TextUtilities.doesEndWithWhitespace(txt);
+    }
+
+
+    // Private methods
+
+    /**
+        Returns 'txt' with all of the whitespace in it normalized: that is,
+        with all sequences of one or more consecutive whitespace characters
+        replaced with a single space. (But note that any and all leading
+        whitespace will be omitted from our result iff 'willFollowWhitespace'
+        is true.)
+
+        @param txt a string
+        @param willFollowWhitespace is true iff our result will, when it's
+        written out to an XML document, be immediately preceded by one or
+        more whitespace characters
+        @return the result of normalizing all of the whitespace in 'txt'
+    */
+    private String normalizeWhitespace(String txt,
+                                       boolean willFollowWhitespace)
+    {
+        Assert.require(txt != null);
+
+        StringBuffer res = new StringBuffer();
+        int startIndex = 0;
+        int sz = txt.length();
+        if (sz > 0 && Character.isWhitespace(txt.charAt(0)))
+        {
+            if (willFollowWhitespace == false)
+            {
+                res.append(" ");
+            }
+            startIndex = TextUtilities.countWhitespaceFrom(0, txt);
+        }
+
+        while (startIndex < sz)
+        {
+            char ch = txt.charAt(startIndex);
+            if (Character.isWhitespace(ch))
+            {
+                // We're at the start of non-leading whitespace.
+                res.append(" ");
+                startIndex += TextUtilities.
+                                  countWhitespaceFrom(startIndex, txt);
+            }
+            else
+            {
+                res.append(ch);
+                startIndex += 1;
+            }
+        }
+        String result = res.toString();
+
+        Assert.ensure(result != null);
+        Assert.ensure(result.length() <= txt.length());
+        return result;
     }
 }
