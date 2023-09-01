@@ -372,14 +372,82 @@ public class TextUtilities
         return result;
     }
 
+    /**
+        Indicates whether 'txt' ends with a whitespace character.
+
+        @param txt a string
+        @return true iff 'txt' is non-empty and its last character is a
+        whitespace character
+    */
+    public static boolean doesEndWithWhitespace(String txt)
+    {
+        int sz = txt.length();
+        return (sz > 0) && Character.isWhitespace(txt.charAt(sz - 1));
+    }
+
+    /**
+        Returns the number of consecutive whitespace characters there are in
+        the specified text starting at the specified index.
+
+        @param startIndex the index in 'txt' at which to start
+        @param txt the string to count characters in
+        @return the number of consecutive whitespace characters in 'txt'
+        starting with the character at index 'startIndex'
+        @see #isAllWhitespace(String)
+    */
+    public static int countWhitespaceFrom(int startIndex, String txt)
+    {
+        Assert.require(startIndex >= 0);
+        Assert.require(txt != null);
+        Assert.require(startIndex <= txt.length());
+            // allows 'startIndex' to be one past the end of 'txt'
+
+        int result = 0;
+        int sz = txt.length();
+        for (int i = startIndex; i < sz; i++)
+        {
+            if (Character.isWhitespace(txt.charAt(i)))
             {
-                result = false;
+                result += 1;
+            }
+            else
+            {
                 break;
             }
         }
 
+        Assert.ensure(result >= 0);
         return result;
     }
+
+    /**
+        Returns 'txt' with all leading whitespace characters removed.
+
+        @param txt a string
+        @return txt except that it doesn't include any consecutive leading
+        whitespace characters that may be at the start of it (i.e. before its
+        first non-whitespace character)
+    */
+    public static String trimLeadingWhitespace(String txt)
+    {
+        Assert.require(txt != null);
+
+        String result = txt;
+        int startIndex = TextUtilities.countWhitespaceFrom(0, txt);
+        if (startIndex > 0)
+        {
+            result = txt.substring(startIndex);
+        }
+
+        //System.err.println("===> txt=[" + txt + "], result=[" + result + "]");
+        Assert.ensure(result != null);
+        Assert.ensure(result.length() <= txt.length());
+        Assert.ensure(result.isEmpty() ||
+            Character.isWhitespace(result.charAt(0)) == false);
+            // doesn't start with a whitespace character
+        return result;
+    }
+
 
     /**
         @param str a string
