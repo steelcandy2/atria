@@ -608,25 +608,15 @@ public class AtriaConstraintChecks
         Assert.require(c != null);
         Assert.require(handler != null);
 
-        if (c.argumentCount() == 0)
+        ConstructIterator iter = c.argumentList().iterator();
+        while (iter.hasNext())
         {
-            String msg = _resources.
-                getMessage(ZERO_ARGUMENTS_MSG,
-                           MANAGER.commandName(c));
-            violatedCommandJoinArguments(msg, c, handler);
-        }
-        else
-        {
-            ConstructIterator iter = c.argumentList().iterator();
-            while (iter.hasNext())
+            Construct arg = iter.next();
+            if (isExpression(arg) == false)
             {
-                Construct arg = iter.next();
-                if (isExpression(arg) == false)
-                {
-                    String msg = _resources.
-                        getMessage(JOIN_ARGUMENT_NOT_EXPRESSION_MSG);
-                    violatedCommandJoinArguments(msg, arg, handler);
-                }
+                String msg = _resources.
+                    getMessage(JOIN_ARGUMENT_NOT_EXPRESSION_MSG);
+                violatedCommandJoinArguments(msg, arg, handler);
             }
         }
     }

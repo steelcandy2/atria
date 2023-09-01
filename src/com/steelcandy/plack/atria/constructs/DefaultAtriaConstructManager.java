@@ -21,6 +21,8 @@ import com.steelcandy.common.debug.Assert;
 
 import com.steelcandy.plack.common.constructs.*;
 
+import com.steelcandy.plack.atria.base.AtriaInfo;
+
 /**
     The default construct manager class.
 
@@ -40,6 +42,28 @@ public class DefaultAtriaConstructManager
         Assert.require(c != null);
 
         return (c.id() == AtriaConstructManager.ELEMENT);
+    }
+
+    /**
+        @param c an Atria construct
+        @return true iff 'c' is a Command construct that represents a 'join'
+        command that's been given no arguments
+    */
+    public boolean isZeroArgumentJoinCommand(Construct c)
+    {
+        Assert.require(c != null);
+
+        boolean result = false;
+
+        if (c.id() == AtriaConstructManager.COMMAND)
+        {
+            AtriaConstructManager.Command cmd =
+                (AtriaConstructManager.Command) c;
+            result = (cmd.argumentCount() == 0) &&
+                (cmd.name().equals(AtriaInfo.JOIN_COMMAND_NAME));
+        }
+
+        return result;
     }
 
     /**

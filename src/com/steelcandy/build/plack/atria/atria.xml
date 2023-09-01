@@ -469,10 +469,9 @@ Notes:
                     an Expression</constraint>
 
                 <constraint name="JoinArguments" per-clone="false">if <var
-                    name="name"/> is '<constant name="JoinCommandName"/>' then
-                    <var name="numArgs"/> is greater than zero and each <direct
-                    subconstruct="Argument" of="cmd"/> is an
-                    Expression</constraint>
+                    name="name"/> is '<constant name="JoinCommandName"/>'
+                    then each <direct subconstruct="Argument" of="cmd"/> is
+                    an Expression</constraint>
                 <constraint name="NamespaceArguments" per-clone="false">if <var
                     name="name"/> is '<constant name="NamespaceCommandName"/>'
                     then
@@ -735,11 +734,14 @@ TODO: this needs to be more specific !!!
 TODO: add one or more examples here !!!
 -->
                         <item>if <var name="name"/> specifies the name
-                            'join' then <var name="cmd"/> corresponds to the
+                            'join' and <var name="numArgs"/> is greater than
+                            zero then <var name="cmd"/> corresponds to the
                             XML consisting of the concatenation, in order, of
                             the XML that each <expr text="arg[i]"/> corresponds
                             to, for 1 &lt;= <var name="i"/> &lt;= <var
-                            name="numArgs"/></item>
+                            name="numArgs"/>; otherwise <var name="cmd"/>
+                            indicates that no extra whitespace should be
+                            added at this point in the document</item>
                         <item>if <var name="name"/> specifies the name
                             'newline' then <var name="cmd"/> corresponds to
                             a newline</item>
@@ -753,6 +755,39 @@ TODO: add one or more examples here !!!
                             would correspond to</item>
                     </list>
                 </description>
+                <notes>
+                    <note>The zero-argument version of the 'join' command
+                        allows one to specify things like that there should
+                        be (in a translation to XML, for example) no
+                        whitespace between two elements, or between a parent
+                        element's opening tag and the start of its first
+                        child (or its last child and its closing tag). It
+                        shouldn't be necessary in documents that just contain
+                        data (as opposed ones more along the lines of an
+                        (X)HTML document).</note>
+                    <note>If a zero-argument 'join' command is
+                        <list>
+                            <item>the last child of an element then it
+                                indicates that there's no whitespace between
+                                the child's closing tag and the parent's
+                                closing tag</item>
+                            <item>the first child of an element then it
+                                indicates that there's no whitespace between
+                                the parent's opening tag and the child's
+                                opening tag</item>
+                            <item>between and at the same indentation level
+                                as two sibling elements then it indicates
+                                that there's no whitespace between the
+                                closing tag of the first sibling and the
+                                opening tag of the second sibling (in
+                                document order).</item>
+                        </list></note>
+                    <note>A zero-argument 'join' command cannot appear
+                        between two top-level/unindented elements: if you
+                        need that then your document shouldn't use the 'top'
+                        command (since without it there can only be one
+                        top-level element in the document).</note>
+                </notes>
             </construct-semantics>
             <construct-semantics type="Text" var="txt">
                 <description>corresponds to the XML consisting of the
