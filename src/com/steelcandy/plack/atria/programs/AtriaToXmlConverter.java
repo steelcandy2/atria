@@ -90,7 +90,6 @@ public class AtriaToXmlConverter
     */
     private boolean _isNextAnElement;
 
-
     /**
         The Atria Document we're currently converting to XML, or null if we
         aren't currently converting anything.
@@ -299,27 +298,23 @@ public class AtriaToXmlConverter
 
         String tagEnd = XmlUtilities.EMPTY_TAG_END;
         ConstructIterator iter = c.contentItemList().iterator();
+        Construct lastChild = null;
         if (iter.hasNext())
         {
             tagEnd = XmlUtilities.TAG_END;
-            if (MANAGER.isElement(iter.peek()))
-            {
-                writeLine(XmlUtilities.TAG_END);
-            }
-            else
-            {
-                write(XmlUtilities.TAG_END);
-            }
+            writeTagEnd(iter.peek(), tagEnd);
             indent();
             try
             {
                 while (iter.hasNext())
                 {
-                    Construct item = iter.next();
-                    _isNextAnElement = iter.hasNext() == false ||
-                                        MANAGER.isElement(iter.peek());
-                    item.accept(this, handler);
+                    lastChild = iter.next();
+                    Construct next = iter.hasNext() ? iter.peek() : null;
+                    _isNextAnElement =
+                        (next == null) || MANAGER.isElement(next);
+                    lastChild.accept(this, handler);
                 }
+                Assert.check(lastChild != null);
             }
             finally
             {
@@ -330,7 +325,42 @@ public class AtriaToXmlConverter
             visitName(c.name(), handler);
         }
 
-        if (isNextAnElement)
+        boolean isLastJoin = (lastChild != null) &&
+            MANAGER.isZeroArgumentJoinCommand(lastChild);
+        writeTagEnd(isLastJoin == false && isNextAnElement, tagEnd);
+    }
+
+    /**
+        Writes out the specified end of an XML tag, where the specified
+        construct represents the content that's right after the tag.
+
+        @param next the content right after the tag
+        @param tagEnd the end of the XML tag
+    */
+    protected void writeTagEnd(Construct next, String tagEnd)
+    {
+        Assert.require(next != null);
+        Assert.require(tagEnd != null);
+
+        boolean addNewline =
+            (MANAGER.isZeroArgumentJoinCommand(next) == false) &&
+            MANAGER.isElement(next);
+        writeTagEnd(addNewline, tagEnd);
+    }
+
+    /**
+        Writes out the specified end of an XML tag, then a newline iff
+        'doAddNewline' is true.
+
+        @param doAddNewline true iff a newline should be written out after
+        the end of the tag
+        @param tagEnd the end of the XML tag
+    */
+    protected void writeTagEnd(boolean doAddNewline, String tagEnd)
+    {
+        Assert.require(tagEnd != null);
+
+        if (doAddNewline)
         {
             writeLine(tagEnd);
         }
@@ -418,6 +448,11 @@ public class AtriaToXmlConverter
         Assert.require(handler != null);
 
         // Write all of the arguments one after another.
+        //
+        // There's nothing to output for zero-argument uses of this command:
+        // we use DefaultAtriaConstructManager.isZeroArgumentJoinCommand()
+        // elsewhere in this class to look for them when determining whether
+        // to output whitespace.
         visitAll(c.argumentList(), handler);
     }
 
