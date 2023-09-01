@@ -1,0 +1,822 @@
+#!/usr/bin/env bash
+## Converts a given Atria document into an XML document, then converts that
+## XML document back into an Atria document — possibly repeating that cycle
+## more than once — and outputting the diffs between the original document
+## and the result of the final conversion.
+#
+# Copyright (C) 2023 by James MacKay.
+#
+#-This program is free software: you can redistribute it and/or modify
+#-it under the terms of the GNU General Public License as published by
+#-the Free Software Foundation, either version 3 of the License, or
+#-(at your option) any later version.
+#
+#-This program is distributed in the hope that it will be useful,
+#-but WITHOUT ANY WARRANTY; without even the implied warranty of
+#-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#-GNU General Public License for more details.
+#
+#-You should have received a copy of the GNU General Public License
+#-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+#set -x
+
+# Redirect output to a log file: it will NOT go to stdout/stderr.
+#exec &> ~/log/$(basename "$0")-$(date -Ihours).log
+
+# Strict mode.
+STD_IFS="$IFS"  # = space, tab or newline
+#STRICT_IFS=$'\n\t'  # remove space from list if input field separators
+#STRICT_IFS="$(printf '\n\t')"
+#IFS="$STRICT_IFS"
+set -u  # don't allow use of unset variables
+#set -e  # exit this script if any command fails; use 'set +e' to disable
+set -o pipefail  # entire pipe fails if any part does; use 'set +o pipefail'
+                 # to disable
+
+# After setting IFS as above, we may need to use a tab in place of a space in
+# some places (e.g. when building up options in a variable).
+readonly TAB="$(printf '\t')"
+
+
+# Configuration.
+
+readonly PROG="$(basename "$0")"
+readonly PROG_DIR="$(dirname "$0")"  # the directory this script is in
+
+# We're debugging iff the basename we're run under starts with 'debug-' (so
+# we don't need to edit this script to switch between debugging and
+# production).
+#
+# Note: $PROG_BASE will be the same as $PROG except any 'debug-' prefix will
+# be removed from the start of it.
+readonly DEBUG_PREFIX="debug-"
+readonly PROG_BASE="${PROG##$DEBUG_PREFIX}"
+DO_DEBUG=0
+if [ "$PROG_BASE" != "$PROG" ]
+then
+    DO_DEBUG=1
+fi
+#echo "Value of DO_DEBUG is $DO_DEBUG"
+#exit 0
+
+
+# Verbosity levels.
+ERROR_VERBOSITY_LEVEL=0
+WARN_VERBOSITY_LEVEL=1
+INFORM_VERBOSITY_LEVEL=2
+
+# Current verbosity level.
+[ $DO_DEBUG -eq 0 ] && VERBOSITY=${WARN_VERBOSITY_LEVEL} || \
+                       VERBOSITY=${INFORM_VERBOSITY_LEVEL}
+
+
+ECHOER=echo
+ECHOER=
+
+# The pathname of our working directory, or an empty string if it hasn't been
+# set yet.
+#
+# See: createWorkingDirectory(), destructor().
+WORK_DIR=
+
+# The directory under which to create our working files, by default.
+readonly DEFAULT_TEMP_DIR="${TMPDIR:-/tmp}"
+
+
+# The names of the type of document we take as input, and the type of
+# document we convert it to, as well as the file extensions for files
+# containing documents of the corresponding types.
+readonly IN_TYPE="Atria"
+readonly IN_EXT=".atria"
+readonly OUT_TYPE="XML"
+readonly OUT_EXT=".xml"
+
+# The program to use to determine the differences between two documents, and
+# the options that are usually used with it.
+readonly DIFF="diff"
+readonly DIFF_OPTS="-u"
+
+# The program to use to canonicalize Atria documents before they're compared,
+# and the options that are usually used with it.
+readonly CANON="cat"
+readonly CANON_OPTS=
+
+# The programs to use by default to convert XML documents into Atria ones and
+# vice versa.
+readonly DEFAULT_X2A="${PROG_DIR}/../scripts/xml2atria"
+readonly DEFAULT_A2X="${PROG_DIR}/../scripts/atria2xml"
+
+# The options that are usually used with the conversion programs.
+readonly X2A_OPTS=
+readonly A2X_OPTS=
+
+
+# General utility functions.
+
+function carp() {
+    printf "%s\n" "$*" >&2
+}
+
+function report() {
+    carp "${PROG}: $*"
+}
+
+function debug() {
+    [ $DO_DEBUG -gt 0 ] && report "$*"
+    return 0
+}
+
+function inform() {
+    [ $VERBOSITY -ge $INFORM_VERBOSITY_LEVEL ] && report "$*"
+    return 0
+}
+
+function warn() {
+    [ $VERBOSITY -ge $WARN_VERBOSITY_LEVEL ] && report "$*"
+    return 0
+}
+
+# usage: die exit-code msg...
+function die() {
+    local rc="$1"
+    shift
+    printf "\n%s\n\n" "${PROG} failed: $*" >&2
+    exit $rc
+}
+
+# Causes the shell function that calls this function to output the message
+# 'msg' as a warning and then output the return code 'rc' to its standard
+# output when it's called like this:
+#
+#   someCmd || return $(fail 3 "couldn't find the file '$f'.")
+#
+# or this:
+#
+#   someCmd || rc=$(fail 3 "couldn't find the file '$f'.")
+#
+# usage: fail rc msg
+function fail() {
+    #called "$@"
+    checkArgumentCount $# 2 || return 1
+
+    warn "failed in ${FUNCNAME[1]}(): $2"
+    echo $1
+
+    return 0
+}
+
+# Logs - using debug() - a call of the shell function that called us with -
+# we assume - the same arguments as were passed to us.
+#
+# usage: called "$@"
+function called() {
+    local msg="---> ${FUNCNAME[1]}"
+    local arg
+
+    for arg in "$@"
+    do
+        msg="$msg \"$arg\""
+    done
+    debug "$msg"
+}
+
+# Checks that the calling shell function (which is assumed to exist) has been
+# called with a valid number of arguments.
+#
+# Specifically, we check that 'count' is the same as 'expected-count' if
+# 'expected-max-count' is omitted, or that 'count' is at least
+# 'expected-count' and at most 'expected-max-count' otherwise. Returns 0 if
+# it is, and outputs a warning and returns non-zero if it isn't.
+#
+# usage: checkArgumentCount count expected-count [expected-max-count]
+function checkArgumentCount() {
+    local rc=0
+    local argDesc
+
+    if [ $# -lt 2 ] || [ $# -gt 3 ]
+    then
+        argDesc="arguments"
+        if [ $# -eq 1 ]
+        then
+            argDesc="argument"
+        fi
+        warn "invalid checkArgumentCount() use: $# $argDesc specified \
+instead of 2 or 3."
+        rc=1
+    else
+        if [ $1 -eq 1 ]
+        then
+            argDesc="argument"
+        else
+            argDesc="arguments"
+        fi
+
+        if [ $# -eq 2 ]
+        then
+            if [ $1 -ne $2 ]
+            then
+                warn "invalid ${FUNCNAME[1]}() use: $1 $argDesc specified \
+instead of $2."
+                rc=2
+            fi
+        else
+            if [ $1 -lt $2 ] || [ $1 -gt $3 ]
+            then
+                warn "invalid ${FUNCNAME[1]}() use: $1 $argDesc specified \
+instead of between $2 and $3 arguments."
+                rc=3
+            fi
+        fi
+    fi
+
+    return $rc
+}
+
+# Checks that the calling shell function (which is assumed to exist) has been
+# called with the minimum required number of arguments 'min-count'.
+#
+# Note: this function should only be called for functions that can take an
+# unlimited number of arguments: if the function has a maximum number of
+# arguments then it should call checkArgumentCount() instead.
+#
+# usage: checkMinimumArgumentCount count min-count
+function checkMinimumArgumentCount() {
+    local rc=0
+    local argDesc
+
+    if [ $# -ne 2 ]
+    then
+        argDesc="arguments"
+        if [ $# -eq 1 ]
+        then
+            argDesc="argument"
+        fi
+        warn "invalid checkMinimumArgumentCount() use: $# $argDesc specified \
+instead of 2."
+        rc=1
+    else
+        if [ $1 -lt $2 ]
+        then
+            argDesc="arguments"
+            if [ $1 -eq 1 ]
+            then
+                argDesc="argument"
+            fi
+            warn "invalid ${FUNCNAME[1]}() use: $1 $argDesc specified when \
+at least $2 are required."
+            rc=2
+        fi
+    fi
+
+    return $rc
+}
+
+# Checks that all of the commands named in 'cmd...' exist (presumably because
+# they're required by this script to be present). Returns 0 if they're all
+# present, and outputs one or more warnings and returns the number of
+# commands that are missing otherwise.
+#
+# Note: this is based heavily on the code found in the "Availability of
+# commands" section of http://wiki.bash-hackers.org/scripting/style.
+#
+# usage: requireCommands cmd...
+function requireCommands() {
+    local rc=0
+    local cmd
+    local missing=""
+
+    for cmd in "$@"
+    do
+        if ! hash "$cmd" >/dev/null 2>&1
+        then
+            if [ -z "$missing" ]
+            then
+                missing="$cmd"
+            else
+                missing="${missing}, $cmd"
+            fi
+            rc=$((rc+1))
+        fi
+    done
+
+    if [ $rc -eq 1 ]
+    then
+        warn "the required command '${missing}' wasn't found in your PATH."
+    elif [ $rc -gt 1 ]
+    then
+        warn "the following ${rc} required commands weren't found in your \
+PATH: ${missing}."
+    fi
+
+    return $rc
+}
+
+
+# Returns 0 iff the current shell is running under a 'screen' session.
+#
+# This is useful since starting a screen session while already running under
+# screen usually goes ... badly.
+#
+# Note: this was copied from common-aliases.sh.
+#
+# usage: is-under-screen
+function is-under-screen() {
+    checkArgumentCount $# 0 || return 1
+
+    # This was taken from the vterm_printf() defined in editor-aliases.sh.
+    [ "${TERM%%-*}" = "screen" ]
+}
+
+
+# File utility functions.
+
+# Creates a file with pathname 'dest' that is a copy of the file with
+# pathname 'src', creating any and all missing parent directories of 'dest'
+# first. Returns 0 if the file is successfully copied, and outputs a warning
+# and returns a nonzero value otherwise.
+#
+# usage: copyFile src dest
+function copyFile() {
+    #called "$@"
+    checkArgumentCount $# 2 || return 1
+    local -r src="$1"
+    local -r dest="$2"
+
+    ensureParentDirectoryExists "$dest" || \
+        return $(fail 2 "couldn't copy '$src' to '$dest' because the \
+latter's parent directory couldn't be created.")
+
+    inform "copying '$src' to '$dest'."
+    cp -a "$src" "$dest" || \
+        return $(fail 2 "couldn't copy '$src' to '$dest'.")
+
+    return 0
+}
+
+# Ensures that the directory containing the file with pathname 'f' exists if
+# it doesn't already. Returns 0 if it's successfully created or already
+# exists, and returns a nonzero value otherwise.
+#
+# usage: ensureParentDirectoryExists f
+function ensureParentDirectoryExists() {
+    local rc=0
+    local d
+
+    #called "$@"
+    checkArgumentCount $# 1 || return 1
+    d=$(dirname "$1")
+    if [ -z "$d" ]
+    then
+        d="."  # which SHOULD exist, but it's possible it doesn't
+    fi
+    mkdir -p -- "$d" || rc=1
+
+    return $rc
+}
+
+# Creates a subdirectory named 'subdir' of the directory with pathname
+# 'parent' and returns 0, or returns a non-zero value and reports an error.
+#
+# usage: createSubdirectory parent subdir
+function createSubdirectory() {
+    local rc=0
+
+    checkArgumentCount $# 2 || return 1
+    local -r d="$1/$2"
+
+    mkdir -- "$d" || \
+        rc=$(fail 2 "couldn't create the subdirectory '$1' of '$2'.")
+
+    return $rc
+}
+
+# Outputs to standard output the pathname of a temporary file that is
+# intended to be renamed to have the pathname 'path' once it has its final
+# contents. Returns 0 on success and outputs a warning and returns a
+# nonzero value otherwise.
+#
+# See also: renameTemporaryFile(), renameOrRemoveTemporaryFile().
+#
+# usage: createTemporaryFile path
+function createTemporaryFile() {
+    local rc=0
+    local d
+
+    #called "$@"
+    checkArgumentCount $# 1 || return 1
+    local -r path="$1"
+    d=$(dirname "$path")
+    if [ -z "$d" ]
+    then
+        d="."
+    fi
+
+    # Note: some versions of 'mktemp' support '-p' but NOT the corresponding
+    # long option, and some require that the pattern end in '.XXXXXX' if the
+    # pattern contains 'X''s at all.
+    local -r base=$(basename "$path")
+    mktemp -p "$d" "${PROG}-${base}.XXXXXX" || \
+        rc=$(fail 2 "couldn't create a temporary file from ${path}.")
+
+    return $rc
+}
+
+# Outputs to standard output the file extension part of the pathname 'path'.
+# Returns 0 unless we're called incorrectly.
+#
+# See also: removeExtension().
+#
+# usage fileExtension path
+function fileExtension() {
+    local rc=0
+
+    checkArgumentCount $# 1 || return 1
+
+    basename "$1" | grep '^[^\.].*[\.]' | grep -o '\.[^\.]*$' | sed 's/^.//'
+
+    return $rc
+}
+
+# Moves the contents of the directory with pathname 'srcdir' into the
+# directory with pathname 'destdir' using the 'mv' command with the options
+# 'mvOpts' (possibly in addition to others determined by this function).
+# Returns 0 if everything is moved successfully, and nonzero if not (or if
+# we're called incorrectly).
+#
+# Note: all files and directories in and under 'srcdir' are moved, including
+# ones that start with a '.'.
+#
+# usage: moveDirectoryContents mvOpts srcdir destdir
+function moveDirectoryContents() {
+    local oldIfs="$IFS"
+    local rc=0
+    local f
+
+    checkArgumentCount $# 3 || return 1
+    local -r opts="$1"
+    local -r src="$2"
+    local -r dest="$3"
+
+    # Note: we can't just use 'mv -f -- "$src"/* since that will miss files
+    # that start with '.'; also, "$src/.*" will match (and unsuccessfully
+    # try to move) the '.' and '..' directories.
+    IFS=$'\n'
+    for f in $(find "$src" -mindepth 1 -maxdepth 1)
+    do
+        #debug "pwd=[$(pwd)]"
+        mv $opts -- "$f" "$dest"
+        rc=$?
+        [ $rc -eq 0 ] || break  # for
+    done
+    IFS="$oldIfs"
+
+    return $rc
+}
+
+
+# Outputs to standard output the file extension 'ext' as a full file
+# extension: that is, as one that starts with a '.' (such as ".ogg").
+#
+# usage: fullExtension ext
+function fullExtension() {
+    local rc=0
+
+    checkArgumentCount $# 1 || return 1
+
+    printf ".${1##.*}"
+
+    return $rc
+}
+
+# Outputs to standard output 'path' with the extension 'ext' removed (if it
+# has that extension) or any file extension it has otherwise. Returns 0
+# unless we're called incorrectly.
+#
+# See also: fileExtension().
+#
+# usage removeExtension [ext] path
+function removeExtension() {
+    local rc=0
+    local ext f
+
+    checkArgumentCount $# 1 2 || return 1
+    if [ $# -eq 1 ]
+    then
+        f="$1"
+        ext="$(fileExtension "$f")"
+    else
+        ext="$1"
+        f="$2"
+    fi
+    ext="$(fullExtension "$ext")"
+
+    printf "%s/%s\n" "$(dirname "$f")" "$(basename "$f" "$ext")"
+
+    return $rc
+}
+
+# If 'rc' is zero then renames the temporary file with pathname 'tmpPath' to
+# have the pathname 'finalPath', and if 'rc' is nonzero then removes/deletes
+# the temporary file with pathname 'tmpPath'. In either case returns 0 on
+# success and outputs a warning and returns a nonzero value otherwise.
+#
+# Note: failing to delete a temporary file will NOT cause this function to
+# fail since the overall operation that it is a part of will have still
+# succeeded.
+#
+# usage: renameOrRemoveTemporaryFile rc tmpPath finalPath
+function renameOrRemoveTemporaryFile() {
+    local rc=0
+
+    #called "$@"
+    checkArgumentCount $# 3 || return 1
+
+    if [ $1 -eq 0 ]
+    then
+        renameTemporaryFile "$2" "$3"
+        rc=$?
+    else
+        deleteTemporaryFile "$2"
+        rc=$?
+    fi
+
+    return $rc
+}
+
+# Renames the temporary file with pathname 'tmpPath' to have the pathname
+# 'finalPath'. Returns 0 on success and outputs a warning and returns a
+# nonzero value otherwise.
+#
+# See also: createTemporaryFile(), renameOrRemoveTemporaryFile().
+#
+# usage: renameTemporaryFile tmpPath finalPath
+function renameTemporaryFile() {
+    local rc=0
+
+    #called "$@"
+    checkArgumentCount $# 2 || return 1
+    local -r tmpPath="$1"
+    local -r finalPath="$2"
+
+    mv -f -- "$tmpPath" "$finalPath" || \
+        rc=$(fail 2 "couldn't rename the temporary file '$tmpPath' to \
+'$finalPath'.")
+
+    # Try to remove "$tmpPath" in case it still exists. (We intentionally do
+    # NOT cause this function to report failure just because we couldn't
+    # delete a temporary file.)
+    deleteTemporaryFile "$tmpPath"
+
+    return $rc
+}
+
+# Tries to delete the temporary file with pathname 'path', outputting an
+# informational message iff it fails.
+#
+# Note: we don't return a nonzero value if we can't delete the temporary file
+# since not being able to delete a temporary file doesn't usually cause the
+# operation it's a part of to fail: it just leaves the filesystem a little
+# messier than we'd like.
+#
+# usage deleteTemporaryFile path
+function deleteTemporaryFile() {
+    #called "$@"
+    checkArgumentCount $# 1 || return 1
+
+    rm -f -- "$1" || inform "failed to delete the temporary file '$1'."
+
+    return 0
+}
+
+
+# Creates under the first directory in 'parent-dir...' that it can the
+# directory in and under which this program creates all of its working files,
+# and also sets the global WORK_DIR variable to the directory's full
+# pathname. Returns 0 on success and outputs a warning message and returns a
+# nonzero value otherwise.
+#
+# usage: createWorkingDirectory parent-dir...
+function createWorkingDirectory() {
+    local rc=0
+    local didCreate="n"
+    local parent
+
+    #called "$@"
+    if [ $# -eq 0 ]
+    then
+        warn "invalid ${FUNCNAME[0]}() use: no parent directories specified."
+        return 1
+    fi
+
+    for parent in "$@"
+    do
+        # Note: WORK_DIR is intentionally NOT local.
+        debug "trying to create working directory under '$parent'."
+        if [ $DO_DEBUG -gt 0 ]
+        then
+            WORK_DIR="${parent}/${PROG}-work-debug"
+            ${ECHOER} mkdir -- "${WORK_DIR}"
+            if [ $? -eq 0 ]
+            then
+                didCreate="y"
+                break  # for
+            fi
+        else
+            # Note: some versions of 'mktemp' support '-p' but NOT the
+            # corresponding long option, and some require that the pattern
+            # end in '.XXXXXX' if the pattern contains 'X''s at all. And
+            # using '_work' instead of '-work' in the pattern prevents the
+            # pattern from being the same as the one used in
+            # createTemporaryFile().
+            #
+            # Note: we include our PID in the directory name to make it
+            # easier to determine whether the directory is still in use
+            # (since it can get left behind due to an unexpected system
+            # shutdown, for example).
+            WORK_DIR="$(${ECHOER} mktemp -d -p "$parent" "${PROG}_$$_work.XXXXXX")"
+            if [ $? -eq 0 ]
+            then
+                didCreate="y"
+                break  # for
+            fi
+        fi
+    done
+
+    if [ "$didCreate" = "n" ]
+    then
+        if [ $DO_DEBUG -gt 0 ]
+        then
+            rc=$(fail 2 "couldn't create debug working directory \
+    ${WORK_DIR}.")
+        else
+            rc=$(fail 3 "couldn't create the working directory under \
+    ${parent}.")
+        fi
+        WORK_DIR=""  # since whatever we set it to above isn't valid
+    fi
+
+    return $rc
+}
+
+
+# Functions.
+
+function usage() {
+    if [ $# -gt 0 ]
+    then
+        cat << +++EOF+++ >&2
+
+${PROG}: $*
++++EOF+++
+    fi
+    cat << +++EOF+++ >&2
+
+usage: $PROG [-h|-v|-q|-a] [-T dir] [-n num] atria-file
+
+If the '-h' option is specified then this message is output to
+standard output and we exit with exit code 0.
+
+Otherwise the file with pathname 'atria-file', which is assumed
+to be an ${IN_TYPE} document, is converted to an ${OUT_TYPE} document and
+then back to an ${IN_TYPE} document 'num' times (or once if the '-n'
+option isn't specified). The differences between 'atria-file'
+and the result of the final conversion are then output to our
+standard output.
+
+If the '-v' option is specified then this program is more
+verbose than it is by default; and if the '-q' option is
+specified then it is less verbose than it is by default.
+
+If the '-T' option is specified then all of the working files
+will be created under a subdirectory of 'dir'. Otherwise they
+will be created under a subdirectory of ${DEFAULT_TEMP_DIR}.
+
++++EOF+++
+}
+
+# The function that will be called when this program exits (normally or
+# otherwise, assuming it has a chance to clean up).
+#
+# Note: this function should usually only be called in a trap statement.
+#
+# usage: destructor
+function destructor() {
+    # Delete our working directory and everything in and under it unless
+    # we're debugging.
+    if [ -n "$WORK_DIR" ]
+    then
+        [ $DO_DEBUG -ne 0 ] || rm -rf "$WORK_DIR"
+    fi
+}
+
+# Outputs the separators between the output the command executed without and
+# with "sudo".
+#
+# usage: separate
+function separate() {
+    checkArgumentCount $# 0 || return 1
+
+    # Output the separator to standard output and standard error.
+    echo "${OUTPUT_SEP}"
+    echo "${OUTPUT_SEP}" >&2
+}
+
+
+# Argument processing.
+
+let NUM_REPS=1
+A2X="$DEFAULT_A2X"
+X2A="$DEFAULT_X2A"
+TEMP_DIR="$DEFAULT_TEMP_DIR"
+while getopts ":n:vqhT:" opt
+do
+    case "$opt" in
+        n)
+            NUM_REPS="$OPTARG"
+            ;;
+        T)
+            TEMP_DIR="${OPTARG%/}"  # remove any trailing '/'
+            ;;
+        v)
+            VERBOSITY=2
+            ;;
+        q)
+            VERBOSITY=0
+            ;;
+        h)
+            usage 2>&1 | "${PAGER:-less}"
+            exit 0
+            ;;
+        ?)
+            usage "invalid option: -${OPTARG}."
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ $# -lt 1 ]
+then
+    usage "no input ${IN_TYPE} document was specified."
+    exit 1
+elif [ $# -gt 1 ]
+then
+    usage "too many arguments."
+    exit 1
+fi
+ORIGINAL="$1"
+
+# Main program.
+
+requireCommands basename cp mktemp mv rm sudo || exit 2
+
+trap "destructor; exit" INT QUIT TERM EXIT
+
+rc=0
+
+[ -e "$ORIGINAL" ] || \
+    rc=$(fail 2 "input $IN_TYPE document '$ORIGINAL' not found.")
+[ -r "$ORIGINAL" ] || \
+    rc=$(fail 2 "input $IN_TYPE document '$ORIGINAL' not readable.")
+
+# Note: this sets WORK_DIR to the pathname of the working directory too.
+createWorkingDirectory "$TEMP_DIR" || exit 3
+[ $DO_DEBUG -eq 0 ] || \
+    inform "when you're done delete ${WORK_DIR}/ and everything under it!!"
+
+base="$(basename "$ORIGINAL" "$IN_EXT")"  # remove any $IN_EXT extension
+
+let n=1
+src="$ORIGINAL"
+dest=
+while [ $rc -eq 0 ] && [[ $n -le "$NUM_REPS" ]]
+do
+    mid="${WORK_DIR}/${base}.${n}${OUT_EXT}"
+    dest="${WORK_DIR}/${base}.${n}${IN_EXT}"
+    # echo " converting $src to $mid"
+    # echo "   then $mid to $dest ..."
+    $ECHOER "$X2A" $X2A_OPTS "$src" > "$mid" && \
+        $ECHOER "$A2X" $A2X_OPTS "$mid" > "$dest"
+    rc=$?
+    src="$dest"  # use our output as the next iteration's input
+    n=$((n+1))
+done
+
+if [ $rc -ne 0 ]
+then
+    warn "a conversion failed."
+elif [ -z "$dest" ]
+then
+    # Presumably the 'while' loop above was never entered because NUM_REPS
+    # was set to zero.
+    warn "no conversions were performed."
+    rc=4
+else
+    $ECHOER "$DIFF" $DIFF_OPTS \
+            <("$CANON" $CANON_OPTS "$ORIGINAL") \
+            <("$CANON" $CANON_OPTS "$dest") | "${PAGER:-less}"
+    rc=$?
+fi
+
+exit $rc
