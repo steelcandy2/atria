@@ -789,6 +789,7 @@ do
     "$X2A" $X2A_OPTS "$src" > "$mid" && \
         "$A2X" $A2X_OPTS "$mid" > "$dest"
     rc=$?
+    src="$dest"  # use our output as the next iteration's input
     n=$((n+1))
 done
 
