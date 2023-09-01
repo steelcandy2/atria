@@ -763,7 +763,7 @@ TODO: add one or more examples here !!!
                         element's opening tag and the start of its first
                         child (or its last child and its closing tag). It
                         shouldn't be necessary in documents that just contain
-                        data (as opposed ones more along the lines of an
+                        data (as opposed to ones more along the lines of an
                         (X)HTML document).</note>
                     <note>If a zero-argument 'join' command is
                         <list>
