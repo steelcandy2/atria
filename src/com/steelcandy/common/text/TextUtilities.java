@@ -352,7 +352,9 @@ public class TextUtilities
 
     /**
         @param str a string
-        @return true iff every character of 'str' is a whitespace character
+        @return true iff every character of 'str' is a whitespace character:
+        thus all zero characters of an empty string are whitespace ones
+        @see #countWhitespaceFrom(int, String)
     */
     public static boolean isAllWhitespace(String str)
     {
@@ -360,11 +362,16 @@ public class TextUtilities
 
         boolean result = true;
 
-        int len = str.length();
-        for (int i = 0; i < len; i++)
+        int sz = str.length();
+        for (int i = 0; result && i < sz; i++)
         {
-            char ch = str.charAt(i);
-            if (Character.isWhitespace(ch) == false)
+            result = Character.isWhitespace(str.charAt(i));
+        }
+
+        Assert.ensure(sz > 0 || result);  // sz == 0 implies result
+        return result;
+    }
+
             {
                 result = false;
                 break;
