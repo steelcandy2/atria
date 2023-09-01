@@ -389,19 +389,19 @@ public class XmlToAtriaConverter
         Converts the specified sequence of consecutive text in an XML
         document to the corresponding part of an Atria document.
 
-        @param c the sequence of consecutive text in an XML text to convert
+        @param txt the sequence of consecutive text in an XML text to convert
         @param w the writer to use to write 'c', after it has been converted
         to Atria
         @exception IOException thrown if an I/O error occurs in outputting
         the converted XML
     */
-    protected void convertText(String text, IndentWriter w)
+    protected void convertText(String txt, IndentWriter w)
         throws IOException
     {
-        Assert.require(text != null);
+        Assert.require(txt != null);
         Assert.require(w != null);
 
-        Iterator iter = buildTextParts(text).iterator();
+        Iterator iter = buildTextParts(txt).iterator();
         while (iter.hasNext())
         {
             Object obj = iter.next();
