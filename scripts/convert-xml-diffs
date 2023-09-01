@@ -84,15 +84,23 @@ WORK_DIR=
 readonly DEFAULT_TEMP_DIR="${TMPDIR:-/tmp}"
 
 
-# The program to use to determine the differences between two document, and
+# The names of the type of document we take as input, and the type of
+# document we convert it to, as well as the file extensions for files
+# containing documents of the corresponding types.
+readonly IN_TYPE="XML"
+readonly IN_EXT=".xml"
+readonly OUT_TYPE="Atria"
+readonly OUT_EXT=".atria"
+
+# The program to use to determine the differences between two documents, and
 # the options that are usually used with it.
 readonly DIFF="diff"
 readonly DIFF_OPTS="-u"
 
 # The program to use to canonicalize XML documents before they're compared,
 # and the options that are usually used with it.
-readonly XCANON="xmllint"
-readonly XCANON_OPTS="--c14n"
+readonly CANON="xmllint"
+readonly CANON_OPTS="--c14n"
 
 # The programs to use by default to convert XML documents into Atria ones and
 # vice versa.
@@ -670,8 +678,8 @@ If the '-h' option is specified then this message is output to
 standard output and we exit with exit code 0.
 
 Otherwise the file with pathname 'xml-file', which is assumed
-to be an XML document, is converted to an Atria document and
-then back to an XML document 'num' times (or once if the '-n'
+to be an ${IN_TYPE} document, is converted to an ${OUT_TYPE} document and
+then back to an ${IN_TYPE} document 'num' times (or once if the '-n'
 option isn't specified). The differences between 'xml-file'
 and the result of the final conversion are then output to our
 standard output.
@@ -750,7 +758,7 @@ shift $((OPTIND-1))
 
 if [ $# -lt 1 ]
 then
-    usage "no input XML document was specified."
+    usage "no input ${IN_TYPE} document was specified."
     exit 1
 elif [ $# -gt 1 ]
 then
@@ -768,26 +776,28 @@ trap "destructor; exit" INT QUIT TERM EXIT
 rc=0
 
 [ -e "$ORIGINAL" ] || \
-    rc=$(fail 2 "input XML document '$ORIGINAL' not found.")
+    rc=$(fail 2 "input $IN_TYPE document '$ORIGINAL' not found.")
 [ -r "$ORIGINAL" ] || \
-    rc=$(fail 2 "input XML document '$ORIGINAL' not readable.")
+    rc=$(fail 2 "input $IN_TYPE document '$ORIGINAL' not readable.")
 
 # Note: this sets WORK_DIR to the pathname of the working directory too.
 createWorkingDirectory "$TEMP_DIR" || exit 3
 [ $DO_DEBUG -eq 0 ] || \
     inform "when you're done delete ${WORK_DIR}/ and everything under it!!"
 
-base="$(basename "$ORIGINAL" .xml)"  # remove any .xml extension
+base="$(basename "$ORIGINAL" "$IN_EXT")"  # remove any $IN_EXT extension
 
 let n=1
 src="$ORIGINAL"
 dest=
 while [ $rc -eq 0 ] && [[ $n -le "$NUM_REPS" ]]
 do
-    mid="${WORK_DIR}/${base}.${n}.atria"
-    dest="${WORK_DIR}/${base}.${n}.xml"
-    "$X2A" $X2A_OPTS "$src" > "$mid" && \
-        "$A2X" $A2X_OPTS "$mid" > "$dest"
+    mid="${WORK_DIR}/${base}.${n}${OUT_EXT}"
+    dest="${WORK_DIR}/${base}.${n}${IN_EXT}"
+    # echo " converting $src to $mid"
+    # echo "   then $mid to $dest ..."
+    $ECHOER "$X2A" $X2A_OPTS "$src" > "$mid" && \
+        $ECHOER "$A2X" $A2X_OPTS "$mid" > "$dest"
     rc=$?
     src="$dest"  # use our output as the next iteration's input
     n=$((n+1))
@@ -803,8 +813,9 @@ then
     warn "no conversions were performed."
     rc=4
 else
-    "$DIFF" $DIFF_OPTS <("$XCANON" $XCANON_OPTS "$ORIGINAL") \
-            <("$XCANON" $XCANON_OPTS "$dest") | "${PAGER:-less}"
+    $ECHOER "$DIFF" $DIFF_OPTS \
+            <("$CANON" $CANON_OPTS "$ORIGINAL") \
+            <("$CANON" $CANON_OPTS "$dest") | "${PAGER:-less}"
     rc=$?
 fi
 
