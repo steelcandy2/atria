@@ -175,7 +175,7 @@ public class XmlToAtriaConverter
         w.write(AtriaInfo.FIRST_LANGUAGE_SPECIFIER_NAME);
         w.write(" ");
         writeLine(w, AtriaInfo.LANGUAGE_NAME);
-        w.write(LINE_SEPARATOR);
+        writeLine(w);
 
         convertAllContents(doc.getContent(), w);
     }
@@ -351,8 +351,7 @@ public class XmlToAtriaConverter
         {
             outputNamespaceDeclaration((Namespace) iter.next(), w);
         }
-
-        w.write(LINE_SEPARATOR);
+        writeLine(w);
 
         // ... and child elements (indented one level).
         w.incrementIndentLevel();
@@ -426,7 +425,8 @@ public class XmlToAtriaConverter
                     cmd = AtriaInfo.NEWLINE_COMMAND_NAME;
                 }
                 writeAtriaZeroArgumentAtriaCommand(cmd, w);
-                writeLine(w, "");
+                writeZeroArgumentAtriaCommand(cmd, w);
+                writeLine(w);
             }
         }
     }
@@ -663,7 +663,7 @@ public class XmlToAtriaConverter
         outputNonEmptyAttribute(" publicId", c.getPublicID(), w);
         outputNonEmptyAttribute(" systemId", c.getSystemID(), w);
         outputNonEmptyAttribute(" internalSubset", c.getInternalSubset(), w);
-        w.write(LINE_SEPARATOR);
+        writeLine(w);
     }
 
     /**
@@ -694,7 +694,7 @@ public class XmlToAtriaConverter
             w.write(" ");
             outputAttribute(name, value, w);
         }
-        w.write(LINE_SEPARATOR);
+        writeLine(w);
     }
 
 
@@ -952,6 +952,18 @@ public class XmlToAtriaConverter
         Assert.require(msg != null);
 
         Io.writeLine(w, msg);
+    /**
+        Writes out, using the specified writer, just the newline character(s)
+        that indicate the end of a line.
+
+        @param w the writer
+        @exception IOException thrown iff an I/O error occurs in writing
+        the newline
+    */
+    protected void writeLine(Writer w)
+        throws IOException
+    {
+        writeLine(w, "");
     }
 
     /**
