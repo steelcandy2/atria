@@ -437,17 +437,17 @@ public class XmlToAtriaConverter
         an Atria text, and a String for each sequence of consecutive
         characters that can be.
 
-        @param c the sequence of consecutive text in an XML text to convert
+        @param txt the sequence of consecutive text in an XML text to convert
         @return a list each of whose elements is either a Character
         representing a character that can't appear in an Atria text, or a
         String representing a non-empty sequence of characters that can
     */
-    protected List buildTextParts(String text)
+    protected List buildTextParts(String txt)
     {
-        Assert.require(text != null);
+        Assert.require(txt != null);
 
         List result = new ArrayList();
-        int sz = text.length();
+        int sz = txt.length();
         if (sz > 0)
         {
             Character quote = Character.valueOf(DOUBLE_QUOTE_CHAR);
@@ -458,7 +458,7 @@ public class XmlToAtriaConverter
             StringBuffer buf = null;
             for (int i = 0; i < sz; i++)
             {
-                char ch = text.charAt(i);
+                char ch = txt.charAt(i);
                 Character toAdd = null;
                 if (AtriaInfo.isTextCharacter(ch))
                 {
