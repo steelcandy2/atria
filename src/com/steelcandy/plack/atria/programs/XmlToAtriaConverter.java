@@ -854,7 +854,7 @@ public class XmlToAtriaConverter
         Outputs a use of the Atria 'quote' command using 'w' for 'quoteChar',
         which must be a Character representing a double quote character (").
 
-        @param val the Atria attribute's value
+        @param quoteChar the Atria attribute's value
         @param w the writer to use to output the Atria attribute value
         @exception IOException thrown if an I/O error occurs in trying
         to output the Atria attribute value
