@@ -424,7 +424,6 @@ public class XmlToAtriaConverter
                     Assert.check(ch == NEWLINE_CHAR);
                     cmd = AtriaInfo.NEWLINE_COMMAND_NAME;
                 }
-                writeAtriaZeroArgumentAtriaCommand(cmd, w);
                 writeZeroArgumentAtriaCommand(cmd, w);
                 writeLine(w);
             }
@@ -534,7 +533,7 @@ public class XmlToAtriaConverter
         @exception IOException thrown if an error occurs in writing out the
         Atria command use
     */
-    protected void writeAtriaZeroArgumentAtriaCommand(String cmd,
+    protected void writeZeroArgumentAtriaCommand(String cmd,
                                                       IndentWriter w)
         throws IOException
     {
@@ -865,7 +864,7 @@ public class XmlToAtriaConverter
         Assert.require(isDoubleQuoteCharacter(quoteChar));
         Assert.require(w != null);
 
-        writeAtriaZeroArgumentAtriaCommand(AtriaInfo.QUOTE_COMMAND_NAME, w);
+        writeZeroArgumentAtriaCommand(AtriaInfo.QUOTE_COMMAND_NAME, w);
     }
 
     /**
