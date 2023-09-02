@@ -16,7 +16,7 @@
 <h1>Atria Semantics</h1>
 <span class="plack-author">James MacKay</span>
 <br>
-<span class="plack-generation-time">August 30, 2023 10:54.24AM</span>
+<span class="plack-generation-time">September 01, 2023 12:37.29PM</span>
 <br>
 </div>
 <hr>
@@ -439,11 +439,13 @@
                             XML corresponding to all of the direct Element subconstructs of <span class="plack-var">doc</span>
 </li>
 <li>if <span class="plack-var">name</span> specifies the name
-                            'join' then <span class="plack-var">cmd</span> corresponds to the
+                            'join' and <span class="plack-var">numArgs</span> is greater than
+                            zero then <span class="plack-var">cmd</span> corresponds to the
                             XML consisting of the concatenation, in order, of
                             the XML that each <span class="plack-expr">arg[i]</span> corresponds
-                            to, for 1 &lt;= <span class="plack-var">i</span> &lt;= <span class="plack-var">numArgs</span>
-</li>
+                            to, for 1 &lt;= <span class="plack-var">i</span> &lt;= <span class="plack-var">numArgs</span>; otherwise <span class="plack-var">cmd</span>
+                            indicates that no extra whitespace should be
+                            added at this point in the document</li>
 <li>if <span class="plack-var">name</span> specifies the name
                             'newline' then <span class="plack-var">cmd</span> corresponds to
                             a newline</li>
@@ -458,6 +460,45 @@
                             would correspond to</li>
 </ul>
                 
+<tr>
+<td colspan="2">
+<h3>Notes:</h3>
+<ul>
+<li>The zero-argument version of the 'join' command
+                        allows one to specify things like that there should
+                        be (in a translation to XML, for example) no
+                        whitespace between two elements, or between a parent
+                        element's opening tag and the start of its first
+                        child (or its last child and its closing tag). It
+                        shouldn't be necessary in documents that just contain
+                        data (as opposed to ones more along the lines of an
+                        (X)HTML document).</li>
+<li>If a zero-argument 'join' command is
+                        <ul>
+<li>the last child of an element then it
+                                indicates that there's no whitespace between
+                                the child's closing tag and the parent's
+                                closing tag</li>
+<li>the first child of an element then it
+                                indicates that there's no whitespace between
+                                the parent's opening tag and the child's
+                                opening tag</li>
+<li>between and at the same indentation level
+                                as two sibling elements then it indicates
+                                that there's no whitespace between the
+                                closing tag of the first sibling and the
+                                opening tag of the second sibling (in
+                                document order).</li>
+</ul>
+</li>
+<li>A zero-argument 'join' command cannot appear
+                        between two top-level/unindented elements: if you
+                        need that then your document shouldn't use the 'top'
+                        command (since without it there can only be one
+                        top-level element in the document).</li>
+</ul>
+</td>
+</tr>
 </div>
 </div>
 </a>
@@ -492,7 +533,7 @@
 <div class="author">Author: James MacKay
                 (<a href="mailto:jgm@steelcandy.org">jgm@steelcandy.org</a>)</div>
 <div class="copyright">Copyright &copy; 2005-2023 James MacKay</div>
-<div class="last-updated">Last Updated: August 30, 2023 10:54.24AM</div>
+<div class="last-updated">Last Updated: September 01, 2023 12:37.29PM</div>
 <div class="url">URL:<nobr></nobr><script>
                 document.write(document.URL);</script>
 <noscript>&nbsp;[unknown]</noscript>
