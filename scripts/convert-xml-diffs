@@ -95,7 +95,9 @@ readonly OUT_EXT=".atria"
 # The program to use to determine the differences between two documents, and
 # the options that are usually used with it.
 readonly DIFF="diff"
-readonly DIFF_OPTS="-u"
+readonly DIFF_OPTS="-ub"
+    # -u: Unified diff; -b: ignore changes in whitespace
+
 
 # The program to use to canonicalize XML documents before they're compared,
 # and the options that are usually used with it.
