@@ -805,16 +805,14 @@ public class XmlToAtriaConverter
         throws IOException
     {
         String prefix = c.getNamespacePrefix();
-        if (prefix != null && prefix.length() > 0)
+        Assert.check(prefix != null);
+        if (c.isRootElement() ||
+            ((Element) c.getParent()).getNamespace(prefix) == null)
         {
-            if (c.isRootElement() ||
-                ((Element) c.getParent()).getNamespace(prefix) == null)
-            {
-                // Either 'c' doesn't have a parent or 'prefix' isn't in
-                // scope on its parent, so 'c' must declare its own
-                // namespace.
-                outputNamespaceDeclaration(c.getNamespace(), w);
-            }
+            // Either 'c' doesn't have a parent or 'prefix' isn't in
+            // scope on its parent, so 'c' must declare its own
+            // namespace.
+            outputNamespaceDeclaration(c.getNamespace(), w);
         }
     }
 
@@ -837,8 +835,25 @@ public class XmlToAtriaConverter
 
         if (ns != null)
         {
-            w.write(" xmlns:");
-            outputAttribute(ns.getPrefix(), ns.getURI(), w);
+            String nsPrefix = XmlUtilities.NAMESPACE_PREFIX;
+            String prefix = ns.getPrefix();
+            String uri = ns.getURI();
+            if (uri.isEmpty() == false)
+            {
+                w.write(" ");
+                if (prefix.isEmpty())
+                {
+                    // xmlns="https://..."
+                    outputAttribute(nsPrefix, ns.getURI(), w);
+                }
+                else
+                {
+                    // xmlns:prefix="https://..."
+                    w.write(nsPrefix);
+                    w.write(XmlUtilities.NAMESPACE_SEPARATOR);
+                    outputAttribute(prefix, uri, w);
+                }
+            }
         }
     }
 
