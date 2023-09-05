@@ -202,19 +202,11 @@ public class AtriaToXmlConverter
 
         // Write the document header.
         writeLine(XML_DECLARATION);
-        writeLine(XmlUtilities.COMMENT_START);
-        indent();
-        try
-        {
-            String msg = _resources.
-                getMessage(TO_XML_HEADER_COMMENT_MSG, _pathname.getPath());
-            writeLine(msg);
-        }
-        finally
-        {
-            unindent();
-        }
-        writeLine(XmlUtilities.COMMENT_END);
+        //writeDocumentHeaderComment(_pathname);
+            // commented out since I don't think it's applicable in all
+            // situations where we're converting an Atria document to XML
+            // FUTURE: add a command-line option that causes the header
+            // comment to be included?
 
         // Output the part of the document after the prologue, possibly
         // including a root element specified by a 'top' command.
@@ -563,6 +555,27 @@ public class AtriaToXmlConverter
 
 
     // Protected methods
+
+    /**
+        Writes out the XML comment block that's to appear near the start of
+        the XML document that's the result of converting an Atria document.
+    */
+    protected void writeDocumentHeaderComment()
+    {
+        writeLine(XmlUtilities.COMMENT_START);
+        indent();
+        try
+        {
+            String msg = _resources.
+                getMessage(TO_XML_HEADER_COMMENT_MSG, _pathname.getPath());
+            writeLine(msg);
+        }
+        finally
+        {
+            unindent();
+        }
+        writeLine(XmlUtilities.COMMENT_END);
+    }
 
     /**
         Writes out the XML document's root element using the information
