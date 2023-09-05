@@ -39,6 +39,9 @@ import java.io.*;
 /**
     A converter that converts Atria documents to XML.
 
+TODO: translate Atria comments??????!!!!?????
+  - there aren't currently constructs for them, just tokens
+
     @author  James MacKay
 */
 public class AtriaToXmlConverter
