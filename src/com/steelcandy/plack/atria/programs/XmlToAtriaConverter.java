@@ -701,7 +701,7 @@ public class XmlToAtriaConverter
         {
             String line = lineIter.next();
             w.write(ATRIA_COMMENT_START);
-            if (line.length() > 0 && line.startsWith(" ") == false)
+            if ((line.isEmpty() || line.startsWith(" ")) == false)
             {
                 w.write(" ");
             }
@@ -1016,7 +1016,7 @@ public class XmlToAtriaConverter
         // 'value' may be null
         Assert.require(w != null);
 
-        if (value != null && value.length() > 0)
+        if (value != null && value.isEmpty() == false)
         {
             outputAttribute(name, value, w);
         }
@@ -1085,7 +1085,7 @@ public class XmlToAtriaConverter
         Assert.require(w != null);
         // 'msg' may be null
 
-        if (msg != null && msg.length() > 0)
+        if (msg != null && msg.isEmpty() == false)
         {
             w.write(msg);
         }
@@ -1108,7 +1108,7 @@ public class XmlToAtriaConverter
         // 'msg' may be null
         Assert.require(addedMsg != null);
 
-        if (msg != null && msg.length() > 0)
+        if (msg != null && msg.isEmpty() == false)
         {
             w.write(msg);
             w.write(addedMsg);
