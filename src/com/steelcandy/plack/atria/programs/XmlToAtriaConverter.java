@@ -43,6 +43,22 @@ import java.util.List;
 
 TODO: have XML comments that are on the same line as text, etc. in XML
       also be on the same line in Atria !!!
+TODO: handle non-default XML namespace declarations properly!!!!!
+  - currently it just passes them through as though they're normal attributes
+    with the reserved 'xmlns:' namespace name as their namespace prefixes
+  - they should get translated into Atria 'namespace' top-level commands,
+    probably, though Atria only supports namespaces with distinct prefixes,
+    whereas I think XML supports the same prefix being declared on different
+    elements
+    - also note that Atria 'namespace' commands must precede all of the
+      document's elements, and so we'd effectively have to go back and insert
+      the namespace commands near the top of the file after finishing
+      processing/converting all of the elements
+      - this isn't impossible, just a little ugly
+      - we probably don't want to store the converted elements in memory
+        since that'll affect how big a document we can convert
+      - probably using temporary files would be the easiest, but I don't know
+        offhand what sort of support Java has for them
 
     @author  James MacKay
 */
