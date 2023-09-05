@@ -98,6 +98,11 @@ readonly DIFF="diff"
 readonly DIFF_OPTS="-ub"
     # -u: Unified diff; -b: ignore changes in whitespace
 
+# The program that colourizes diffs, and the options that are usually used
+# with it: if the program isn't found on the PATH then diffs aren't
+# colourized.
+readonly DIFF_COLOURIZER="colordiff"
+readonly DIFF_COLOURIZER_OPTS=
 
 # The program to use to canonicalize Atria documents before they're compared,
 # and the options that are usually used with it.
@@ -789,6 +794,14 @@ createWorkingDirectory "$TEMP_DIR" || exit 3
 
 base="$(basename "$ORIGINAL" "$IN_EXT")"  # remove any $IN_EXT extension
 
+DIFF_FILTER="cat"
+DIFF_FILTER_OPTS=
+if command -v "$DIFF_COLOURIZER" >/dev/null
+then
+    DIFF_FILTER="$DIFF_COLOURIZER"
+    DIFF_FILTER_OPTS="$DIFF_COLOURIZER_OPTS"
+fi
+
 let n=1
 src="$ORIGINAL"
 dest=
@@ -817,7 +830,8 @@ then
 else
     $ECHOER "$DIFF" $DIFF_OPTS \
             <("$CANON" $CANON_OPTS "$ORIGINAL") \
-            <("$CANON" $CANON_OPTS "$dest") | "${PAGER:-less}"
+            <("$CANON" $CANON_OPTS "$dest") | \
+        "$DIFF_FILTER" $DIFF_FILTER_OPTS | "${PAGER:-less}"
     rc=$?
 fi
 
