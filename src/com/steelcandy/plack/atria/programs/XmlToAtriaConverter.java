@@ -230,8 +230,9 @@ public class XmlToAtriaConverter
                 Content c = (Content) obj;
                 if (c instanceof Element)
                 {
-                    if (isFirst ||
-                        (wasPrevAnElement && rawPrefixText.isEmpty()))
+                    boolean isNotTopLevel = (_contentLevel > 0);
+                    if (isNotTopLevel && (isFirst ||
+                        (wasPrevAnElement && rawPrefixText.isEmpty())))
                     {
                         // There's no whitespace between the opening tag of
                         // 'c' and either the opening tag of its parent
@@ -243,7 +244,7 @@ public class XmlToAtriaConverter
                         _isPrecededByWhitespace = false;
                     }
                     convertContent(prefixText, c, w);
-                    if (_contentLevel > 0 && iter.hasNext() == false)
+                    if (isNotTopLevel && iter.hasNext() == false)
                     {
                         // There's no Text content after this Element, so
                         // there mustn't be any whitespace between us an our
