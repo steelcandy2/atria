@@ -44,9 +44,6 @@ import java.util.List;
 TODO: make the output Atria code prettier !!!
 TODO: have XML comments that are on the same line as text, etc. in XML
       also be on the same line in Atria !!!
-TODO: if the last thing in an XML document is an EntityRef then there is
-      no newline at the end of the document: fix this !!!!
-        - is this the case for any other parts of XML documents???
 
     @author  James MacKay
 */
