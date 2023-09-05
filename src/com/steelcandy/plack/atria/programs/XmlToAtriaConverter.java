@@ -749,7 +749,7 @@ public class XmlToAtriaConverter
 
 // TODO: fix this !!!
 // - use something other than a comment to represent these
-// - internalSubset can have quotation marks and newlines
+// - internalSubset can have quotation marks, newlines and angle brackets
 
         w.write(ATRIA_COMMENT_START);
         w.write("!DOCTYPE");
@@ -757,7 +757,14 @@ public class XmlToAtriaConverter
 
         outputNonEmptyAttribute(" publicId", c.getPublicID(), w);
         outputNonEmptyAttribute(" systemId", c.getSystemID(), w);
-        outputNonEmptyAttribute(" internalSubset", c.getInternalSubset(), w);
+
+        // We don't use outputNonEmptyAttribute() here since 'val' can
+        // contain characters that aren't valid in Atria attribute values,
+        // including newlines (which can cause its value to 'escape' the end
+        // of the Atria comment line that we output).
+        //String val = c.getInternalSubset();
+        //outputNonEmptyAttribute(" internalSubset", val, w);
+
         writeLine(w);
     }
 
@@ -1012,6 +1019,7 @@ public class XmlToAtriaConverter
                                            IndentWriter w)
         throws IOException
     {
+        //System.err.println("===> outputNonEmptyAttribute(" + name + ", " + value + ", w) ...");
         Assert.require(name != null);
         // 'value' may be null
         Assert.require(w != null);
