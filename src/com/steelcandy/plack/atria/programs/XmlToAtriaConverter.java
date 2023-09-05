@@ -911,15 +911,7 @@ public class XmlToAtriaConverter
         }
         else if (sz == 1)
         {
-            Object p = parts.get(0);
-            if (p instanceof String)
-            {
-                outputSimpleAttributeValue((String) p, w);
-            }
-            else
-            {
-                outputQuoteCommandFor(p, w);
-            }
+            outputOneAttributeValuePart(parts.get(0), w);
         }
         else
         {
@@ -947,16 +939,7 @@ public class XmlToAtriaConverter
                 Iterator iter = parts.iterator();
                 while (iter.hasNext())
                 {
-                    Object p = iter.next();
-                    if (p instanceof String)
-                    {
-                        outputSimpleAttributeValue((String) p, w);
-                    }
-                    else
-                    {
-                        outputQuoteCommandFor(p, w);
-                    }
-
+                    outputOneAttributeValuePart(iter.next(), w);
                     if (iter.hasNext())
                     {
                         w.write(" ");
@@ -966,6 +949,36 @@ public class XmlToAtriaConverter
             }
         }
         _isPrecededByWhitespace = false;
+    }
+
+    /**
+        Outputs using 'w' the one part 'part' of an attribute's value.
+
+        @param part a part of an attribute's value
+        @param w the writer to use to output the part of an attribute value
+        @exception IOException thrown if an I/O error occurs in trying
+        to output the Atria attribute value part
+    */
+    protected void outputOneAttributeValuePart(Object part, IndentWriter w)
+        throws IOException
+    {
+        Assert.require(part != null);
+        Assert.require(w != null);
+
+        if (part instanceof String)
+        {
+            outputSimpleAttributeValue((String) part, w);
+        }
+        else
+        {
+            // The only character that can be in a valid XML attribute value
+            // that can't appear unescaped in an Atria attribute value should
+            // be a double quote character ("). So if we violate
+            // outputQuoteCommandFor()'s isDoubleQuoteCharacter()
+            // precondition here then we've found a counterexample for that
+            // assertion, and it needs to be modified.
+            outputQuoteCommandFor(part, w);
+        }
     }
 
     /**
@@ -980,6 +993,7 @@ public class XmlToAtriaConverter
     protected void outputQuoteCommandFor(Object quoteChar, IndentWriter w)
         throws IOException
     {
+        //System.err.println("===> quoteChar = [" + quoteChar + "], class = " + quoteChar.getClass().getName());
         Assert.require(isDoubleQuoteCharacter(quoteChar));
         Assert.require(w != null);
 
