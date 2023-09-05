@@ -95,8 +95,9 @@ readonly OUT_EXT=".atria"
 # The program to use to determine the differences between two documents, and
 # the options that are usually used with it.
 readonly DIFF="diff"
-readonly DIFF_OPTS="-ub"
-    # -u: Unified diff; -b: ignore changes in whitespace
+readonly DIFF_OPTS="-ubB"
+    # -u: Unified diff; -b: ignore changes in whitespace; -B: ignore changes
+    # where lines are all blank
 
 # The program that colourizes diffs, and the options that are usually used
 # with it: if the program isn't found on the PATH then diffs aren't
