@@ -41,7 +41,6 @@ import java.util.List;
 /**
     A converter that converts XML documents to Atria documents.
 
-TODO: make the output Atria code prettier !!!
 TODO: have XML comments that are on the same line as text, etc. in XML
       also be on the same line in Atria !!!
 
