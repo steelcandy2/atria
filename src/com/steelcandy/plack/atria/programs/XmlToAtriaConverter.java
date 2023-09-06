@@ -41,24 +41,14 @@ import java.util.List;
 /**
     A converter that converts XML documents to Atria documents.
 
+    Note: while namespace declarations on a document's root element other
+    than one for a default namespace will be converted into Atria top-level
+    namespace commands, all other namespace declarations will be converted
+    into Atria attributes (with the name 'xmlns' for default namespace
+    declarations and with the namespace prefix 'xmlns' for all others).
+
 TODO: have XML comments that are on the same line as text, etc. in XML
       also be on the same line in Atria !!!
-TODO: handle non-default XML namespace declarations properly!!!!!
-  - currently it just passes them through as though they're normal attributes
-    with the reserved 'xmlns:' namespace name as their namespace prefixes
-  - they should get translated into Atria 'namespace' top-level commands,
-    probably, though Atria only supports namespaces with distinct prefixes,
-    whereas I think XML supports the same prefix being declared on different
-    elements
-    - also note that Atria 'namespace' commands must precede all of the
-      document's elements, and so we'd effectively have to go back and insert
-      the namespace commands near the top of the file after finishing
-      processing/converting all of the elements
-      - this isn't impossible, just a little ugly
-      - we probably don't want to store the converted elements in memory
-        since that'll affect how big a document we can convert
-      - probably using temporary files would be the easiest, but I don't know
-        offhand what sort of support Java has for them
 
     @author  James MacKay
 */
@@ -166,6 +156,10 @@ public class XmlToAtriaConverter
         w.write(" ");
         writeLine(w, AtriaInfo.LANGUAGE_NAME);
         writeLine(w);
+
+        // Output 'namespace' commands for the namespace declarations on
+        // 'doc''s root element (only).
+        outputNamespaceCommands(doc.getRootElement(), w);
 
         _contentLevel = -1;
         _isPrecededByWhitespace = false;
@@ -422,10 +416,16 @@ public class XmlToAtriaConverter
         // Note: getAdditionalNamespaces() won't return an element's
         // namespace, even if the namespace's declaration is on that element.
         outputElementsNamespaceDeclaration(c, w);
-        iter = c.getAdditionalNamespaces().iterator();
-        while (iter.hasNext())
+        if (c.isRootElement() == false)
         {
-            outputNamespaceDeclaration((Namespace) iter.next(), w);
+            // We output non-default namespace declarations on elements other
+            // than the root element as attributes. (Ones on the root element
+            // are converted into Atria namespace commands instead.)
+            iter = c.getAdditionalNamespaces().iterator();
+            while (iter.hasNext())
+            {
+                outputNamespaceDeclaration((Namespace) iter.next(), w);
+            }
         }
         writeLine(w);
 
@@ -801,26 +801,92 @@ public class XmlToAtriaConverter
 
 
     /**
+        Indicates whether 'prefix' is an empty/default namespace prefix.
+
+        Note: I'm not sure whether namespace prefixes as returned by methods
+        like Namespace.getPrefix() and Element.getNamespacePrefix() can be
+        null or not, so we err on the side of caution here and allow for the
+        prefix to be null (in which case it's treated as being empty).
+
+        @param prefix a namespace prefix
+        @return true iff 'prefix' is an empty namespace prefix
+    */
+    protected boolean isEmptyNamespacePrefix(String prefix)
+    {
+        return (prefix == null) || prefix.isEmpty();
+    }
+
+    /**
         Outputs a declaration of the specified element's own namespace using
-        the specified writer iff its namespace is declared on the element
-        itself.
+        the specified writer iff its namespace must be declared on the
+        element itself.
 
         @param c the element
+        @param w the writer to use to write out the declaration
+        @exception IOException thrown if an I/O error occurs in outputting
+        the namespace declaration
     */
     protected void
         outputElementsNamespaceDeclaration(Element c, IndentWriter w)
         throws IOException
     {
-        String prefix = c.getNamespacePrefix();
-        Assert.check(prefix != null);
-        if (c.isRootElement() ||
-            ((Element) c.getParent()).getNamespace(prefix) == null)
+        //System.err.println("===> outputElementsNamespaceDeclaration(...) ...");
+        Namespace ns = c.getNamespace();
+        String prefix;
+        if (ns != null && c.isRootElement())
         {
-            // Either 'c' doesn't have a parent or 'prefix' isn't in
-            // scope on its parent, so 'c' must declare its own
-            // namespace.
-            outputNamespaceDeclaration(c.getNamespace(), w);
+            // We've already output a namespace command for the root
+            // element's namespace unless it's the default namespace.
+            prefix = ns.getPrefix();
+            if (isEmptyNamespacePrefix(prefix) == false)
+            {
+                ns = null;
+            }
         }
+
+        if (ns != null)
+        {
+            prefix = ns.getPrefix();
+            Namespace inheritedNs =
+                findInheritedNamespaceForPrefix(prefix, c);
+            if (inheritedNs == null || (ns.equals(inheritedNs) == false))
+            {
+                // Either we didn't inherit a namespace for 'prefix' from one
+                // of our ancestors, or we did but it's different from the
+                // one that corresponds to 'prefix' for us (so we need to
+                // (re)define the prefix here).
+                outputNamespaceDeclaration(ns, w);
+            }
+        }
+        // Otherwise 'c' doesn't have a namespace.
+    }
+
+    /**
+        Returns the namespace corresponding to the specified prefix that is
+        defined on a (proper) ancestor of 'c', or returns null if there's no
+        such namespace.
+
+        @param prefix a namespace prefix
+        @param c an element
+        @return the namespace defined on a proper ancestor of 'c'
+        corresponding to the namespace prefix 'prefix', or null if there's no
+        such namespace
+    */
+    protected Namespace
+        findInheritedNamespaceForPrefix(String prefix, Element c)
+    {
+        Assert.require(prefix != null);  // but can be empty
+        Assert.require(c != null);
+
+        Namespace result = null;
+        if (c.isRootElement() == false)
+        {
+            result = ((Element) c.getParent()).getNamespace(prefix);
+                // may be null
+        }
+
+        // 'result' may be null
+        return result;
     }
 
     /**
