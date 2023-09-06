@@ -695,7 +695,7 @@ TODO: add one or more examples here !!!
                             'namespace' then <var name="cmd"/> corresponds to
                             the empty string, but also defines the namespace
                             prefix given by <expr text="arg[1]"/> to denote
-                            the namespace corresponding to the URL given by
+                            the namespace corresponding to the URI given by
                             <expr text="arg[2]"/></item>
                         <item>if <var name="name"/> specifies the name
                             'set' then <var name="cmd"/> corresponds to the
