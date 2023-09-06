@@ -837,16 +837,17 @@ public class XmlToAtriaConverter
     protected void outputNamespaceDeclaration(Namespace ns, IndentWriter w)
         throws IOException
     {
+        //System.err.println("===> outputNamespaceDeclaration(" + ns + ", w) ...");
         // 'ns' may be null
         Assert.require(w != null);
 
         if (ns != null)
         {
-            String nsPrefix = XmlUtilities.NAMESPACE_PREFIX;
-            String prefix = ns.getPrefix();
             String uri = ns.getURI();
             if (uri.isEmpty() == false)
             {
+                String nsPrefix = XmlUtilities.NAMESPACE_PREFIX;
+                String prefix = ns.getPrefix();
                 w.write(" ");
                 if (prefix.isEmpty())
                 {
