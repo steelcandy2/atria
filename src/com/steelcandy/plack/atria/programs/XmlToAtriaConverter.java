@@ -866,6 +866,84 @@ public class XmlToAtriaConverter
     }
 
     /**
+        Outputs Atria namespace commands for all of the non-default namespace
+        declarations on the element 'c'.
+
+        @param c an XML element
+        @param w the writer to use to output the namespace commands
+        @exception IOException thrown if an I/O error occurs in trying
+        to output the Atria namespace commands
+    */
+    protected void outputNamespaceCommands(Element c, IndentWriter w)
+        throws IOException
+    {
+        Assert.require(c != null);
+        Assert.require(w != null);
+
+        List namespaces;
+        Namespace ns = c.getNamespace();
+        if (ns != null)
+        {
+            namespaces = new ArrayList();
+            namespaces.add(ns);
+            namespaces.addAll(c.getAdditionalNamespaces());
+        }
+        else
+        {
+            namespaces = c.getAdditionalNamespaces();
+        }
+
+        boolean wasOutput = false;
+        Iterator iter = namespaces.iterator();
+        while (iter.hasNext())
+        {
+            ns = (Namespace) iter.next();
+            String prefix = ns.getPrefix();
+            if (isEmptyNamespacePrefix(prefix) == false)
+            {
+                // It's a non-default namespace declaration: that is, it has
+                // a (non-empty) prefix.
+                writeAtriaNamespaceCommand(prefix, ns.getURI(), w);
+                wasOutput = true;
+            }
+            // Otherwise it's a default namespace declaration (which we
+            // currently just pass through as an element attribute, since
+            // Atria doesn't support/have the concept of default namespaces).
+        }
+
+        if (wasOutput)
+        {
+            writeLine(w);
+        }
+    }
+
+    /**
+        Writes out an Atria namespace command, including the newline at the
+        end of it, where the
+
+        @param w the writer to use to output the Atria namespace command
+        @exception IOException thrown if an I/O error occurs in trying
+        to output the command
+    */
+    protected void writeAtriaNamespaceCommand(String prefix, String uri,
+                                              IndentWriter w)
+        throws IOException
+    {
+        Assert.require(isEmptyNamespacePrefix(prefix) == false);
+        Assert.require(uri != null);
+        Assert.require(uri.isEmpty() == false);
+        Assert.require(w != null);
+
+        writeAtriaCommandStart(AtriaInfo.NAMESPACE_COMMAND_NAME, w);
+        w.write(" ");
+        w.write(prefix);
+        w.write(" ");
+        outputAttributeValueParts(buildTextParts(uri), w);
+        writeAtriaCommandEnd(w);
+        writeLine(w);
+    }
+
+    /**
         Outputs an Atria attribute with the specified name and value.
 
         @param name the Atria attribute's name
