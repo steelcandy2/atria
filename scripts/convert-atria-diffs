@@ -803,6 +803,7 @@ then
     DIFF_FILTER_OPTS="$DIFF_COLOURIZER_OPTS"
 fi
 
+inform "converting Atria file '$ORIGINAL' …"
 let n=1
 src="$ORIGINAL"
 dest=
