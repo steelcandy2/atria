@@ -102,6 +102,7 @@ public class XmlToAtriaConverter
     private static final char
         NEWLINE_CHAR = '\n';
 
+
     // Private fields
 
     /**
@@ -488,22 +489,43 @@ public class XmlToAtriaConverter
             }
             else
             {
-                Assert.check(obj instanceof Character);
-                char ch = ((Character) obj).charValue();
-                String cmd;
-                if (ch == DOUBLE_QUOTE_CHAR)
-                {
-                    cmd = AtriaInfo.QUOTE_COMMAND_NAME;
-                }
-                else
-                {
-                    Assert.check(ch == NEWLINE_CHAR);
-                    cmd = AtriaInfo.NEWLINE_COMMAND_NAME;
-                }
-                writeZeroArgumentAtriaCommand(cmd, w);
+                writeAtriaCommandForTextPartCharacter((Character) obj, w);
                 writeLine(w);
             }
         }
+    }
+
+    /**
+        Writes out using the specified writer the Atria command that causes
+        the text corresponding to the specified character, which is assumed
+        to be one that can't appear unescaped in an Atria text.
+
+        @param c a character: it's assumed to have been an element of the
+        value returned by a call of our buildTextParts() method
+        @param w the writer to use to write out the command
+        @exception IOException thrown if an I/O error occurs in outputting
+        the Atria command
+        @see #buildTextParts(String)
+    */
+    protected void writeAtriaCommandForTextPartCharacter(Character c,
+                                                         IndentWriter w)
+        throws IOException
+    {
+        Assert.require(c != null);
+        Assert.require(w != null);
+
+        char ch = c.charValue();
+        String cmd;
+        if (ch == DOUBLE_QUOTE_CHAR)
+        {
+            cmd = AtriaInfo.QUOTE_COMMAND_NAME;
+        }
+        else
+        {
+            Assert.check(ch == NEWLINE_CHAR);
+            cmd = AtriaInfo.NEWLINE_COMMAND_NAME;
+        }
+        writeZeroArgumentAtriaCommand(cmd, w);
     }
 
     /**
@@ -1116,33 +1138,9 @@ public class XmlToAtriaConverter
         }
         else
         {
-            // The only character that can be in a valid XML attribute value
-            // that can't appear unescaped in an Atria attribute value should
-            // be a double quote character ("). So if we violate
-            // outputQuoteCommandFor()'s isDoubleQuoteCharacter()
-            // precondition here then we've found a counterexample for that
-            // assertion, and it needs to be modified.
-            outputQuoteCommandFor(part, w);
+            Assert.check(part instanceof Character);
+            writeAtriaCommandForTextPartCharacter((Character) part, w);
         }
-    }
-
-    /**
-        Outputs a use of the Atria 'quote' command using 'w' for 'quoteChar',
-        which must be a Character representing a double quote character (").
-
-        @param quoteChar the Atria attribute's value
-        @param w the writer to use to output the Atria attribute value
-        @exception IOException thrown if an I/O error occurs in trying
-        to output the Atria attribute value
-    */
-    protected void outputQuoteCommandFor(Object quoteChar, IndentWriter w)
-        throws IOException
-    {
-        //System.err.println("===> quoteChar = [" + quoteChar + "], class = " + quoteChar.getClass().getName());
-        Assert.require(isDoubleQuoteCharacter(quoteChar));
-        Assert.require(w != null);
-
-        writeZeroArgumentAtriaCommand(AtriaInfo.QUOTE_COMMAND_NAME, w);
     }
 
     /**
