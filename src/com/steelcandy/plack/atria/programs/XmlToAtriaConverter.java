@@ -1209,7 +1209,8 @@ public class XmlToAtriaConverter
 
 
     /**
-        See Io#writeLine(Writer, String)
+        @see Io#writeLine(Writer, String)
+        @see #writeLine(Writer)
     */
     protected void writeLine(Writer w, String msg)
         throws IOException
@@ -1228,6 +1229,7 @@ public class XmlToAtriaConverter
         @param w the writer
         @exception IOException thrown iff an I/O error occurs in writing
         the newline
+        @see #writeLine(Writer, String)
     */
     protected void writeLine(Writer w)
         throws IOException
