@@ -20,6 +20,7 @@ package com.steelcandy.plack.atria.programs;
 import com.steelcandy.common.debug.Assert;
 
 import com.steelcandy.plack.atria.base.AtriaInfo;
+import com.steelcandy.plack.atria.semantic.AbstractToAtriaTextConverter;
 
 import com.steelcandy.common.Resources;
 import com.steelcandy.common.io.IndentWriter;
@@ -62,11 +63,11 @@ public class XmlToAtriaConverter
 
     /** The Atria text start character. */
     private static final String
-        ATRIA_TEXT_START = AtriaInfo.QUOTE;
+        ATRIA_TEXT_START = AbstractToAtriaTextConverter.ATRIA_TEXT_START;
 
     /** The Atria text end character. */
     private static final String
-        ATRIA_TEXT_END = AtriaInfo.QUOTE;
+        ATRIA_TEXT_END = AbstractToAtriaTextConverter.ATRIA_TEXT_END;
 
     /**
         The character that separates an Atria attribute's name from its
@@ -93,14 +94,6 @@ public class XmlToAtriaConverter
     /** The current platform's line separator. */
     private static final String
         LINE_SEPARATOR = Io.LINE_SEPARATOR;
-
-    /** The double quote character ("). */
-    private static final char
-        DOUBLE_QUOTE_CHAR = '"';
-
-    /* The newline character. */
-    private static final char
-        NEWLINE_CHAR = '\n';
 
 
     // Private fields
@@ -478,54 +471,8 @@ public class XmlToAtriaConverter
         Assert.require(txt != null);
         Assert.require(w != null);
 
-        Iterator iter = buildTextParts(txt).iterator();
-        while (iter.hasNext())
-        {
-            Object obj = iter.next();
-            Assert.check(obj != null);
-            if (obj instanceof String)
-            {
-                writeAtriaText((String) obj, w);
-            }
-            else
-            {
-                writeAtriaCommandForTextPartCharacter((Character) obj, w);
-                writeLine(w);
-            }
-        }
-    }
-
-    /**
-        Writes out using the specified writer the Atria command that causes
-        the text corresponding to the specified character, which is assumed
-        to be one that can't appear unescaped in an Atria text.
-
-        @param c a character: it's assumed to have been an element of the
-        value returned by a call of our buildTextParts() method
-        @param w the writer to use to write out the command
-        @exception IOException thrown if an I/O error occurs in outputting
-        the Atria command
-        @see #buildTextParts(String)
-    */
-    protected void writeAtriaCommandForTextPartCharacter(Character c,
-                                                         IndentWriter w)
-        throws IOException
-    {
-        Assert.require(c != null);
-        Assert.require(w != null);
-
-        char ch = c.charValue();
-        String cmd;
-        if (ch == DOUBLE_QUOTE_CHAR)
-        {
-            cmd = AtriaInfo.QUOTE_COMMAND_NAME;
-        }
-        else
-        {
-            Assert.check(ch == NEWLINE_CHAR);
-            cmd = AtriaInfo.NEWLINE_COMMAND_NAME;
-        }
-        writeZeroArgumentAtriaCommand(cmd, w);
+        TextConverter c = new TextConverter(w);
+        c.convert(txt);
     }
 
     /**
@@ -543,60 +490,8 @@ public class XmlToAtriaConverter
     {
         Assert.require(txt != null);
 
-        List result = new ArrayList();
-        int sz = txt.length();
-        if (sz > 0)
-        {
-            Character quote = Character.valueOf(DOUBLE_QUOTE_CHAR);
-            Assert.check(quote != null);
-            Character newline = Character.valueOf(NEWLINE_CHAR);
-            Assert.check(newline != null);
-
-            StringBuffer buf = null;
-            for (int i = 0; i < sz; i++)
-            {
-                char ch = txt.charAt(i);
-                Character toAdd = null;
-                if (AtriaInfo.isTextCharacter(ch))
-                {
-                    Assert.check(ch != DOUBLE_QUOTE_CHAR);
-                    Assert.check(ch != NEWLINE_CHAR);
-                    if (buf == null)
-                    {
-                        buf = new StringBuffer();
-                    }
-                    buf.append(ch);
-                }
-                else if (ch == DOUBLE_QUOTE_CHAR)
-                {
-                    toAdd = quote;
-                }
-                else
-                {
-                    Assert.check(ch == NEWLINE_CHAR);  // newline
-                        // otherwise there's a character that we can't
-                        // represent in an Atria text
-                    toAdd = newline;
-                }
-
-                if (toAdd != null)
-                {
-                    if (buf != null)
-                    {
-                        Assert.check(buf.length() > 0);
-                        result.add(buf.toString());
-                        buf = null;
-                    }
-                    result.add(toAdd);
-                }
-            }
-
-            if (buf != null)
-            {
-                Assert.check(buf.length() > 0);
-                result.add(buf.toString());
-            }
-        }
+        TextPartsBuilder b = new TextPartsBuilder();
+        List result = b.build(txt);
 
         Assert.ensure(result != null);  // though it may be empty
         return result;
@@ -1090,8 +985,8 @@ public class XmlToAtriaConverter
             // We handle the case where the first and last part are both
             // quotes by using the Atria 'quoted' command.
             Assert.check(sz >= 2);
-            if (isDoubleQuoteCharacter(parts.get(0)) &&
-                isDoubleQuoteCharacter(parts.get(sz - 1)))
+            if (TextPartsBuilder.isDoubleQuoteCharacter(parts.get(0)) &&
+                TextPartsBuilder.isDoubleQuoteCharacter(parts.get(sz - 1)))
             {
                 writeAtriaCommandStart(AtriaInfo.QUOTED_COMMAND_NAME, w);
                 w.write(" ");
@@ -1139,7 +1034,9 @@ public class XmlToAtriaConverter
         else
         {
             Assert.check(part instanceof Character);
-            writeAtriaCommandForTextPartCharacter((Character) part, w);
+            char ch = ((Character) part).charValue();
+            writeZeroArgumentAtriaCommand(TextPartsBuilder.
+                findCommandNameForSpecialCharacter(ch), w);
         }
     }
 
@@ -1282,18 +1179,6 @@ public class XmlToAtriaConverter
         }
     }
 
-
-    /**
-        Returns true iff 'q' is a Character object that represents the double
-        quote character (").
-     */
-    protected boolean isDoubleQuoteCharacter(Object q)
-    {
-        //System.err.println("===> isDoubleQuoteCharacter(" + q + ") ...");
-        return (q != null) && (q instanceof Character) &&
-            (((Character) q).charValue() == DOUBLE_QUOTE_CHAR);
-    }
-
     /**
         @see TextUtilities.doesEndWithWhitespace(String)
     */
@@ -1358,5 +1243,146 @@ public class XmlToAtriaConverter
         Assert.ensure(result != null);
         Assert.ensure(result.length() <= txt.length());
         return result;
+    }
+
+
+    // Inner classes
+
+    /**
+        Converts sequences of consecutive text in an XML document into the
+    */
+    private class TextPartsBuilder
+        extends AbstractToAtriaTextConverter
+    {
+        // Private fields
+
+        /** The parts we've built so far. */
+        private List _parts;
+
+
+        // Constructors
+
+        /**
+            Constructs a new TextPartsBuilder.
+        */
+        public TextPartsBuilder()
+        {
+            _parts = new ArrayList();
+        }
+
+
+        // Public methods
+
+        public List build(String txt)
+        {
+            try
+            {
+                convertText(txt);
+            }
+            catch (IOException ex)
+            {
+                Assert.unreachable();
+                    // since we don't use anything that can throw these
+            }
+
+            Assert.ensure(_parts != null);  // though it can be empty
+            return _parts;
+        }
+
+
+        // Protected methods
+
+        /**
+            @see MinimalAbstractToAtriaTextConverter#convertNonspecialText(String)
+        */
+        protected void convertNonspecialText(String txt)
+        {
+            Assert.require(txt != null);
+            Assert.require(txt.isEmpty() == false);
+
+            _parts.add(txt);
+        }
+
+        /**
+            @see AbstractToAtriaTextConverter#convertSpecialCharacter(char)
+        */
+        protected void convertSpecialCharacter(char ch)
+        {
+            _parts.add(Character.valueOf(ch));
+        }
+    }
+
+    /**
+        Converts sequences of consecutive text in an XML document into the
+        corresponding part of an Atria document.
+    */
+    private class TextConverter
+        extends AbstractToAtriaTextConverter
+    {
+        // Private fields
+
+        /** The writer to use to write out Atria document parts. */
+        private IndentWriter _writer;
+
+
+        // Constructors
+
+        /**
+            Constructs an instance that uses the specified writer to write
+            out the Atria document parts corresponding to the sequences of
+            consecutive text from XML documents.
+
+            @param w the writer to use to write out Atria document parts
+        */
+        public TextConverter(IndentWriter w)
+        {
+            Assert.require(w != null);
+            _writer = w;
+        }
+
+
+        // Public methods
+
+        /**
+            Converts the specified sequence of consecutive text from an XML
+            document.
+
+            @param txt a sequence of consecutive text from an XML document
+            @exception IOException thrown if an I/O error occurs in writing
+            out the result of converting the XML text into part of an Atria
+            document
+        */
+        public void convert(String txt)
+            throws IOException
+        {
+            convertText(txt);
+        }
+
+
+        // Protected methods
+
+        /**
+            @see MinimalAbstractToAtriaTextConverter#convertNonspecialText(String)
+        */
+        protected void convertNonspecialText(String txt)
+            throws IOException
+        {
+            Assert.require(txt != null);
+            Assert.require(txt.isEmpty() == false);
+
+            writeAtriaText(txt, _writer);
+        }
+
+        /**
+            @see AbstractToAtriaTextConverter#convertSpecialCharacter(char)
+        */
+        protected void convertSpecialCharacter(char ch)
+            throws IOException
+        {
+            IndentWriter w = _writer;
+            writeZeroArgumentAtriaCommand(
+                findCommandNameForSpecialCharacter(ch), w);
+            writeLine(w);
+        }
     }
 }
